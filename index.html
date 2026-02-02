@@ -40,6 +40,151 @@
     .floatwa{position:fixed;right:14px;bottom:16px;z-index:999999;padding:12px 14px;border-radius:999px;background:#25D366;color:#fff;
       font-weight:950;text-decoration:none;box-shadow:0 10px 25px rgba(0,0,0,.2)}
     @media(max-width:750px){.grid{grid-template-columns:1fr}.btn{width:100%;text-align:center}}
+	
+
+.luckbox{
+  margin-top:14px;
+  padding:16px;
+  border-radius:16px;
+  background:#fff;
+  border:1px solid #e9e9e9;
+}
+.luckhead{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.luckbadge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#f4f8ff;
+  border:1px solid #dbe8ff;
+  font-weight:950;
+  color:#0a84ff;
+  font-size:12px;
+}
+.luckbox h2{margin:10px 0 6px;font-size:18px}
+.luckbox p{margin:0;color:#333;font-weight:800;line-height:1.6}
+
+.spinbtn{
+  border:none;
+  background:#0a84ff;
+  color:#fff;
+  font-weight:950;
+  padding:12px 16px;
+  border-radius:14px;
+  cursor:pointer;
+}
+.spinbtn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+.spinbtn:hover{opacity:.95}
+
+.wheelwrap{
+  margin-top:14px;
+  display:flex;
+  justify-content:center;
+  position:relative;
+  padding:16px 0;
+}
+.wheel{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:950;
+  color:#111;
+  background: conic-gradient(#ffd6d6, #fff3d6, #eaf7ef, #f4f8ff, #ffd6d6);
+  border:6px solid #fff;
+  box-shadow: 0 10px 25px rgba(0,0,0,.12);
+  user-select:none;
+  transition: transform 1.9s cubic-bezier(.1,.9,.2,1);
+  position:relative;
+  z-index:2;
+}
+.pointer{
+  position:absolute;
+  top:4px;
+  font-size:26px;
+  font-weight:950;
+  color:#111;
+  z-index:3;
+}
+
+#confetti{
+  position:absolute;
+  width:100%;
+  height:220px;
+  left:0;
+  top:0;
+  z-index:1;
+  pointer-events:none;
+}
+
+.result{
+  margin-top:14px;
+  padding:12px;
+  border-radius:14px;
+  background:#eaf7ef;
+  border:1px solid #cfeedd;
+  font-weight:950;
+  color:#145a2a;
+  line-height:1.5;
+}
+
+.refbox{
+  margin-top:12px;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid #eee;
+  background:#fff;
+}
+.refbox label{
+  display:block;
+  font-weight:950;
+  font-size:13px;
+  margin-bottom:8px;
+  color:#222;
+}
+.refbox input{
+  width:100%;
+  padding:12px 12px;
+  border-radius:12px;
+  border:1px solid #e9e9e9;
+  font-weight:900;
+  outline:none;
+}
+.refbox input:focus{border-color:#0a84ff}
+
+.wbtn{
+  margin-top:12px;
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  background:#25D366;
+  color:#fff;
+  font-weight:950;
+  padding:12px 14px;
+  border-radius:14px;
+}
+
+.lucknote{
+  margin-top:10px;
+  padding:12px;
+  border-radius:14px;
+  background:#fff3d6;
+  border:1px solid #ffe1a6;
+  font-weight:900;
+  color:#333;
+  line-height:1.6;
+}
+	
   </style>
 </head>
 <body>
@@ -76,6 +221,42 @@
         <a class="btn blue" href="apply.html">📝 Apply Form</a>
       </div>
     </div>
+	
+	<div class="luckbox">
+  <div class="luckhead">
+    <div>
+      <div class="luckbadge">🎁 Monthly Lucky Draw</div>
+      <h2>Spin & Win Rewards</h2>
+      <p>Active promoters with confirmed admissions are eligible for monthly lucky draw.</p>
+    </div>
+
+    <button class="spinbtn" id="spinBtn" onclick="spinNow()">🎡 Spin Now</button>
+  </div>
+
+  <div class="wheelwrap">
+    <canvas id="confetti"></canvas>
+    <div class="wheel" id="wheel">SPIN</div>
+    <div class="pointer">▼</div>
+  </div>
+
+  <div class="result" id="result">Click “Spin Now” to check reward.</div>
+
+  <div class="refbox">
+    <label>Your Referral Code (optional)</label>
+    <input id="refcode" placeholder="Example: BT017" />
+  </div>
+
+  <a class="wbtn" id="waSend" target="_blank" style="display:none;"
+     href="https://wa.me/917008186187?text=Hi%20BlackTerminal%2C%20I%20spinned%20lucky%20draw">
+    ✅ Send Result on WhatsApp
+  </a>
+
+  <div class="lucknote">
+    ✅ Eligibility: Minimum 1 confirmed admission using referral code. <br>
+    📌 Rewards depend on performance & availability. This is promotional activity.
+  </div>
+</div>
+
 
     <div class="box">
       <h2>💰 Earnings Examples</h2>
@@ -120,6 +301,147 @@
 
   <a class="floatwa" target="_blank"
      href="https://wa.me/917008186187?text=YES%20JOB%20-%20I%20want%20to%20apply">💬 WhatsApp</a>
+
+
+<script>
+  const WHATSAPP_NUMBER = "917000000000"; // ✅ Replace with your real WhatsApp number
+
+  const rewards = [
+    "🎁 Surprise Gift Reward",
+    "💰 Extra Bonus Commission",
+    "🎓 Free Course Demo Pass",
+    "📢 Social Media Shoutout",
+    "✅ Certificate / Appreciation",
+    "⭐ Lucky Draw Entry Confirmed"
+  ];
+
+  let spinning = false;
+  let angle = 0;
+  let lastReward = "";
+
+  // ✅ One spin per day
+  const todayKey = "bt_spin_" + new Date().toDateString();
+
+  function canSpinToday(){
+    return localStorage.getItem(todayKey) !== "done";
+  }
+
+  function lockSpin(){
+    localStorage.setItem(todayKey, "done");
+  }
+
+  function updateSpinButton(){
+    const btn = document.getElementById("spinBtn");
+    if(!canSpinToday()){
+      btn.disabled = true;
+      btn.textContent = "✅ Already Spun Today";
+    }
+  }
+
+  // ✅ Confetti (lightweight)
+  const canvas = document.getElementById("confetti");
+  const ctx = canvas.getContext("2d");
+  function resizeCanvas(){
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+
+  function burstConfetti(){
+    resizeCanvas();
+    const pieces = [];
+    for(let i=0;i<120;i++){
+      pieces.push({
+        x: canvas.width/2,
+        y: 40,
+        vx: (Math.random()-0.5)*8,
+        vy: Math.random()*-6,
+        g: 0.18 + Math.random()*0.06,
+        s: 3 + Math.random()*3,
+        life: 80 + Math.random()*40
+      });
+    }
+
+    let frame = 0;
+    function draw(){
+      frame++;
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      pieces.forEach(p=>{
+        p.vy += p.g;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life--;
+
+        ctx.fillRect(p.x, p.y, p.s, p.s);
+      });
+
+      if(frame < 110){
+        requestAnimationFrame(draw);
+      } else {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+      }
+    }
+    draw();
+  }
+
+  function spinNow(){
+    if(spinning) return;
+    if(!canSpinToday()){
+      document.getElementById("result").innerHTML = "✅ You already spun today. Come back tomorrow!";
+      updateSpinButton();
+      return;
+    }
+
+    spinning = true;
+    const wheel = document.getElementById("wheel");
+    const result = document.getElementById("result");
+    const waSend = document.getElementById("waSend");
+
+    lastReward = rewards[Math.floor(Math.random() * rewards.length)];
+    const extra = 360 * 4 + Math.floor(Math.random() * 360);
+    angle += extra;
+
+    wheel.style.transform = `rotate(${angle}deg)`;
+    result.innerHTML = "⏳ Spinning...";
+    waSend.style.display = "none";
+
+    setTimeout(() => {
+      result.innerHTML =
+        "✅ Your reward: <b>" + lastReward + "</b><br>" +
+        "<small style='font-weight:900;color:#333'>Final confirmation depends on monthly rules.</small>";
+
+      burstConfetti();
+      lockSpin();
+      updateSpinButton();
+      updateWhatsAppLink();
+
+      waSend.style.display = "block";
+      spinning = false;
+    }, 1950);
+  }
+
+  function updateWhatsAppLink(){
+    const code = document.getElementById("refcode").value.trim();
+    const msg =
+      "Hi BlackTerminal Computer Institute, I played Spin & Win.\n" +
+      "Result: " + lastReward + "\n" +
+      (code ? ("My Referral Code: " + code + "\n") : "") +
+      "Please guide me for next step.";
+
+    const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
+    document.getElementById("waSend").href = url;
+  }
+
+  document.addEventListener("input", (e) => {
+    if(e.target && e.target.id === "refcode") updateWhatsAppLink();
+  });
+
+  // init
+  updateSpinButton();
+</script>
+
 
 </body>
 </html>
