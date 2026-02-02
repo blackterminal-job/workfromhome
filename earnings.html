@@ -25,6 +25,194 @@
     .btn{text-decoration:none;padding:12px 14px;border-radius:14px;font-weight:950;display:inline-block;color:#fff;background:#0a84ff;margin-top:14px}
     .floatwa{position:fixed;right:14px;bottom:16px;z-index:999999;padding:12px 14px;border-radius:999px;background:#25D366;color:#fff;font-weight:950;text-decoration:none;box-shadow:0 10px 25px rgba(0,0,0,.2)}
     @media(max-width:750px){.grid{grid-template-columns:1fr}}
+	
+	
+	.goalbox{
+  margin-top:14px;
+  padding:16px;
+  border-radius:16px;
+  background:linear-gradient(90deg,#0b1220,#132a5a);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+}
+.goalbadge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  font-weight:950;
+  font-size:12px;
+}
+.goalhead h2{
+  margin:10px 0 6px;
+  font-size:20px;
+}
+.goalhead p{
+  margin:0;
+  opacity:.9;
+  font-weight:750;
+  line-height:1.7;
+}
+.goalgrid{
+  margin-top:14px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.goalcard{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:16px;
+  padding:14px;
+}
+.goalcard b{font-weight:950}
+.goalbig{
+  margin-top:8px;
+  font-size:22px;
+  font-weight:950;
+}
+.goalcard small{
+  display:block;
+  margin-top:6px;
+  opacity:.92;
+  font-weight:800;
+  line-height:1.5;
+}
+.goalline{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:16px;
+  background:rgba(37,211,102,.15);
+  border:1px solid rgba(37,211,102,.3);
+  font-weight:950;
+}
+.goalnote{
+  margin-top:10px;
+  padding:12px 14px;
+  border-radius:16px;
+  background:rgba(255,243,214,.15);
+  border:1px solid rgba(255,225,166,.25);
+  font-weight:900;
+  line-height:1.6;
+  opacity:.95;
+}
+@media(max-width:750px){
+  .goalgrid{grid-template-columns:1fr}
+}
+
+
+
+.calcbox{
+  margin-top:14px;
+  padding:16px;
+  border-radius:16px;
+  background:#fff;
+  border:1px solid #e9e9e9;
+}
+.calcbadge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#f4f8ff;
+  border:1px solid #dbe8ff;
+  font-weight:950;
+  color:#0a84ff;
+  font-size:12px;
+}
+.calchead h2{margin:10px 0 6px;font-size:18px}
+.calchead p{margin:0;color:#333;font-weight:800;line-height:1.6}
+
+.calcgrid{
+  margin-top:14px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+.calccard{
+  border:1px solid #eee;
+  border-radius:16px;
+  padding:12px;
+  background:#f9fafc;
+}
+.calccard label{
+  display:block;
+  font-weight:950;
+  margin-bottom:8px;
+}
+.calccard input{
+  width:100%;
+  padding:12px 12px;
+  border-radius:14px;
+  border:1px solid #e9e9e9;
+  outline:none;
+  font-weight:900;
+}
+.calccard input:focus{border-color:#0a84ff}
+.calccard small{
+  display:block;
+  margin-top:8px;
+  font-weight:850;
+  color:#444;
+  line-height:1.5;
+}
+
+.resultrow{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.rescard{
+  border:1px solid #eee;
+  border-radius:16px;
+  padding:12px;
+  text-align:center;
+  background:#fff;
+}
+.rescard b{
+  font-size:20px;
+  font-weight:950;
+  display:block;
+}
+.rescard small{
+  display:block;
+  margin-top:6px;
+  font-weight:850;
+  color:#444;
+}
+
+.progbar{
+  margin-top:12px;
+  height:14px;
+  border-radius:999px;
+  background:#f0f2f7;
+  border:1px solid #e9e9e9;
+  overflow:hidden;
+}
+.progfill{
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#0a84ff,#25D366);
+  transition:width .4s ease;
+}
+
+.calcnote{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:16px;
+  background:#fff3d6;
+  border:1px solid #ffe1a6;
+  font-weight:900;
+  color:#333;
+  line-height:1.6;
+}
+
+@media(max-width:750px){
+  .calcgrid{grid-template-columns:1fr}
+  .resultrow{grid-template-columns:1fr}
+}
+
   </style>
 </head>
 <body>
@@ -43,32 +231,216 @@
     </div>
   </div>
 
-  <div class="wrap">
-    <div class="hero">
-      <div class="badge">💰 Earnings</div>
-      <h1>Commission Based Income</h1>
-      <p>No fixed salary. Income depends on confirmed admissions using your referral code.</p>
+  
+
+    
+
+    
+ 
+  
+  <div class="goalbox">
+  <div class="goalhead">
+    <div class="goalbadge">🎯 Our Mission</div>
+    <h2>We Want You to Earn ₹10,000 / Month</h2>
+    <p>
+      Our goal is to help students earn <b>₹10,000/month</b> through referral work.
+      We provide daily posters + scripts + support to make it possible.
+    </p>
+  </div>
+
+  <div class="goalgrid">
+    <div class="goalcard">
+      <b>✅ Your Daily Work</b>
+      <div class="goalbig">30–45 min</div>
+      <small>Post status + share posters + 2 follow-ups</small>
     </div>
 
-    <div class="box">
-      <h2 style="margin:0 0 12px;">📌 Sample Calculation</h2>
-      <div class="grid">
-        <div class="card"><b>1 admission</b><div class="money">₹500</div></div>
-        <div class="card"><b>5 admissions</b><div class="money">₹2,500</div></div>
-        <div class="card"><b>10 admissions</b><div class="money">₹5,000</div></div>
-      </div>
-      <div class="note">✅ Payment: Weekly / Monthly (UPI/Bank transfer)</div>
-      <div class="warn">⚠️ Referral counted only after admission confirmation with referral code.</div>
+    <div class="goalcard">
+      <b>🎯 Monthly Target</b>
+      <div class="goalbig">20 Admissions</div>
+      <small>20 students confirmed admission</small>
     </div>
 
-    <a class="btn" target="_blank"
+    <div class="goalcard">
+      <b>💰 Target Earnings</b>
+      <div class="goalbig">₹10,000</div>
+      <small>20 × ₹500 commission (example)</small>
+    </div>
+  </div>
+
+  <div class="goalline">
+    🤝 We guide you every day until you reach your first earning.
+  </div>
+
+  <div class="goalnote">
+    📌 This is a target plan. Actual income depends on confirmed admissions.
+    No fixed salary.
+  </div>
+</div>
+
+
+<div class="calcbox">
+  <div class="calchead">
+    <div class="calcbadge">🧮 Earnings Calculator</div>
+    <h2>Calculate Your Monthly Earnings</h2>
+    <p>Enter expected admissions and check estimated commission.</p>
+  </div>
+
+  <div class="calcgrid">
+    <div class="calccard">
+      <label>Admissions (per month)</label>
+      <input id="admInp" type="number" min="0" value="10" />
+      <small>Example: 20 admissions = ₹10,000 target (₹500 each)</small>
+    </div>
+
+    <div class="calccard">
+      <label>Commission per admission (₹)</label>
+      <input id="rateInp" type="number" min="0" value="500" />
+      <small>Institute decides rate. You can change value here.</small>
+    </div>
+  </div>
+
+  <div class="resultrow">
+    <div class="rescard">
+      <b id="totalEarn">₹0</b>
+      <small>Estimated Monthly Income</small>
+    </div>
+    <div class="rescard">
+      <b id="goalLeft">₹0</b>
+      <small>Left to Reach ₹10,000</small>
+    </div>
+    <div class="rescard">
+      <b id="goalStatus">🎯</b>
+      <small>Goal Status</small>
+    </div>
+  </div>
+
+  <div class="progbar">
+    <div class="progfill" id="progFill"></div>
+  </div>
+
+  <div class="calcnote">
+    📌 This is an estimation. Final earnings depend on confirmed admissions.
+  </div>
+</div>
+
+
+<a class="btn" target="_blank"
        href="https://wa.me/917000000000?text=Hi%2C%20I%20want%20commission%20details">
       💬 Ask Commission on WhatsApp
     </a>
-  </div>
 
   <a class="floatwa" target="_blank"
      href="https://wa.me/917000000000?text=YES%20JOB%20-%20I%20want%20to%20apply">💬 WhatsApp</a>
+
+ 
+
+
+
+<script>
+  const goal = 10000;
+  let confettiPlayed = false;
+
+  function fmt(n){
+    return "₹" + n.toLocaleString("en-IN");
+  }
+
+  function burstGoalConfetti(){
+    if(confettiPlayed) return;
+    confettiPlayed = true;
+
+    const canvas = document.getElementById("goalConfetti");
+    const ctx = canvas.getContext("2d");
+
+    canvas.style.display = "block";
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const pieces = [];
+    for(let i=0;i<180;i++){
+      pieces.push({
+        x: Math.random()*canvas.width,
+        y: -20 - Math.random()*canvas.height/2,
+        vx: (Math.random()-0.5)*3,
+        vy: 2 + Math.random()*4,
+        s: 3 + Math.random()*4,
+        rot: Math.random()*Math.PI,
+        vr: (Math.random()-0.5)*0.2,
+        life: 240 + Math.random()*120
+      });
+    }
+
+    let frame = 0;
+    function draw(){
+      frame++;
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      pieces.forEach(p=>{
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vr;
+        p.life--;
+
+        ctx.save();
+        ctx.translate(p.x,p.y);
+        ctx.rotate(p.rot);
+        ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s);
+        ctx.restore();
+      });
+
+      if(frame < 240){
+        requestAnimationFrame(draw);
+      }else{
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        canvas.style.display = "none";
+      }
+    }
+    draw();
+  }
+
+  function calc(){
+    const adm = Math.max(0, parseInt(document.getElementById("admInp").value || "0"));
+    const rate = Math.max(0, parseInt(document.getElementById("rateInp").value || "0"));
+
+    const total = adm * rate;
+    const left = Math.max(0, goal - total);
+
+    document.getElementById("totalEarn").innerText = fmt(total);
+    document.getElementById("goalLeft").innerText = fmt(left);
+
+    let status = "🎯";
+    if(total >= goal){
+      status = "✅ Goal Achieved";
+      burstGoalConfetti();
+    }
+    else if(total >= 7000) status = "🔥 Almost There";
+    else if(total >= 3000) status = "⭐ Good Start";
+    else status = "🚀 Start Today";
+
+    document.getElementById("goalStatus").innerText = status;
+
+    const percent = Math.min(100, Math.round((total/goal)*100));
+    document.getElementById("progFill").style.width = percent + "%";
+
+    // reset confetti if user reduces below goal
+    if(total < goal) confettiPlayed = false;
+  }
+
+  document.getElementById("admInp").addEventListener("input", calc);
+  document.getElementById("rateInp").addEventListener("input", calc);
+
+  window.addEventListener("resize", ()=>{
+    const canvas = document.getElementById("goalConfetti");
+    if(canvas && canvas.style.display === "block"){
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+  });
+
+  calc();
+</script>
+
+<canvas id="goalConfetti" style="position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:999999;display:none;"></canvas>
 
 </body>
 </html>
