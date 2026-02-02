@@ -304,6 +304,49 @@
   .badges{grid-template-columns:1fr}
 }
 
+
+	  .toast{
+  position:fixed;
+  left:16px;
+  bottom:90px;
+  background:rgba(17,17,17,.93);
+  color:#fff;
+  padding:12px 14px;
+  border-radius:18px;
+  opacity:0;
+  transform:translateY(16px);
+  transition:all .35s ease;
+  z-index:999999;
+  max-width:320px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 16px 35px rgba(0,0,0,.25);
+}
+.toast.show{opacity:1;transform:translateY(0)}
+.toastrow{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+.toastico{
+  width:38px;height:38px;
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.12);
+  font-size:18px;
+  flex:0 0 auto;
+}
+.toastmsg{
+  font-weight:950;
+  line-height:1.4;
+  font-size:14px;
+}
+.toastmeta{
+  margin-top:6px;
+  font-size:12px;
+  font-weight:800;
+  opacity:.75;
+}
+
 	
   </style>
 </head>
@@ -710,10 +753,70 @@
   // init
   render();
 
+
+
+	<script>
+  const locations = [
+    "Baripada", "Mayurbhanj", "Baleswar", "Rairangpur", "Jhargram",
+    "Keonjhar", "Cuttack", "Bhubaneswar", "Sundargarh", "Jajpur",
+    "Balangir", "Angul", "Sambalpur", "Jharsuguda"
+  ];
+
+  const toastItems = [
+    { icon:"✅", msg:"New application received" },
+    { icon:"📥", msg:"A student downloaded today’s posters" },
+    { icon:"🔥", msg:"Daily Challenge completed by a promoter" },
+    { icon:"💬", msg:"WhatsApp enquiry received" },
+    { icon:"⭐", msg:"New promoter joined today" },
+    { icon:"🎯", msg:"A student started the ₹10,000 target plan" }
+  ];
+
+  function randomTimeAgo(){
+    const mins = [1,2,3,4,5,7,10,12,15,18,20];
+    return mins[Math.floor(Math.random()*mins.length)] + " min ago";
+  }
+
+  function randomLoc(){
+    return locations[Math.floor(Math.random()*locations.length)];
+  }
+
+  function showToast(){
+    const t = toastItems[Math.floor(Math.random()*toastItems.length)];
+    const loc = randomLoc();
+
+    const toast = document.createElement("div");
+    toast.className = "toast";
+
+    toast.innerHTML = `
+      <div class="toastrow">
+        <div class="toastico">${t.icon}</div>
+        <div>
+          <div class="toastmsg">${t.msg}</div>
+          <div class="toastmeta">📍 ${loc} • ${randomTimeAgo()}</div>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(toast);
+
+    setTimeout(()=>toast.classList.add("show"), 80);
+
+    setTimeout(()=>{
+      toast.classList.remove("show");
+      setTimeout(()=>toast.remove(), 350);
+    }, 3400);
+  }
+
+  setTimeout(showToast, 4000);
+  setInterval(showToast, 12000);
+</script>
+
+
 </script>
 
 
 </body>
 </html>
+
 
 
