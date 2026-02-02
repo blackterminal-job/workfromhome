@@ -184,6 +184,126 @@
   color:#333;
   line-height:1.6;
 }
+
+
+
+.prog{
+  margin-top:14px;
+  padding:16px;
+  border-radius:16px;
+  background:#fff;
+  border:1px solid #e9e9e9;
+}
+.proghead{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.progbadge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#eaf7ef;
+  border:1px solid #cfeedd;
+  font-weight:950;
+  color:#145a2a;
+  font-size:12px;
+}
+.prog h2{margin:10px 0 6px;font-size:18px}
+.prog p{margin:0;color:#333;font-weight:800;line-height:1.6}
+
+.resetbtn{
+  border:none;
+  background:#111;
+  color:#fff;
+  font-weight:950;
+  padding:10px 14px;
+  border-radius:999px;
+  cursor:pointer;
+}
+.resetbtn:hover{opacity:.95}
+
+.stats{
+  margin-top:14px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+.stat{
+  border:1px solid #eee;
+  border-radius:14px;
+  padding:12px;
+  text-align:center;
+  background:#f9fafc;
+}
+.stat b{font-size:22px;font-weight:950;display:block}
+.stat small{display:block;margin-top:6px;color:#444;font-weight:850}
+
+.actbtns{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.abtn{
+  border:none;
+  background:#0a84ff;
+  color:#fff;
+  font-weight:950;
+  padding:12px 14px;
+  border-radius:14px;
+  cursor:pointer;
+}
+.abtn:hover{opacity:.95}
+
+.unlockTitle{
+  margin-top:14px;
+  font-weight:950;
+  font-size:15px;
+}
+.badges{
+  margin-top:10px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.badgeItem{
+  border:1px solid #eee;
+  border-radius:14px;
+  padding:12px;
+  text-align:center;
+}
+.badgeItem .ico{
+  width:46px;height:46px;
+  margin:auto;
+  border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  background:#fff3d6;
+  border:1px solid #ffe1a6;
+  font-size:22px;
+}
+.badgeItem b{display:block;margin-top:10px;font-weight:950}
+.badgeItem small{display:block;margin-top:6px;color:#444;font-weight:850;line-height:1.4}
+
+.prognote{
+  margin-top:12px;
+  padding:12px;
+  border-radius:14px;
+  background:#f4f8ff;
+  border:1px solid #dbe8ff;
+  font-weight:900;
+  color:#333;
+  line-height:1.6;
+}
+
+@media(max-width:750px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .actbtns{grid-template-columns:1fr}
+  .badges{grid-template-columns:1fr}
+}
+
 	
   </style>
 </head>
@@ -256,6 +376,41 @@
     📌 Rewards depend on performance & availability. This is promotional activity.
   </div>
 </div>
+
+
+
+
+<div class="prog">
+  <div class="proghead">
+    <div>
+      <div class="progbadge">🎯 Your Badge Progress</div>
+      <h2>Track Progress & Unlock Badges</h2>
+      <p>Update your daily activities and unlock digital achievements.</p>
+    </div>
+    <button class="resetbtn" onclick="resetProgress()">Reset</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b id="st_status">0</b><small>Status Posted</small></div>
+    <div class="stat"><b id="st_ref">0</b><small>Referrals</small></div>
+    <div class="stat"><b id="st_adm">0</b><small>Admissions</small></div>
+    <div class="stat"><b id="st_days">0</b><small>Active Days</small></div>
+  </div>
+
+  <div class="actbtns">
+    <button class="abtn" onclick="addStatus()">📲 I posted status today</button>
+    <button class="abtn" onclick="addReferral()">📌 I submitted a referral</button>
+    <button class="abtn" onclick="addAdmission()">✅ Admission confirmed</button>
+  </div>
+
+  <div class="unlockTitle">🏅 Unlocked Badges</div>
+  <div class="badges" id="badges"></div>
+
+  <div class="prognote">
+    ✅ This tracker is for motivation only. Final institute rewards depend on confirmed admissions.
+  </div>
+</div>
+
 
 
     <div class="box">
@@ -440,9 +595,124 @@
 
   // init
   updateSpinButton();
+  
+  
+  
+  
+  // LocalStorage keys
+  const KEY = "bt_progress_v1";
+
+  // Badge rules
+  const badgeRules = [
+    { id:"starter", icon:"🥉", title:"Starter", desc:"Posted 1 status", check: s => s.status >= 1 },
+    { id:"socialhero", icon:"📢", title:"Social Hero", desc:"Posted 10 statuses", check: s => s.status >= 10 },
+    { id:"firstref", icon:"📌", title:"First Referral", desc:"Submitted 1 referral", check: s => s.ref >= 1 },
+    { id:"refpro", icon:"🔥", title:"Referral Pro", desc:"Submitted 10 referrals", check: s => s.ref >= 10 },
+    { id:"firstadm", icon:"✅", title:"First Admission", desc:"1 confirmed admission", check: s => s.adm >= 1 },
+    { id:"topperformer", icon:"🏆", title:"Top Performer", desc:"10 confirmed admissions", check: s => s.adm >= 10 },
+    { id:"consistent", icon:"⏳", title:"Consistent", desc:"Active 7 days", check: s => s.days >= 7 },
+    { id:"master", icon:"👑", title:"Master Promoter", desc:"25 confirmed admissions", check: s => s.adm >= 25 },
+  ];
+
+  function defaultState(){
+    return { status:0, ref:0, adm:0, days:0, lastDay:"" };
+  }
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(KEY);
+      if(!raw) return defaultState();
+      return JSON.parse(raw);
+    }catch(e){
+      return defaultState();
+    }
+  }
+
+  function saveState(state){
+    localStorage.setItem(KEY, JSON.stringify(state));
+  }
+
+  function todayStr(){
+    return new Date().toDateString();
+  }
+
+  // count active day only once per day
+  function touchDay(state){
+    const t = todayStr();
+    if(state.lastDay !== t){
+      state.days += 1;
+      state.lastDay = t;
+    }
+  }
+
+  function render(){
+    const s = loadState();
+
+    document.getElementById("st_status").innerText = s.status;
+    document.getElementById("st_ref").innerText = s.ref;
+    document.getElementById("st_adm").innerText = s.adm;
+    document.getElementById("st_days").innerText = s.days;
+
+    // render badges
+    const unlocked = badgeRules.filter(b => b.check(s));
+    const box = document.getElementById("badges");
+
+    if(unlocked.length === 0){
+      box.innerHTML = `<div class="badgeItem" style="grid-column:1/-1">
+        <div class="ico">🔒</div>
+        <b>No badges unlocked</b>
+        <small>Start by posting 1 status today ✅</small>
+      </div>`;
+      return;
+    }
+
+    box.innerHTML = unlocked.map(b => `
+      <div class="badgeItem">
+        <div class="ico">${b.icon}</div>
+        <b>${b.title}</b>
+        <small>${b.desc}</small>
+      </div>
+    `).join("");
+  }
+
+  function addStatus(){
+    const s = loadState();
+    s.status += 1;
+    touchDay(s);
+    saveState(s);
+    render();
+  }
+
+  function addReferral(){
+    const s = loadState();
+    s.ref += 1;
+    touchDay(s);
+    saveState(s);
+    render();
+  }
+
+  function addAdmission(){
+    const s = loadState();
+    s.adm += 1;
+    touchDay(s);
+    saveState(s);
+    render();
+  }
+
+  function resetProgress(){
+    if(confirm("Reset your badge progress?")){
+      localStorage.removeItem(KEY);
+      render();
+    }
+  }
+
+  // init
+  render();
+
 </script>
 
 
 </body>
 </html>
+
 
