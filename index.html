@@ -989,44 +989,48 @@ document.addEventListener("DOMContentLoaded", function(){
   }
 
   const taskPool = [
-    {
-      title:"📲 Poster Promotion Task",
-      desc:"Objective: Increase leads through visibility.",
-      steps:[
-        "Download today’s poster",
-        "Post on WhatsApp Status + Facebook Story",
-        "Share in 2 local groups (education / jobs)"
-      ]
-    },
-    {
-      title:"💬 Lead Follow-up Task",
-      desc:"Objective: Convert enquiries into confirmed admissions.",
-      steps:[
-        "Message 3 leads from yesterday",
-        "Ask which course they want",
-        "Send course + fee + timing details"
-      ]
-    },
-    {
-      title:"🎯 Enquiry Collection Task",
-      desc:"Objective: Generate at least 1 serious enquiry.",
-      steps:[
-        "Talk to 3 friends about course",
-        "Share admission poster",
-        "Collect 1 student name + mobile"
-      ]
-    }
-  ];
+  { title:"📲 Poster Blast", desc:"Increase visibility for new enquiries.",
+    steps:["Post status (WA+FB)","Share in 2 local groups","Send 5 DMs to friends"] },
+
+  { title:"💬 Follow-up Boost", desc:"Convert leads to admission counselling.",
+    steps:["Follow up 3 old leads","Send course list + fees","Ask for visit timing"] },
+
+  { title:"🎯 1 Enquiry Challenge", desc:"Generate at least 1 serious enquiry.",
+    steps:["Talk to 3 students","Share poster","Collect 1 phone number"] },
+
+  { title:"🏫 Institute Visit Push", desc:"Bring 1 student for demo / counselling.",
+    steps:["Pick 1 serious lead","Fix counselling time","Send institute location"] },
+
+  { title:"📌 WhatsApp Status + Caption", desc:"Post premium caption for trust.",
+    steps:["Use today’s caption","Post status with poster","Pin status for 6 hrs"] },
+
+  { title:"👥 Group Marketing", desc:"Increase reach through communities.",
+    steps:["Share in 3 groups","Reply to messages","Send form link"] },
+
+  { title:"🎓 Course Pitch Task", desc:"Become confident to explain course.",
+    steps:["Read 3 course benefits","Learn fee structure","Prepare 2-line pitch"] },
+
+  { title:"📞 Call Task", desc:"Fast conversion comes from calling.",
+    steps:["Call 1 interested lead","Explain course in 2 mins","Ask for admission date"] },
+
+  { title:"🧾 Form Push", desc:"Fill form increases confirmed entries.",
+    steps:["Send form link to 5 friends","Ask them to forward","Collect 1 submission proof"] },
+
+  { title:"⭐ Review + Trust Task", desc:"Build trust & credibility.",
+    steps:["Share institute testimonial poster","Add trust caption","Ask 1 friend to share"] }
+];
+
 
   const today = new Date().toDateString();
   const dayKey = "bt_daily_task_" + today;
 
   function pickTaskIndex(){
-    const str = today + "|" + getUserKey();
-    let sum = 0;
-    for(let i=0;i<str.length;i++) sum += str.charCodeAt(i);
-    return sum % taskPool.length;
-  }
+  const str = today + "|" + getUserKey();
+  let sum = 0;
+  for(let i=0;i<str.length;i++) sum = (sum + str.charCodeAt(i) * (i+1)) % 99999;
+  return sum % taskPool.length;
+}
+
 
   function loadState(){
     let raw = localStorage.getItem(dayKey);
@@ -1114,6 +1118,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 </body>
 </html>
+
 
 
 
