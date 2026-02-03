@@ -970,25 +970,24 @@
 
 
 
-  const DT_WHATSAPP = "917000000000"; // ✅ replace institute WhatsApp number
+<script>
+document.addEventListener("DOMContentLoaded", function(){
 
-  // Personalization key (referral code / follow code / else device)
+  const DT_WHATSAPP = "917008186187"; // ✅ change if needed
+
+  // auto create device id
+  if(!localStorage.getItem("bt_user_id")){
+    localStorage.setItem("bt_user_id", Math.random().toString(16).slice(2));
+  }
+
   function getUserKey(){
     return (
       localStorage.getItem("bt_refcode") ||
       localStorage.getItem("bt_follow_code") ||
-      "USER-" + (localStorage.getItem("bt_user_id") || "")
+      "USER-" + localStorage.getItem("bt_user_id")
     );
   }
 
-  // create device id once
-  (function(){
-    if(!localStorage.getItem("bt_user_id")){
-      localStorage.setItem("bt_user_id", Math.random().toString(16).slice(2));
-    }
-  })();
-
-  // Professional growth tasks pool
   const taskPool = [
     {
       title:"📲 Poster Promotion Task",
@@ -996,52 +995,25 @@
       steps:[
         "Download today’s poster",
         "Post on WhatsApp Status + Facebook Story",
-        "Share in 2 local groups (education / jobs / locality)"
+        "Share in 2 local groups (education / jobs)"
       ]
     },
     {
       title:"💬 Lead Follow-up Task",
-      desc:"Objective: Convert interested students into admission enquiry.",
+      desc:"Objective: Convert enquiries into confirmed admissions.",
       steps:[
         "Message 3 leads from yesterday",
-        "Ask: 'Which course are you interested in?'",
-        "Send course + fee + batch details"
+        "Ask which course they want",
+        "Send course + fee + timing details"
       ]
     },
     {
       title:"🎯 Enquiry Collection Task",
-      desc:"Objective: Generate 1 confirmed enquiry for institute.",
+      desc:"Objective: Generate at least 1 serious enquiry.",
       steps:[
-        "Talk to 3 friends/relatives about course",
+        "Talk to 3 friends about course",
         "Share admission poster",
-        "Collect 1 student name + mobile and submit referral"
-      ]
-    },
-    {
-      title:"🏫 Institute Visit Push Task",
-      desc:"Objective: Bring student for counselling / demo.",
-      steps:[
-        "Select 1 serious lead",
-        "Offer free demo / counselling",
-        "Fix time for institute visit"
-      ]
-    },
-    {
-      title:"📢 Local Marketing Task",
-      desc:"Objective: Increase reach near your area.",
-      steps:[
-        "Share poster in 5 personal DMs (not groups)",
-        "Add line: 'Discount available this week ✅'",
-        "Ask them to forward to 2 friends"
-      ]
-    },
-    {
-      title:"✅ Admission Closing Task",
-      desc:"Objective: Confirm 1 admission.",
-      steps:[
-        "Talk to 1 hot lead (interested student)",
-        "Explain course benefit + certificate",
-        "Ask them to confirm admission date"
+        "Collect 1 student name + mobile"
       ]
     }
   ];
@@ -1049,11 +1021,9 @@
   const today = new Date().toDateString();
   const dayKey = "bt_daily_task_" + today;
 
-  // deterministic pick: day + user key
   function pickTaskIndex(){
-    const user = getUserKey();
+    const str = today + "|" + getUserKey();
     let sum = 0;
-    const str = today + "|" + user;
     for(let i=0;i<str.length;i++) sum += str.charCodeAt(i);
     return sum % taskPool.length;
   }
@@ -1061,27 +1031,40 @@
   function loadState(){
     let raw = localStorage.getItem(dayKey);
     if(!raw){
-      raw = JSON.stringify({done:false, confirmed:false});
+      raw = JSON.stringify({done:false});
       localStorage.setItem(dayKey, raw);
     }
     return JSON.parse(raw);
   }
+
   function saveState(s){
     localStorage.setItem(dayKey, JSON.stringify(s));
   }
 
   const chosenTask = taskPool[pickTaskIndex()];
 
-  function renderDailyTask(){
-    document.getElementById("dtDate").innerText = today;
-    document.getElementById("dtTitle").innerText = chosenTask.title;
-    document.getElementById("dtDesc").innerText = chosenTask.desc;
+  function render(){
+    const dtDate = document.getElementById("dtDate");
+    const dtTitle = document.getElementById("dtTitle");
+    const dtDesc = document.getElementById("dtDesc");
+    const dtSteps = document.getElementById("dtSteps");
+    const dtWa = document.getElementById("dtWa");
+    const dtDoneBtn = document.getElementById("dtDoneBtn");
+    const dtStatus = document.getElementById("dtStatus");
 
-    document.getElementById("dtSteps").innerHTML = chosenTask.steps
-      .map((x,i)=> `<div class="dtStep">✅ Step ${i+1}: ${x}</div>`)
-      .join("");
+    if(!dtDate || !dtTitle || !dtDesc || !dtSteps || !dtWa || !dtDoneBtn || !dtStatus){
+      console.log("Daily Task IDs missing");
+      return;
+    }
 
-    // WhatsApp link
+    dtDate.innerText = today;
+    dtTitle.innerText = chosenTask.title;
+    dtDesc.innerText = chosenTask.desc;
+
+    dtSteps.innerHTML = chosenTask.steps.map((s,i)=>
+      `<div class="dtStep">✅ Step ${i+1}: ${s}</div>`
+    ).join("");
+
     const code = localStorage.getItem("bt_refcode") || "";
     const follow = localStorage.getItem("bt_follow_code") || "";
     const userKey = getUserKey();
@@ -1093,36 +1076,37 @@
       (code ? ("🏷 Referral Code: " + code + "\n") : "") +
       (follow ? ("🤝 Joined Under: " + follow + "\n") : "") +
       "\n📌 Task: " + chosenTask.title + "\n" +
-      "Done Steps:\n" +
-      chosenTask.steps.map((s,i)=> (i+1)+") "+s).join("\n") +
-      "\n\nPlease verify ✅";
+      "Steps Done:\n" +
+      chosenTask.steps.map((x,i)=>(i+1)+") "+x).join("\n") +
+      "\n\n📸 Screenshot Attached ✅\nPlease verify.";
 
-    document.getElementById("dtWa").href =
-      "https://wa.me/" + DT_WHATSAPP + "?text=" + encodeURIComponent(msg);
+    dtWa.href = "https://wa.me/" + DT_WHATSAPP + "?text=" + encodeURIComponent(msg);
 
-    // done state
     const st = loadState();
     if(st.done){
-      document.getElementById("dtDoneBtn").disabled = true;
-      document.getElementById("dtDoneBtn").innerText = "✅ Task Completed";
-      const status = document.getElementById("dtStatus");
-      status.style.display = "block";
-      status.innerHTML =
-        "✅ Task marked completed.<br>📤 Now send WhatsApp confirmation for verification.";
+      dtDoneBtn.disabled = true;
+      dtDoneBtn.innerText = "✅ Task Completed";
+      dtStatus.style.display = "block";
+      dtStatus.innerHTML = "✅ Task marked completed. Now send confirmation on WhatsApp.";
+    }else{
+      dtDoneBtn.disabled = false;
+      dtDoneBtn.innerText = "✅ Mark Task Completed";
+      dtStatus.style.display = "none";
     }
   }
 
-  function completeTask(){
+  window.completeTask = function(){
     const st = loadState();
     st.done = true;
     saveState(st);
-    renderDailyTask();
-    // auto open WhatsApp (optional)
-    // window.open(document.getElementById("dtWa").href, "_blank");
+    render();
   }
-  window.completeTask = completeTask;
 
-  renderDailyTask();
+  render();
+
+});
+</script>
+ 
 </script>
 
 	
@@ -1130,6 +1114,7 @@
 
 </body>
 </html>
+
 
 
 
