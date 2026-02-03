@@ -347,6 +347,126 @@
   opacity:.75;
 }
 
+
+//DAILY TASK CSS
+.dtask{
+  margin-top:14px;
+  padding:16px;
+  border-radius:16px;
+  background:#fff;
+  border:1px solid #e9e9e9;
+}
+.dtTop{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:flex-start;
+}
+.dtBadge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#0b1220;
+  color:#fff;
+  font-weight:950;
+  font-size:12px;
+}
+.dtask h2{margin:10px 0 6px;font-size:18px}
+.dtask p{margin:0;color:#333;font-weight:800;line-height:1.6}
+.dtDate{
+  padding:10px 12px;
+  border-radius:14px;
+  background:#f4f8ff;
+  border:1px solid #dbe8ff;
+  font-weight:950;
+  color:#0a84ff;
+}
+.dtCard{
+  margin-top:14px;
+  padding:14px;
+  border-radius:16px;
+  border:1px solid #eee;
+  background:#f9fafc;
+}
+.dtTitle{
+  font-weight:950;
+  font-size:16px;
+}
+.dtDesc{
+  margin-top:6px;
+  font-weight:850;
+  color:#444;
+  line-height:1.6;
+}
+.dtSteps{
+  margin-top:12px;
+  display:grid;
+  gap:10px;
+}
+.dtStep{
+  padding:12px;
+  border-radius:14px;
+  border:1px solid #eee;
+  background:#fff;
+  font-weight:900;
+  color:#222;
+  line-height:1.6;
+}
+.dtActions{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+.dtDone{
+  border:none;
+  background:#0a84ff;
+  color:#fff;
+  font-weight:950;
+  padding:12px 14px;
+  border-radius:14px;
+  cursor:pointer;
+}
+.dtDone:disabled{opacity:.6;cursor:not-allowed}
+.dtWa{
+  text-decoration:none;
+  background:#25D366;
+  color:#fff;
+  font-weight:950;
+  padding:12px 14px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.dtStatus{
+  margin-top:12px;
+  padding:12px;
+  border-radius:14px;
+  background:#eaf7ef;
+  border:1px solid #cfeedd;
+  font-weight:950;
+  color:#145a2a;
+  line-height:1.6;
+}
+.dtNote{
+  margin-top:12px;
+  padding:12px;
+  border-radius:14px;
+  background:#fff3d6;
+  border:1px solid #ffe1a6;
+  font-weight:900;
+  color:#333;
+  line-height:1.6;
+}
+@media(max-width:750px){
+  .dtActions{grid-template-columns:1fr}
+}
+
+
+//DAILY TASK END	  
+	  
 	
   </style>
 </head>
@@ -846,11 +966,171 @@
 
 
 
+
+
+//DAILY TASK JS
+
+  const DT_WHATSAPP = "917000000000"; // ✅ replace institute WhatsApp number
+
+  // Personalization key (referral code / follow code / else device)
+  function getUserKey(){
+    return (
+      localStorage.getItem("bt_refcode") ||
+      localStorage.getItem("bt_follow_code") ||
+      "USER-" + (localStorage.getItem("bt_user_id") || "")
+    );
+  }
+
+  // create device id once
+  (function(){
+    if(!localStorage.getItem("bt_user_id")){
+      localStorage.setItem("bt_user_id", Math.random().toString(16).slice(2));
+    }
+  })();
+
+  // Professional growth tasks pool
+  const taskPool = [
+    {
+      title:"📲 Poster Promotion Task",
+      desc:"Objective: Increase leads through visibility.",
+      steps:[
+        "Download today’s poster",
+        "Post on WhatsApp Status + Facebook Story",
+        "Share in 2 local groups (education / jobs / locality)"
+      ]
+    },
+    {
+      title:"💬 Lead Follow-up Task",
+      desc:"Objective: Convert interested students into admission enquiry.",
+      steps:[
+        "Message 3 leads from yesterday",
+        "Ask: 'Which course are you interested in?'",
+        "Send course + fee + batch details"
+      ]
+    },
+    {
+      title:"🎯 Enquiry Collection Task",
+      desc:"Objective: Generate 1 confirmed enquiry for institute.",
+      steps:[
+        "Talk to 3 friends/relatives about course",
+        "Share admission poster",
+        "Collect 1 student name + mobile and submit referral"
+      ]
+    },
+    {
+      title:"🏫 Institute Visit Push Task",
+      desc:"Objective: Bring student for counselling / demo.",
+      steps:[
+        "Select 1 serious lead",
+        "Offer free demo / counselling",
+        "Fix time for institute visit"
+      ]
+    },
+    {
+      title:"📢 Local Marketing Task",
+      desc:"Objective: Increase reach near your area.",
+      steps:[
+        "Share poster in 5 personal DMs (not groups)",
+        "Add line: 'Discount available this week ✅'",
+        "Ask them to forward to 2 friends"
+      ]
+    },
+    {
+      title:"✅ Admission Closing Task",
+      desc:"Objective: Confirm 1 admission.",
+      steps:[
+        "Talk to 1 hot lead (interested student)",
+        "Explain course benefit + certificate",
+        "Ask them to confirm admission date"
+      ]
+    }
+  ];
+
+  const today = new Date().toDateString();
+  const dayKey = "bt_daily_task_" + today;
+
+  // deterministic pick: day + user key
+  function pickTaskIndex(){
+    const user = getUserKey();
+    let sum = 0;
+    const str = today + "|" + user;
+    for(let i=0;i<str.length;i++) sum += str.charCodeAt(i);
+    return sum % taskPool.length;
+  }
+
+  function loadState(){
+    let raw = localStorage.getItem(dayKey);
+    if(!raw){
+      raw = JSON.stringify({done:false, confirmed:false});
+      localStorage.setItem(dayKey, raw);
+    }
+    return JSON.parse(raw);
+  }
+  function saveState(s){
+    localStorage.setItem(dayKey, JSON.stringify(s));
+  }
+
+  const chosenTask = taskPool[pickTaskIndex()];
+
+  function renderDailyTask(){
+    document.getElementById("dtDate").innerText = today;
+    document.getElementById("dtTitle").innerText = chosenTask.title;
+    document.getElementById("dtDesc").innerText = chosenTask.desc;
+
+    document.getElementById("dtSteps").innerHTML = chosenTask.steps
+      .map((x,i)=> `<div class="dtStep">✅ Step ${i+1}: ${x}</div>`)
+      .join("");
+
+    // WhatsApp link
+    const code = localStorage.getItem("bt_refcode") || "";
+    const follow = localStorage.getItem("bt_follow_code") || "";
+    const userKey = getUserKey();
+
+    const msg =
+      "✅ Daily Task Completed Confirmation\n\n" +
+      "📅 Date: " + today + "\n" +
+      "👤 UserKey: " + userKey + "\n" +
+      (code ? ("🏷 Referral Code: " + code + "\n") : "") +
+      (follow ? ("🤝 Joined Under: " + follow + "\n") : "") +
+      "\n📌 Task: " + chosenTask.title + "\n" +
+      "Done Steps:\n" +
+      chosenTask.steps.map((s,i)=> (i+1)+") "+s).join("\n") +
+      "\n\nPlease verify ✅";
+
+    document.getElementById("dtWa").href =
+      "https://wa.me/" + DT_WHATSAPP + "?text=" + encodeURIComponent(msg);
+
+    // done state
+    const st = loadState();
+    if(st.done){
+      document.getElementById("dtDoneBtn").disabled = true;
+      document.getElementById("dtDoneBtn").innerText = "✅ Task Completed";
+      const status = document.getElementById("dtStatus");
+      status.style.display = "block";
+      status.innerHTML =
+        "✅ Task marked completed.<br>📤 Now send WhatsApp confirmation for verification.";
+    }
+  }
+
+  function completeTask(){
+    const st = loadState();
+    st.done = true;
+    saveState(st);
+    renderDailyTask();
+    // auto open WhatsApp (optional)
+    // window.open(document.getElementById("dtWa").href, "_blank");
+  }
+  window.completeTask = completeTask;
+
+  renderDailyTask();
 </script>
 
+	
+//DAILY TASK JS END	
 
 </body>
 </html>
+
 
 
 
