@@ -8,7 +8,7 @@
     body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:#f6f7fb;color:#111}
     .nav{position:sticky;top:0;z-index:99;background:#0b1220;color:#fff;padding:12px 16px}
     .navin{max-width:1050px;margin:auto;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-    .brand{font-weight:950}
+    .brand{font-weight:950}  
     .menu{display:flex;gap:10px;flex-wrap:wrap}
     .menu a{color:#fff;text-decoration:none;font-weight:850;font-size:13px;opacity:.92}
     .menu a:hover{opacity:1;text-decoration:underline}
@@ -1234,7 +1234,7 @@ async function fetchMyCode(){
   }
 
   try{
-    const res = await fetch(sheetURL + "?t=" + Date.now(), {cache:"no-store"});
+    const res = await fetch(sheetURL, {cache:"no-store"});
     const data = await res.json();
 
     if(data.error){
@@ -1278,6 +1278,7 @@ async function fetchMyCode(){
 
 </body>
 </html>
+
 
 
 
