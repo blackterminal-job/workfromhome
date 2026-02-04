@@ -466,6 +466,86 @@
 
 
 //DAILY TASK END	  
+
+
+.codeFetchBox{
+  margin-top:14px;
+  padding:16px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#0b1220,#132a5a);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 20px 45px rgba(0,0,0,.22);
+}
+.codeBadge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  font-weight:1000;
+  font-size:12px;
+}
+.codeFetchBox h2{margin:10px 0 6px;font-size:18px}
+.codeFetchBox p{margin:0;opacity:.9;font-weight:850;line-height:1.6}
+
+.codeRow{
+  margin-top:12px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.codeRow input{
+  flex:1;
+  min-width:220px;
+  padding:12px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.25);
+  color:#fff;
+  font-weight:950;
+  outline:none;
+}
+.codeBtn{
+  border:none;
+  background:#25D366;
+  color:#fff;
+  font-weight:1000;
+  padding:12px 14px;
+  border-radius:14px;
+  cursor:pointer;
+}
+.codeBig{
+  margin-top:14px;
+  font-size:46px;
+  font-weight:1100;
+  letter-spacing:4px;
+  text-align:center;
+  padding:12px 14px;
+  border-radius:18px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.14);
+  text-shadow:0 12px 30px rgba(0,0,0,.4);
+}
+.codeMsg{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:16px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.12);
+  font-weight:950;
+  line-height:1.6;
+  text-align:center;
+}
+.codeNote{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:16px;
+  background:rgba(255,243,214,.12);
+  border:1px solid rgba(255,225,166,.22);
+  font-weight:900;
+  line-height:1.6;
+}
+	  
 	  
 	
   </style>
@@ -505,6 +585,26 @@
         <a class="btn blue" href="apply.html">📝 Apply Form</a>
       </div>
     </div>
+
+
+	  <div class="codeFetchBox">
+  <div class="codeBadge">🔎 Find Your Referral Code</div>
+  <h2>Enter Mobile Number</h2>
+  <p>We will fetch your referral code from our official sheet.</p>
+
+  <div class="codeRow">
+    <input id="mobInp" placeholder="Enter your mobile number" />
+    <button class="codeBtn" onclick="fetchMyCode()">Fetch Code</button>
+  </div>
+
+  <div class="codeBig" id="codeBig" style="display:none;">TB000</div>
+  <div class="codeMsg" id="codeMsg" style="display:none;"></div>
+
+  <div class="codeNote">
+    ✅ If your code is not found, please apply first or contact institute.
+  </div>
+</div>
+
 	
 	<div class="luckbox">
   <div class="luckhead">
@@ -1110,6 +1210,89 @@ document.addEventListener("DOMContentLoaded", function(){
 
 });
 
+
+
+
+
+
+.codeFetchBox{
+  margin-top:14px;
+  padding:16px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#0b1220,#132a5a);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 20px 45px rgba(0,0,0,.22);
+}
+.codeBadge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  font-weight:1000;
+  font-size:12px;
+}
+.codeFetchBox h2{margin:10px 0 6px;font-size:18px}
+.codeFetchBox p{margin:0;opacity:.9;font-weight:850;line-height:1.6}
+
+.codeRow{
+  margin-top:12px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.codeRow input{
+  flex:1;
+  min-width:220px;
+  padding:12px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.25);
+  color:#fff;
+  font-weight:950;
+  outline:none;
+}
+.codeBtn{
+  border:none;
+  background:#25D366;
+  color:#fff;
+  font-weight:1000;
+  padding:12px 14px;
+  border-radius:14px;
+  cursor:pointer;
+}
+.codeBig{
+  margin-top:14px;
+  font-size:46px;
+  font-weight:1100;
+  letter-spacing:4px;
+  text-align:center;
+  padding:12px 14px;
+  border-radius:18px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.14);
+  text-shadow:0 12px 30px rgba(0,0,0,.4);
+}
+.codeMsg{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:16px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.12);
+  font-weight:950;
+  line-height:1.6;
+  text-align:center;
+}
+.codeNote{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:16px;
+  background:rgba(255,243,214,.12);
+  border:1px solid rgba(255,225,166,.22);
+  font-weight:900;
+  line-height:1.6;
+}
+	
  
 </script>
 
@@ -1118,6 +1301,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 </body>
 </html>
+
 
 
 
