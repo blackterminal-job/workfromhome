@@ -1,40 +1,198 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Job Details | BlackTerminal Computer Institute</title>
+
   <style>
-    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:#f6f7fb;color:#111}
-    .nav{position:sticky;top:0;z-index:99;background:#0b1220;color:#fff;padding:12px 16px}
+    :root{
+      --bg:#061426;
+      --line:rgba(255,255,255,.10);
+      --txt:#eaf2ff;
+      --muted:rgba(255,255,255,.72);
+      --blue:#0a84ff;
+      --green:#2ee58a;
+      --gold:#ffd54a;
+      --card: rgba(255,255,255,.06);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      color:var(--txt);
+      background: radial-gradient(1200px 800px at 20% 0%, #0a2b53 0%, var(--bg) 55%, #030913 100%);
+    }
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:99;background:#0b1220;color:#fff;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
     .navin{max-width:1050px;margin:auto;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
     .brand{font-weight:950}
     .menu{display:flex;gap:10px;flex-wrap:wrap}
     .menu a{color:#fff;text-decoration:none;font-weight:850;font-size:13px;opacity:.92}
     .menu a:hover{opacity:1;text-decoration:underline}
-    .wrap{max-width:1050px;margin:auto;padding:16px}
-    .hero{background:#0b1220;color:#fff;padding:18px;border-radius:16px}
-    .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.12);font-weight:900;font-size:12px}
-    h1{margin:10px 0 8px;font-size:24px}
-    p{margin:0;opacity:.9;line-height:1.6;font-weight:700}
-    .chips{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
-    .chips span{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.10);font-size:12px;font-weight:800}
-    .box{margin-top:14px;padding:16px;border:1px solid #e9e9e9;border-radius:16px;background:#fff}
-    .box h2{margin:0 0 12px;font-size:18px}
-    ul{margin:0;padding-left:18px;font-weight:800;color:#444;line-height:1.75}
-    .note{margin-top:12px;font-weight:900;color:#333;background:#fff3d6;border:1px solid #ffe1a6;padding:10px 12px;border-radius:14px}
-    .btn{text-decoration:none;padding:12px 14px;border-radius:14px;font-weight:950;display:inline-block;color:#fff;background:#25D366;margin-top:14px}
-    .floatwa{position:fixed;right:14px;bottom:16px;z-index:999999;padding:12px 14px;border-radius:999px;background:#25D366;color:#fff;
-      font-weight:950;text-decoration:none;box-shadow:0 10px 25px rgba(0,0,0,.2)}
+
+    .wrap{max-width:1050px;margin:0 auto;padding:18px 14px 40px;}
+
+    /* HERO */
+    .hero{
+      position:relative;
+      padding:18px 16px;
+      border-radius:22px;
+      border:1px solid var(--line);
+      overflow:hidden;
+      background: linear-gradient(135deg, rgba(10,132,255,.16), rgba(46,229,138,.10), rgba(255,213,74,.10));
+      box-shadow: 0 24px 70px rgba(0,0,0,.35);
+    }
+    .hero:before{
+      content:"";
+      position:absolute;
+      inset:-120px;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(10,132,255,.35), transparent 55%),
+        radial-gradient(circle at 70% 70%, rgba(46,229,138,.30), transparent 55%),
+        radial-gradient(circle at 95% 25%, rgba(255,213,74,.25), transparent 50%);
+      filter: blur(15px);
+      animation: floatGlow 6s ease-in-out infinite;
+      z-index:0;
+    }
+    @keyframes floatGlow{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-14px)}
+    }
+    .heroIn{position:relative;z-index:2}
+    .tag{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:7px 12px;
+      border-radius:999px;
+      font-weight:950;
+      font-size:12px;
+      letter-spacing:.6px;
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.16);
+    }
+    .hero h1{margin:12px 0 6px;font-size:26px;font-weight:1100}
+    .hero p{margin:0;color:var(--muted);font-weight:850;line-height:1.6}
+
+    .ctaRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:16px;
+      font-weight:1100;
+      text-decoration:none;
+      color:#fff;
+      border:1px solid rgba(255,255,255,.12);
+      cursor:pointer;
+    }
+    .btn.apply{
+      background: linear-gradient(90deg,var(--green),var(--blue));
+      animation: pulse 1.2s infinite;
+    }
+    .btn.wa{background:rgba(0,0,0,.35)}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+
+    /* GRID */
+    .grid{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    @media(max-width:900px){.grid{grid-template-columns:1fr}}
+    .card{
+      padding:16px;
+      border-radius:22px;
+      border:1px solid var(--line);
+      background: var(--card);
+      box-shadow: 0 18px 55px rgba(0,0,0,.22);
+      position:relative;
+      overflow:hidden;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .card:hover{transform:translateY(-3px); box-shadow:0 28px 75px rgba(0,0,0,.28);}
+    .card h2{margin:0 0 10px;font-size:16px;font-weight:1100}
+    .card p{margin:0;color:var(--muted);font-weight:850;line-height:1.6}
+
+    .pill{
+      display:inline-flex;
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.08);
+      border:1px solid var(--line);
+      font-weight:950;
+      font-size:12px;
+    }
+
+    /* Steps */
+    .section{
+      margin-top:16px;
+      padding:16px;
+      border-radius:22px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.22);
+    }
+    .section h2{margin:0 0 12px;font-size:18px;font-weight:1100}
+    .steps{display:grid;gap:10px}
+    .step{
+      padding:14px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      display:flex;gap:12px;align-items:flex-start;
+    }
+    .num{
+      width:32px;height:32px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:1200;
+      background: rgba(10,132,255,.18);
+      border:1px solid rgba(10,132,255,.22);
+      color:#cfe7ff;
+      flex:0 0 32px;
+    }
+    .step b{display:block;font-weight:1100}
+    .step span{display:block;margin-top:5px;color:var(--muted);font-weight:850;line-height:1.6}
+
+    /* Info bar */
+    .info{
+      margin-top:14px;
+      padding:14px;
+      border-radius:18px;
+      border:1px solid rgba(255,213,74,.20);
+      background: rgba(255,213,74,.10);
+      color:#fff;
+      font-weight:950;
+      line-height:1.6;
+    }
+
+    details{
+      margin-top:12px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      padding:10px 12px;
+    }
+    summary{cursor:pointer;font-weight:1100}
+    details div{margin-top:8px;color:var(--muted);font-weight:850;line-height:1.6}
+
+    .footer{margin-top:18px;text-align:center;opacity:.7;font-weight:850}
   </style>
 </head>
-<body>
 
+<body>
+  <!-- NAV -->
   <div class="nav">
     <div class="navin">
       <div class="brand">BlackTerminal Computer Institute</div>
       <div class="menu">
         <a href="index.html">Home</a>
+        <a href="profile.html">My Profile</a>
         <a href="job-details.html">Job Details</a>
         <a href="how-it-works.html">How it Works</a>
         <a href="earnings.html">Earnings</a>
@@ -45,47 +203,107 @@
   </div>
 
   <div class="wrap">
+
+    <!-- HERO -->
     <div class="hero">
-      <div class="badge">📌 Job Details</div>
-      <h1>Referral Job (Part-Time)</h1>
-      <p>This is a referral & promotion based work. Earn commission after admission confirmation using your referral code.</p>
-      <div class="chips">
-        <span>🏠 Work from home</span>
-        <span>⏰ Flexible timing</span>
-        <span>💰 Commission based</span>
-        <span>🔖 Referral code tracking</span>
+      <div class="heroIn">
+        <span class="tag">💼 JOB DETAILS • Referral Partner Program</span>
+        <h1>Earn by Referring Students</h1>
+        <p>
+          This is a referral-based job for students. Your role is to promote our courses
+          and bring admissions. Earn rewards for each confirmed admission.
+        </p>
+
+        <div class="ctaRow">
+          <a class="btn apply" href="apply.html">✅ Apply Now</a>
+          <a class="btn wa" target="_blank"
+             href="https://wa.me/917008186187?text=I%20want%20job%20details%20about%20referral%20program">
+            💬 WhatsApp Help
+          </a>
+        </div>
       </div>
     </div>
 
-    <div class="box">
-      <h2>✅ Job Role</h2>
-      <ul>
-        <li>Share daily posters/messages</li>
-        <li>Promote computer courses</li>
-        <li>Refer interested students</li>
-        <li>Guide for admission through your referral code</li>
-      </ul>
+    <!-- Cards -->
+    <div class="grid">
+      <div class="card">
+        <div class="pill">📌 Role</div>
+        <h2>Referral Partner</h2>
+        <p>Share posters, messages and course information. Bring students for admission with your referral code.</p>
+      </div>
+
+      <div class="card">
+        <div class="pill">🎯 Target</div>
+        <h2>Increase Admissions</h2>
+        <p>Daily tasks help you increase admissions and also grow institute business professionally.</p>
+      </div>
+
+      <div class="card">
+        <div class="pill">💰 Income</div>
+        <h2>Commission Based</h2>
+        <p>Income depends on confirmed admissions. No fixed salary. Payment after admin verification.</p>
+      </div>
     </div>
 
-    <div class="box">
-      <h2>📌 Important Rules</h2>
-      <ul>
-        <li>No fake / wrong referrals</li>
-        <li>Referral counted only after admission confirmation</li>
-        <li>Referral code must be used during admission</li>
-        <li>Maintain institute reputation</li>
-      </ul>
-      <div class="note">⚠️ This is not a fixed salary job. Income depends on confirmed admissions.</div>
+    <!-- Steps -->
+    <div class="section">
+      <h2>✅ How this Job Works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <div>
+            <b>Apply & Get Referral Code</b>
+            <span>Fill the Apply form. After verification you will receive your referral code.</span>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num">2</div>
+          <div>
+            <b>Complete Daily Promotion Tasks</b>
+            <span>Share posters and course offers on WhatsApp/Facebook. Send proof on WhatsApp.</span>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num">3</div>
+          <div>
+            <b>Bring Interested Students</b>
+            <span>Collect student interest and share the details. Confirm admissions with referral code.</span>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num">4</div>
+          <div>
+            <b>Earn Rewards & Withdraw</b>
+            <span>Your earnings will show in profile. Withdraw request through WhatsApp (min ₹500).</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info">
+        ✅ Important: Referral counted only when student uses your referral code during admission.
+      </div>
+
+      <details>
+        <summary>❓ Is salary guaranteed?</summary>
+        <div>No. This is commission based. You earn only after confirmed admission.</div>
+      </details>
+
+      <details>
+        <summary>❓ When payment will be done?</summary>
+        <div>Payment will be processed after admin verification (UPI/Bank Transfer).</div>
+      </details>
+
+      <details>
+        <summary>❓ Is this safe?</summary>
+        <div>Yes. Institute based referral work. You can contact admin anytime through WhatsApp.</div>
+      </details>
     </div>
 
-    <a class="btn" target="_blank"
-       href="https://wa.me/917000000000?text=Hi%2C%20I%20want%20job%20details">
-      💬 Ask on WhatsApp
-    </a>
+    <div class="footer">© BlackTerminal Computer Institute</div>
   </div>
-
-  <a class="floatwa" target="_blank"
-     href="https://wa.me/917000000000?text=YES%20JOB%20-%20I%20want%20to%20apply">💬 WhatsApp</a>
 
 </body>
 </html>
