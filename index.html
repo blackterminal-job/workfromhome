@@ -289,6 +289,11 @@
   box-shadow:0 20px 55px rgba(0,0,0,.28);
   overflow:hidden;
   position:relative;
+  animation: fadeIn .35s ease;
+}
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(-8px)}
+  to{opacity:1; transform:translateY(0)}
 }
 
 .btOfferBar:before{
@@ -367,8 +372,9 @@
   z-index:2;
   margin-top:12px;
   display:flex;
-  gap:12px;
+  gap:10px;
   align-items:center;
+  flex-wrap:wrap;
 }
 
 .btOfferSlide{
@@ -378,6 +384,7 @@
   background:rgba(255,255,255,.08);
   border:1px solid rgba(255,255,255,.12);
   padding:10px 12px;
+  min-width:240px;
 }
 .btOfferTrack{
   display:inline-flex;
@@ -408,9 +415,56 @@
   font-weight:1100;
   white-space:nowrap;
 }
-.btClaimMini b{
-  color:#baffd1;
+.btClaimMini b{color:#baffd1}
+
+/* ✅ Apply Now button */
+.btApplyNowBtn{
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:12px 14px;
+  border-radius:18px;
+  font-weight:1200;
+  color:#fff;
+  background:linear-gradient(135deg,#25D366,#0a84ff);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 16px 35px rgba(0,0,0,.22);
+  white-space:nowrap;
+  position:relative;
+  overflow:hidden;
+  animation: applyPulse 1.4s infinite;
 }
+.btApplyNowBtn span{
+  font-weight:1300;
+  animation: arrowMove 1s infinite;
+}
+@keyframes arrowMove{
+  0%,100%{transform:translateX(0)}
+  50%{transform:translateX(6px)}
+}
+@keyframes applyPulse{
+  0%{transform:scale(1); box-shadow:0 0 0 rgba(37,211,102,.0)}
+  50%{transform:scale(1.03); box-shadow:0 0 35px rgba(37,211,102,.24)}
+  100%{transform:scale(1); box-shadow:0 0 0 rgba(37,211,102,.0)}
+}
+.btApplyNowBtn:before{
+  content:"";
+  position:absolute;
+  top:-40%;
+  left:-40%;
+  width:60%;
+  height:220%;
+  background:rgba(255,255,255,.20);
+  transform:rotate(25deg);
+  animation: shine 2.2s infinite;
+}
+@keyframes shine{
+  0%{transform:translateX(-120%) rotate(25deg)}
+  100%{transform:translateX(260%) rotate(25deg)}
+}
+.btApplyNowBtn:active{transform:scale(.99)}
 
 /* Urgent */
 .btOfferBar.urgent{
@@ -430,9 +484,7 @@
   background:linear-gradient(135deg,#2b0b0b,#7a0b0b);
   border:1px solid rgba(255,59,48,.35);
 }
-.btOfferBar.expired .btTimerTime{
-  color:#fff;
-}
+.btOfferBar.expired .btTimerTime{color:#fff;}
 
 /* ✅ Mobile */
 @media(max-width:720px){
@@ -440,73 +492,11 @@
   .btTimerBox{width:100%;min-width:auto}
   .btOfferBottom{flex-direction:column;align-items:stretch}
   .btClaimMini{text-align:center}
+  .btApplyNowBtn{width:100%}
   .btOfferTrack{animation-duration:13s}
 }
-/* very small phones */
 @media(max-width:380px){
   .btClaimMini{display:none}
-}
-
-.btApplyNowBtn{
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  padding:12px 14px;
-  border-radius:18px;
-  font-weight:1200;
-  color:#fff;
-  background:linear-gradient(135deg,#25D366,#0a84ff);
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 16px 35px rgba(0,0,0,.22);
-  white-space:nowrap;
-  position:relative;
-  overflow:hidden;
-  animation: applyPulse 1.4s infinite;
-}
-
-.btApplyNowBtn span{
-  font-weight:1300;
-  animation: arrowMove 1s infinite;
-}
-
-@keyframes arrowMove{
-  0%,100%{transform:translateX(0)}
-  50%{transform:translateX(6px)}
-}
-
-@keyframes applyPulse{
-  0%{transform:scale(1); box-shadow:0 0 0 rgba(37,211,102,.0)}
-  50%{transform:scale(1.03); box-shadow:0 0 35px rgba(37,211,102,.24)}
-  100%{transform:scale(1); box-shadow:0 0 0 rgba(37,211,102,.0)}
-}
-
-.btApplyNowBtn:before{
-  content:"";
-  position:absolute;
-  top:-40%;
-  left:-40%;
-  width:60%;
-  height:220%;
-  background:rgba(255,255,255,.20);
-  transform:rotate(25deg);
-  animation: shine 2.2s infinite;
-}
-@keyframes shine{
-  0%{transform:translateX(-120%) rotate(25deg)}
-  100%{transform:translateX(260%) rotate(25deg)}
-}
-
-.btApplyNowBtn:active{
-  transform:scale(.99);
-}
-
-/* Mobile full width */
-@media(max-width:720px){
-  .btApplyNowBtn{
-    width:100%;
-  }
 }
 
 
@@ -545,8 +535,10 @@
   
   
   
-  <!-- ✅ NEW STYLE: Premium Offer Bar -->
-<div class="btOfferBar" id="btOfferBar" style="display:none;">
+  
+  
+  <!-- ✅ Premium Offer Bar (Auto Show/Hide 2H Cycle) -->
+<div class="btOfferBar" id="btOfferBar">
   <div class="btOfferTop">
     <div class="btOfferLeft">
       <div class="btOfferTag" id="btOfferTag">⚡ TODAY ONLY</div>
@@ -583,12 +575,13 @@
     <div class="btClaimMini">
       ✅ Claimed: <b id="btClaimMini">12</b>
     </div>
- 
+
+    <a class="btApplyNowBtn" href="apply.html">
+      ✅ Apply Now <span>→</span>
+    </a>
   </div>
 </div>
-     <a class="btApplyNowBtn" href="apply.html">
-  ✅ Apply Now <span>→</span>
-</a>
+     
 	  
      
 
@@ -646,9 +639,8 @@
 
 
 <script>
-  
-
-function startOfferBar(){
+  <script>
+function startOfferBarCycle(){
   const bar = document.getElementById("btOfferBar");
   const timerEl = document.getElementById("btTimer2");
   const tag = document.getElementById("btOfferTag");
@@ -656,31 +648,36 @@ function startOfferBar(){
 
   if(!bar || !timerEl || !tag) return;
 
-  // show only today
-  bar.style.display = "block";
+  // ✅ 2 hours show + 2 hours hide
+  const SHOW_HOURS = 2;
+  const HIDE_HOURS = 2;
+
+  const SHOW_MS = SHOW_HOURS * 60 * 60 * 1000;
+  const HIDE_MS = HIDE_HOURS * 60 * 60 * 1000;
+  const CYCLE_MS = SHOW_MS + HIDE_MS;
 
   // claimed counter daily storage
-  const key = "bt_claimed_mini_" + new Date().toDateString();
-  let claimed = Number(localStorage.getItem(key));
+  const claimedKey = "bt_claimed_mini_" + new Date().toDateString();
+  let claimed = Number(localStorage.getItem(claimedKey));
   if(!claimed){
-    claimed = Math.floor(10 + Math.random()*20); // 10-29
-    localStorage.setItem(key, claimed);
+    claimed = Math.floor(10 + Math.random()*20);
+    localStorage.setItem(claimedKey, claimed);
   }
   if(claimEl) claimEl.textContent = claimed;
 
   function bumpClaim(){
     if(!claimEl) return;
-    claimEl.style.transform = "scale(1.15)";
+    claimEl.style.transform = "scale(1.12)";
     setTimeout(()=>claimEl.style.transform="scale(1)",180);
   }
 
   let urgentTriggered = false;
 
-  function tick(){
+  // ✅ countdown timer (ends midnight)
+  function tickCountdown(){
     const now = new Date();
     const end = new Date();
     end.setHours(23,59,59,999);
-
     let diff = end - now;
 
     if(diff <= 0){
@@ -688,7 +685,6 @@ function startOfferBar(){
       bar.classList.remove("urgent");
       bar.classList.add("expired");
       tag.textContent = "⛔ OFFER EXPIRED";
-      setTimeout(()=>{ bar.style.display="none"; }, 3000);
       return;
     }
 
@@ -701,7 +697,6 @@ function startOfferBar(){
       String(m).padStart(2,"0")+":"+
       String(s).padStart(2,"0");
 
-    // urgent last 5 min
     if(diff <= 5*60*1000 && !urgentTriggered){
       urgentTriggered = true;
       bar.classList.add("urgent");
@@ -709,23 +704,42 @@ function startOfferBar(){
     }
   }
 
-  tick();
-  setInterval(tick, 1000);
+  // ✅ show/hide cycle based on time of day
+  function updateCycle(){
+    const now = new Date();
+    const dayStart = new Date(now);
+    dayStart.setHours(0,0,0,0);
+
+    const passed = now - dayStart;
+    const pos = passed % CYCLE_MS;
+
+    if(pos < SHOW_MS){
+      bar.style.display = "block";
+    }else{
+      bar.style.display = "none";
+    }
+  }
+
+  tickCountdown();
+  updateCycle();
+
+  setInterval(tickCountdown, 1000);
+  setInterval(updateCycle, 30000);
 
   // claimed increases slowly
   setInterval(()=>{
     if(Math.random()<0.55){
       claimed += (Math.random()<0.85 ? 1 : 2);
-      localStorage.setItem(key, claimed);
+      localStorage.setItem(claimedKey, claimed);
       if(claimEl) claimEl.textContent = claimed;
       bumpClaim();
     }
   }, 9000);
 }
 
-window.addEventListener("load", startOfferBar);
+window.addEventListener("load", startOfferBarCycle);
+</script>
 
-    
 
   
   
