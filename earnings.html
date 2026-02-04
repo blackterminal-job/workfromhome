@@ -1,314 +1,261 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Earnings | BlackTerminal Computer Institute</title>
+
   <style>
-    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:#f6f7fb;color:#111}
-    .nav{position:sticky;top:0;z-index:99;background:#0b1220;color:#fff;padding:12px 16px}
+    :root{
+      --bg:#061426;
+      --line:rgba(255,255,255,.10);
+      --txt:#eaf2ff;
+      --muted:rgba(255,255,255,.70);
+      --blue:#0a84ff;
+      --green:#2ee58a;
+      --gold:#ffd54a;
+      --card: rgba(255,255,255,.06);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      color:var(--txt);
+      background: radial-gradient(1200px 800px at 20% 0%, #0a2b53 0%, var(--bg) 55%, #030913 100%);
+      overflow-x:hidden;
+    }
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:99;background:#0b1220;color:#fff;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
     .navin{max-width:1050px;margin:auto;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
     .brand{font-weight:950}
     .menu{display:flex;gap:10px;flex-wrap:wrap}
     .menu a{color:#fff;text-decoration:none;font-weight:850;font-size:13px;opacity:.92}
-    .wrap{max-width:1050px;margin:auto;padding:16px}
-    .hero{background:#0b1220;color:#fff;padding:18px;border-radius:16px}
-    .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.12);font-weight:900;font-size:12px}
-    h1{margin:10px 0 8px;font-size:24px}
-    p{margin:0;opacity:.9;line-height:1.6;font-weight:700}
-    .box{margin-top:14px;padding:16px;border:1px solid #e9e9e9;border-radius:16px;background:#fff}
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-    .card{border:1px solid #eee;border-radius:14px;padding:12px}
-    .money{margin-top:6px;font-size:20px;font-weight:950}
-    .note{margin-top:10px;font-weight:900;color:#333;background:#f4f8ff;border:1px solid #dbe8ff;padding:10px 12px;border-radius:14px}
-    .warn{margin-top:12px;font-weight:950;color:#333;background:#fff3d6;border:1px solid #ffe1a6;padding:10px 12px;border-radius:14px}
-    .btn{text-decoration:none;padding:12px 14px;border-radius:14px;font-weight:950;display:inline-block;color:#fff;background:#0a84ff;margin-top:14px}
-    .floatwa{position:fixed;right:14px;bottom:16px;z-index:999999;padding:12px 14px;border-radius:999px;background:#25D366;color:#fff;font-weight:950;text-decoration:none;box-shadow:0 10px 25px rgba(0,0,0,.2)}
-    @media(max-width:750px){.grid{grid-template-columns:1fr}}
-	
-	
-	.goalbox{
-  margin-top:14px;
-  padding:16px;
-  border-radius:16px;
-  background:linear-gradient(90deg,#0b1220,#132a5a);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.12);
-}
-.goalbadge{
-  display:inline-block;
-  padding:6px 10px;
-  border-radius:999px;
-  background:rgba(255,255,255,.12);
-  font-weight:950;
-  font-size:12px;
-}
-.goalhead h2{
-  margin:10px 0 6px;
-  font-size:20px;
-}
-.goalhead p{
-  margin:0;
-  opacity:.9;
-  font-weight:750;
-  line-height:1.7;
-}
-.goalgrid{
-  margin-top:14px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-.goalcard{
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:16px;
-  padding:14px;
-}
-.goalcard b{font-weight:950}
-.goalbig{
-  margin-top:8px;
-  font-size:22px;
-  font-weight:950;
-}
-.goalcard small{
-  display:block;
-  margin-top:6px;
-  opacity:.92;
-  font-weight:800;
-  line-height:1.5;
-}
-.goalline{
-  margin-top:12px;
-  padding:12px 14px;
-  border-radius:16px;
-  background:rgba(37,211,102,.15);
-  border:1px solid rgba(37,211,102,.3);
-  font-weight:950;
-}
-.goalnote{
-  margin-top:10px;
-  padding:12px 14px;
-  border-radius:16px;
-  background:rgba(255,243,214,.15);
-  border:1px solid rgba(255,225,166,.25);
-  font-weight:900;
-  line-height:1.6;
-  opacity:.95;
-}
-@media(max-width:750px){
-  .goalgrid{grid-template-columns:1fr}
-}
+    .menu a:hover{opacity:1;text-decoration:underline}
 
+    .wrap{max-width:1050px;margin:0 auto;padding:18px 14px 50px;}
 
+    /* HERO */
+    .hero{
+      position:relative;
+      padding:20px 16px;
+      border-radius:24px;
+      border:1px solid var(--line);
+      background: linear-gradient(135deg, rgba(10,132,255,.18), rgba(46,229,138,.12), rgba(255,213,74,.10));
+      overflow:hidden;
+      box-shadow:0 24px 80px rgba(0,0,0,.35);
+    }
+    .hero:before{
+      content:"";
+      position:absolute;
+      inset:-120px;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(46,229,138,.35), transparent 60%),
+        radial-gradient(circle at 85% 30%, rgba(10,132,255,.35), transparent 60%),
+        radial-gradient(circle at 70% 80%, rgba(255,213,74,.30), transparent 60%);
+      filter:blur(16px);
+      animation: glowMove 7s ease-in-out infinite;
+      z-index:0;
+    }
+    @keyframes glowMove{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-18px)}
+    }
+    .heroIn{position:relative;z-index:2}
 
-.calcbox{
-  margin-top:14px;
-  padding:16px;
-  border-radius:16px;
-  background:#fff;
-  border:1px solid #e9e9e9;
-}
-.calcbadge{
-  display:inline-block;
-  padding:6px 10px;
-  border-radius:999px;
-  background:#f4f8ff;
-  border:1px solid #dbe8ff;
-  font-weight:950;
-  color:#0a84ff;
-  font-size:12px;
-}
-.calchead h2{margin:10px 0 6px;font-size:18px}
-.calchead p{margin:0;color:#333;font-weight:800;line-height:1.6}
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 12px;
+      border-radius:999px;
+      font-weight:1100;
+      font-size:12px;
+      letter-spacing:.7px;
+      background: rgba(0,0,0,.28);
+      border:1px solid rgba(255,255,255,.14);
+    }
 
-.calcgrid{
-  margin-top:14px;
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-.calccard{
-  border:1px solid #eee;
-  border-radius:16px;
-  padding:12px;
-  background:#f9fafc;
-}
-.calccard label{
-  display:block;
-  font-weight:950;
-  margin-bottom:8px;
-}
-.calccard input{
-  width:100%;
-  padding:12px 12px;
-  border-radius:14px;
-  border:1px solid #e9e9e9;
-  outline:none;
-  font-weight:900;
-}
-.calccard input:focus{border-color:#0a84ff}
-.calccard small{
-  display:block;
-  margin-top:8px;
-  font-weight:850;
-  color:#444;
-  line-height:1.5;
-}
+    .hero h1{
+      margin:12px 0 8px;
+      font-size:28px;
+      font-weight:1200;
+      line-height:1.15;
+    }
+    .hero h1 span{
+      color:var(--gold);
+      text-shadow:0 0 18px rgba(255,213,74,.25);
+    }
 
-.resultrow{
-  margin-top:12px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-.rescard{
-  border:1px solid #eee;
-  border-radius:16px;
-  padding:12px;
-  text-align:center;
-  background:#fff;
-}
-.rescard b{
-  font-size:20px;
-  font-weight:950;
-  display:block;
-}
-.rescard small{
-  display:block;
-  margin-top:6px;
-  font-weight:850;
-  color:#444;
-}
+    .hero p{margin:0;color:var(--muted);font-weight:900;line-height:1.6}
 
-.progbar{
-  margin-top:12px;
-  height:14px;
-  border-radius:999px;
-  background:#f0f2f7;
-  border:1px solid #e9e9e9;
-  overflow:hidden;
-}
-.progfill{
-  height:100%;
-  width:0%;
-  border-radius:999px;
-  background:linear-gradient(90deg,#0a84ff,#25D366);
-  transition:width .4s ease;
-}
+    .cta{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
 
-.calcnote{
-  margin-top:12px;
-  padding:12px 14px;
-  border-radius:16px;
-  background:#fff3d6;
-  border:1px solid #ffe1a6;
-  font-weight:900;
-  color:#333;
-  line-height:1.6;
-}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:18px;
+      font-weight:1100;
+      text-decoration:none;
+      border:1px solid rgba(255,255,255,.12);
+      color:#fff;
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+    }
+    .btn.apply{
+      background: linear-gradient(90deg,var(--green),var(--blue));
+      animation: pulse 1.3s infinite;
+    }
+    .btn.wa{background: rgba(0,0,0,.30)}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
 
-@media(max-width:750px){
-  .calcgrid{grid-template-columns:1fr}
-  .resultrow{grid-template-columns:1fr}
-}
+    /* FLOATING CARDS */
+    .floatGrid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+    @media(max-width:900px){.floatGrid{grid-template-columns:1fr}}
+    .fCard{
+      padding:16px;
+      border-radius:24px;
+      border:1px solid var(--line);
+      background: var(--card);
+      box-shadow:0 18px 60px rgba(0,0,0,.25);
+      position:relative;
+      overflow:hidden;
+      transform-style:preserve-3d;
+      animation: floatUp 5.5s ease-in-out infinite;
+    }
+    .fCard:nth-child(2){animation-duration:6.4s}
+    .fCard:nth-child(3){animation-duration:7s}
+    @keyframes floatUp{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-10px)}
+    }
+    .fCard h2{margin:0 0 8px;font-size:16px;font-weight:1100}
+    .fCard p{margin:0;color:var(--muted);font-weight:900;line-height:1.6}
+    .bigNum{margin-top:10px;font-size:34px;font-weight:1300;color:#fff}
+    .bigNum span{color:var(--green)}
 
-.giftModal{
-  position:fixed;
-  left:0;top:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,.5);
-  backdrop-filter: blur(4px);
-  z-index:999998;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:16px;
-}
-.giftCard{
-  max-width:520px;
-  width:100%;
-  background:#fff;
-  border-radius:20px;
-  border:1px solid #eee;
-  padding:16px;
-  box-shadow:0 20px 50px rgba(0,0,0,.25);
-  animation: popIn .25s ease;
-}
-@keyframes popIn{
-  from{transform:scale(.92);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-.giftTop{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
-.giftClose{
-  border:none;
-  background:#111;
-  color:#fff;
-  font-weight:950;
-  padding:8px 10px;
-  border-radius:12px;
-  cursor:pointer;
-}
-.giftGrid{
-  margin-top:12px;
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-.gItem{
-  border:1px solid #eee;
-  border-radius:16px;
-  padding:12px;
-  background:#f9fafc;
-  font-weight:950;
-}
-.gItem small{
-  display:block;
-  margin-top:6px;
-  color:#444;
-  font-weight:850;
-  line-height:1.5;
-}
-.giftWA{
-  margin-top:12px;
-  display:block;
-  text-align:center;
-  text-decoration:none;
-  background:#25D366;
-  color:#fff;
-  font-weight:950;
-  padding:12px 14px;
-  border-radius:16px;
-}
-.giftNote{
-  margin-top:10px;
-  padding:12px 14px;
-  border-radius:16px;
-  background:#fff3d6;
-  border:1px solid #ffe1a6;
-  font-weight:900;
-  color:#333;
-  line-height:1.6;
-}
-@media(max-width:520px){
-  .giftGrid{grid-template-columns:1fr}
-}
+    /* COUNTER SECTION */
+    .counterBox{
+      margin-top:16px;
+      padding:16px;
+      border-radius:24px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.22);
+      overflow:hidden;
+      position:relative;
+    }
+    .counterBox:before{
+      content:"";
+      position:absolute;
+      inset:-120px;
+      background: radial-gradient(circle at 20% 20%, rgba(10,132,255,.18), transparent 55%);
+      filter:blur(14px);
+      z-index:0;
+    }
+    .counterIn{position:relative;z-index:2}
+    .counterTitle{font-size:18px;font-weight:1200;margin:0}
+    .counterRow{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:12px;
+    }
+    @media(max-width:900px){.counterRow{grid-template-columns:1fr}}
+    .counterCard{
+      padding:14px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+    }
+    .lbl{opacity:.8;font-weight:900;font-size:13px}
+    .val{margin-top:8px;font-size:34px;font-weight:1300;color:var(--gold)}
+    .val small{font-size:16px;color:#fff;opacity:.85}
 
+    /* CALCULATOR */
+    .calc{
+      margin-top:16px;
+      padding:16px;
+      border-radius:24px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      box-shadow:0 18px 70px rgba(0,0,0,.25);
+    }
+    .calc h2{margin:0;font-size:18px;font-weight:1200}
+    .calc p{margin:8px 0 0;color:var(--muted);font-weight:900;line-height:1.6}
 
+    .rangeRow{
+      margin-top:14px;
+      display:grid;
+      gap:12px;
+    }
+    input[type="range"]{width:100%}
+
+    .result{
+      margin-top:12px;
+      padding:14px;
+      border-radius:20px;
+      border:1px solid rgba(46,229,138,.25);
+      background: rgba(46,229,138,.10);
+      font-weight:1200;
+      font-size:18px;
+      color:#d8ffe9;
+    }
+
+    /* GOAL */
+    .goal{
+      margin-top:16px;
+      padding:16px;
+      border-radius:24px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.25);
+    }
+    .goal h2{margin:0;font-size:18px;font-weight:1200}
+    .bar{
+      margin-top:12px;
+      height:16px;
+      border-radius:999px;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+    }
+    .fill{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background: linear-gradient(90deg,var(--green),var(--blue));
+      box-shadow:0 0 22px rgba(46,229,138,.18);
+      transition: width .6s ease;
+    }
+    .goalTxt{margin-top:10px;font-weight:1000;color:var(--muted)}
+
+    /* Footer */
+    .footer{margin-top:18px;text-align:center;opacity:.7;font-weight:850}
   </style>
 </head>
-<body>
 
+<body>
+  <!-- NAV -->
   <div class="nav">
     <div class="navin">
       <div class="brand">BlackTerminal Computer Institute</div>
       <div class="menu">
         <a href="index.html">Home</a>
+        <a href="profile.html">My Profile</a>
         <a href="job-details.html">Job Details</a>
         <a href="how-it-works.html">How it Works</a>
         <a href="earnings.html">Earnings</a>
@@ -318,286 +265,169 @@
     </div>
   </div>
 
-  
+  <div class="wrap">
 
-    
+    <!-- HERO -->
+    <div class="hero">
+      <div class="heroIn">
+        <span class="tag">💰 EARNINGS</span>
+        <h1>Earn up to <span>₹20K – ₹30K</span> per month</h1>
+        <p>
+          Your income depends on admissions + tasks. Stay active daily and earn more rewards.
+          Payment after admin verification (UPI/Bank transfer).
+        </p>
 
-    
- 
-  
-  <div class="goalbox">
-  <div class="goalhead">
-    <div class="goalbadge">🎯 Our Mission</div>
-    <h2>We Want You to Earn ₹10,000 / Month</h2>
-    <p>
-      Our goal is to help students earn <b>₹10,000/month</b> through referral work.
-      We provide daily posters + scripts + support to make it possible.
-    </p>
-  </div>
-
-  <div class="goalgrid">
-    <div class="goalcard">
-      <b>✅ Your Daily Work</b>
-      <div class="goalbig">30–45 min</div>
-      <small>Post status + share posters + 2 follow-ups</small>
-    </div>
-
-    <div class="goalcard">
-      <b>🎯 Monthly Target</b>
-      <div class="goalbig">20 Admissions</div>
-      <small>20 students confirmed admission</small>
-    </div>
-
-    <div class="goalcard">
-      <b>💰 Target Earnings</b>
-      <div class="goalbig">₹10,000</div>
-      <small>20 × ₹500 commission (example)</small>
-    </div>
-  </div>
-
-  <div class="goalline">
-    🤝 We guide you every day until you reach your first earning.
-  </div>
-
-  <div class="goalnote">
-    📌 This is a target plan. Actual income depends on confirmed admissions.
-    No fixed salary.
-  </div>
-</div>
-
-
-<div class="calcbox">
-  <div class="calchead">
-    <div class="calcbadge">🧮 Earnings Calculator</div>
-    <h2>Calculate Your Monthly Earnings</h2>
-    <p>Enter expected admissions and check estimated commission.</p>
-  </div>
-
-  <div class="calcgrid">
-    <div class="calccard">
-      <label>Admissions (per month)</label>
-      <input id="admInp" type="number" min="0" value="10" />
-      <small>Example: 20 admissions = ₹10,000 target (₹500 each)</small>
-    </div>
-
-    <div class="calccard">
-      <label>Commission per admission (₹)</label>
-      <input id="rateInp" type="number" min="0" value="500" />
-      <small>Institute decides rate. You can change value here.</small>
-    </div>
-  </div>
-
-  <div class="resultrow">
-    <div class="rescard">
-      <b id="totalEarn">₹0</b>
-      <small>Estimated Monthly Income</small>
-    </div>
-    <div class="rescard">
-      <b id="goalLeft">₹0</b>
-      <small>Left to Reach ₹10,000</small>
-    </div>
-    <div class="rescard">
-      <b id="goalStatus">🎯</b>
-      <small>Goal Status</small>
-    </div>
-  </div>
-
-  <div class="progbar">
-    <div class="progfill" id="progFill"></div>
-  </div>
-
-  <div class="calcnote">
-    📌 This is an estimation. Final earnings depend on confirmed admissions.
-  </div>
-</div>
-
-
-<a class="btn" target="_blank"
-       href="https://wa.me/917000000000?text=Hi%2C%20I%20want%20commission%20details">
-      💬 Ask Commission on WhatsApp
-    </a>
-
-  <a class="floatwa" target="_blank"
-     href="https://wa.me/917000000000?text=YES%20JOB%20-%20I%20want%20to%20apply">💬 WhatsApp</a>
-
- 
-
-
-
-<script>
-  const goal = 10000;
-  let giftPlayed = false;
-
-  const gifts = [
-    {icon:"📱", name:"Mobile Recharge", desc:"Recharge voucher (promo)"},
-    {icon:"📱", name:"Mobile Cover", desc:"Gift based on availability"},
-    {icon:"🎧", name:"Earphones", desc:"Top performer gift"},
-    {icon:"🏆", name:"Certificate", desc:"Appreciation certificate"},
-    {icon:"💰", name:"Bonus Commission", desc:"Extra bonus on target"},
-    {icon:"🎁", name:"Surprise Gift", desc:"Special reward (monthly)"}
-  ];
-
-  function fmt(n){ return "₹" + n.toLocaleString("en-IN"); }
-
-  function showGiftModal(total){
-    const modal = document.getElementById("giftModal");
-    const grid = document.getElementById("giftGrid");
-    const wa = document.getElementById("giftWA");
-
-    // pick 4 random gifts
-    const picks = [...gifts].sort(()=>Math.random()-0.5).slice(0,4);
-    grid.innerHTML = picks.map(g=>`
-      <div class="gItem">${g.icon} ${g.name}
-        <small>${g.desc}</small>
+        <div class="cta">
+          <a class="btn apply" href="apply.html">✅ Apply Now</a>
+          <a class="btn wa" target="_blank"
+             href="https://wa.me/917008186187?text=I%20want%20to%20know%20earnings%20details">
+            💬 WhatsApp Help
+          </a>
+        </div>
       </div>
-    `).join("");
-
-    const msg =
-      "🎉 I achieved ₹10,000 target plan in BlackTerminal Referral Job!\n\n" +
-      "✅ My estimated earnings: " + fmt(total) + "\n" +
-      "🎁 Gifts unlocked: " + picks.map(x=>x.name).join(", ") + "\n\n" +
-      "Guide me for next step ✅";
-
-    wa.href = "https://wa.me/?text=" + encodeURIComponent(msg);
-
-    modal.style.display = "flex";
-  }
-
-  function closeGift(){
-    document.getElementById("giftModal").style.display = "none";
-  }
-  window.closeGift = closeGift;
-
-  // 🎉 Gift blast animation (icons + confetti)
-  function blastGifts(){
-    const canvas = document.getElementById("giftBlast");
-    const ctx = canvas.getContext("2d");
-    canvas.style.display = "block";
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const icons = ["🎁","🎉","✨","💰","📱","🎧","🏆","💎"];
-    const particles = [];
-
-    for(let i=0;i<140;i++){
-      particles.push({
-        x: canvas.width/2 + (Math.random()-0.5)*40,
-        y: canvas.height*0.35,
-        vx: (Math.random()-0.5)*7,
-        vy: (Math.random()-1.2)*8,
-        g: 0.20 + Math.random()*0.08,
-        life: 160 + Math.random()*80,
-        icon: icons[Math.floor(Math.random()*icons.length)],
-        size: 16 + Math.random()*14,
-        rot: Math.random()*Math.PI,
-        vr: (Math.random()-0.5)*0.25
-      });
-    }
-
-    let frame = 0;
-    function draw(){
-      frame++;
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-
-      particles.forEach(p=>{
-        p.vy += p.g;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.rot += p.vr;
-        p.life--;
-
-        ctx.save();
-        ctx.translate(p.x,p.y);
-        ctx.rotate(p.rot);
-        ctx.font = p.size + "px system-ui, Segoe UI, Arial";
-        ctx.fillText(p.icon, -p.size/2, p.size/2);
-        ctx.restore();
-      });
-
-      if(frame < 170){
-        requestAnimationFrame(draw);
-      }else{
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        canvas.style.display = "none";
-      }
-    }
-    draw();
-  }
-
-  function calc(){
-    const adm = Math.max(0, parseInt(document.getElementById("admInp").value || "0"));
-    const rate = Math.max(0, parseInt(document.getElementById("rateInp").value || "0"));
-
-    const total = adm * rate;
-    const left = Math.max(0, goal - total);
-
-    document.getElementById("totalEarn").innerText = fmt(total);
-    document.getElementById("goalLeft").innerText = fmt(left);
-
-    let status = "🎯";
-    if(total >= goal){
-      status = "✅ Goal Achieved";
-
-      if(!giftPlayed){
-        giftPlayed = true;
-        blastGifts();
-        showGiftModal(total);
-      }
-
-    } else if(total >= 7000) status = "🔥 Almost There";
-    else if(total >= 3000) status = "⭐ Good Start";
-    else status = "🚀 Start Today";
-
-    document.getElementById("goalStatus").innerText = status;
-
-    const percent = Math.min(100, Math.round((total/goal)*100));
-    document.getElementById("progFill").style.width = percent + "%";
-
-    // reset if below goal
-    if(total < goal) giftPlayed = false;
-  }
-
-  document.getElementById("admInp").addEventListener("input", calc);
-  document.getElementById("rateInp").addEventListener("input", calc);
-
-  window.addEventListener("resize", ()=>{
-    const canvas = document.getElementById("giftBlast");
-    if(canvas && canvas.style.display === "block"){
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-  });
-
-  calc();
-</script>
-
-
-<canvas id="goalConfetti" style="position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:999999;display:none;"></canvas>
-<div class="giftModal" id="giftModal" style="display:none;">
-  <div class="giftCard">
-    <div class="giftTop">
-      <b>🎉 Goal Achieved!</b>
-      <button class="giftClose" onclick="closeGift()">✖</button>
     </div>
 
-    <h2 style="margin:10px 0 6px;">🎁 Gifts Unlocked</h2>
-    <p style="margin:0;color:#333;font-weight:850;line-height:1.6;">
-      Great job! You reached the ₹10,000 target plan. You are eligible for promotional gifts (as per rules).
-    </p>
+    <!-- FLOATING INFO -->
+    <div class="floatGrid">
+      <div class="fCard">
+        <h2>🔥 Daily Task Rewards</h2>
+        <p>Earn small rewards daily by sharing posters and completing tasks.</p>
+        <div class="bigNum"><span>₹10</span> – ₹50</div>
+      </div>
 
-    <div class="giftGrid" id="giftGrid"></div>
+      <div class="fCard">
+        <h2>🎁 Big Reward Tasks</h2>
+        <p>After completing small tasks, unlock big reward tasks.</p>
+        <div class="bigNum"><span>₹500</span> – ₹3000</div>
+      </div>
 
-    <a class="giftWA" id="giftWA" target="_blank" href="#">
-      📤 Share Achievement on WhatsApp
-    </a>
-
-    <div class="giftNote">
-      📌 Gifts are promotional & performance based. Final approval depends on confirmed admissions & institute rules.
+      <div class="fCard">
+        <h2>🎯 Monthly Growth</h2>
+        <p>Stay active daily and achieve high monthly income potential.</p>
+        <div class="bigNum"><span>₹20K+</span></div>
+      </div>
     </div>
+
+    <!-- COUNTERS -->
+    <div class="counterBox">
+      <div class="counterIn">
+        <p class="counterTitle">📈 Live Earning Potential Tracker</p>
+
+        <div class="counterRow">
+          <div class="counterCard">
+            <div class="lbl">Potential / Month</div>
+            <div class="val" id="cMonth">₹0</div>
+          </div>
+          <div class="counterCard">
+            <div class="lbl">Potential / Week</div>
+            <div class="val" id="cWeek">₹0</div>
+          </div>
+          <div class="counterCard">
+            <div class="lbl">Potential / Day</div>
+            <div class="val" id="cDay">₹0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALCULATOR -->
+    <div class="calc">
+      <h2>🧮 Earning Calculator (Interactive)</h2>
+      <p>Select how many admissions you can bring in a month and check earning estimate.</p>
+
+      <div class="rangeRow">
+        <div>
+          <div class="lbl">Admissions per month: <b id="admVal">6</b></div>
+          <input id="admRange" type="range" min="0" max="40" value="6">
+        </div>
+
+        <div>
+          <div class="lbl">Avg reward per admission: <b>₹<span id="perAdm">1500</span></b></div>
+          <input id="perAdmRange" type="range" min="500" max="3000" value="1500" step="100">
+        </div>
+      </div>
+
+      <div class="result" id="calcResult">
+        Estimated Earning: ₹0 / month
+      </div>
+    </div>
+
+    <!-- GOAL -->
+    <div class="goal">
+      <h2>🏆 Monthly Goal</h2>
+      <p style="margin:8px 0 0;color:var(--muted);font-weight:900;">
+        Target: ₹30,000/month (top performer)
+      </p>
+
+      <div class="bar"><div class="fill" id="goalFill"></div></div>
+      <div class="goalTxt" id="goalTxt">Keep completing daily tasks to reach target ✅</div>
+    </div>
+
+    <div class="footer">© BlackTerminal Computer Institute</div>
   </div>
-</div>
 
-<canvas id="giftBlast" style="position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:999999;display:none;"></canvas>
+  <script>
+    function moneyShort(n){
+      n = Math.round(n);
+      if(n>=100000) return "₹" + (n/100000).toFixed(1) + "L";
+      if(n>=1000) return "₹" + (n/1000).toFixed(1) + "K";
+      return "₹" + n;
+    }
+
+    // animated counters
+    function animateNum(el, to){
+      let from = 0;
+      const start = performance.now();
+      function tick(now){
+        const p = Math.min((now-start)/900, 1);
+        const v = Math.floor(from + (to-from)* (1 - Math.pow(1-p,3)));
+        el.textContent = moneyShort(v);
+        if(p<1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    // initial random realistic counters
+    const month = 20000 + Math.floor(Math.random()*12000);
+    const week = Math.floor(month/4);
+    const day = Math.floor(month/30);
+
+    animateNum(document.getElementById("cMonth"), month);
+    animateNum(document.getElementById("cWeek"), week);
+    animateNum(document.getElementById("cDay"), day);
+
+    // calculator
+    const admRange = document.getElementById("admRange");
+    const perAdmRange = document.getElementById("perAdmRange");
+
+    function updateCalc(){
+      const adm = Number(admRange.value);
+      const perAdm = Number(perAdmRange.value);
+
+      document.getElementById("admVal").textContent = adm;
+      document.getElementById("perAdm").textContent = perAdm;
+
+      const total = adm * perAdm;
+      document.getElementById("calcResult").textContent =
+        "Estimated Earning: ₹" + total.toLocaleString("en-IN") + " / month";
+
+      // goal fill
+      const goal = 30000;
+      const pct = Math.max(0, Math.min(100, (total/goal)*100));
+      document.getElementById("goalFill").style.width = pct + "%";
+
+      if(total >= goal){
+        document.getElementById("goalTxt").innerHTML = "🎉 Goal Achieved! You are a top performer ✅";
+      }else{
+        document.getElementById("goalTxt").innerHTML =
+          `You are <b>₹${(goal-total).toLocaleString("en-IN")}</b> away from ₹30,000 goal. Keep going ✅`;
+      }
+    }
+
+    admRange.addEventListener("input", updateCalc);
+    perAdmRange.addEventListener("input", updateCalc);
+    updateCalc();
+  </script>
 
 </body>
 </html>
