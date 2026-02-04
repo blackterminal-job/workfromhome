@@ -468,83 +468,64 @@
   
 
 
-.codeFetchBox{
-  margin-top:14px;
-  padding:16px;
-  border-radius:18px;
-  background:linear-gradient(135deg,#0b1220,#132a5a);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 20px 45px rgba(0,0,0,.22);
-}
-.codeBadge{
-  display:inline-block;
-  padding:6px 10px;
-  border-radius:999px;
-  background:rgba(255,255,255,.12);
-  font-weight:1000;
-  font-size:12px;
-}
-.codeFetchBox h2{margin:10px 0 6px;font-size:18px}
-.codeFetchBox p{margin:0;opacity:.9;font-weight:850;line-height:1.6}
 
-.codeRow{
-  margin-top:12px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.codeRow input{
-  flex:1;
-  min-width:220px;
-  padding:12px 12px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.12);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  padding:14px;border-radius:18px;
   background:rgba(0,0,0,.25);
-  color:#fff;
-  font-weight:950;
-  outline:none;
-}
-.codeBtn{
-  border:none;
-  background:#25D366;
-  color:#fff;
-  font-weight:1000;
-  padding:12px 14px;
-  border-radius:14px;
-  cursor:pointer;
-}
-.codeBig{
-  margin-top:14px;
-  font-size:46px;
-  font-weight:1100;
-  letter-spacing:4px;
-  text-align:center;
-  padding:12px 14px;
-  border-radius:18px;
-  background:rgba(255,255,255,.10);
-  border:1px solid rgba(255,255,255,.14);
-  text-shadow:0 12px 30px rgba(0,0,0,.4);
-}
-.codeMsg{
-  margin-top:12px;
-  padding:12px 14px;
-  border-radius:16px;
-  background:rgba(255,255,255,.10);
   border:1px solid rgba(255,255,255,.12);
-  font-weight:950;
-  line-height:1.6;
-  text-align:center;
+  text-shadow:0 16px 45px rgba(0,0,0,.35);
 }
-.codeNote{
-  margin-top:12px;
-  padding:12px 14px;
-  border-radius:16px;
-  background:rgba(255,243,214,.12);
-  border:1px solid rgba(255,225,166,.22);
-  font-weight:900;
-  line-height:1.6;
+.btActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btSmallBtn{
+  flex:1;text-align:center;text-decoration:none;
+  padding:12px 14px;border-radius:16px;
+  font-weight:1100;border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.10);
+  color:#fff;
 }
+.btSmallBtn.wa{background:#25D366;border:none}
+.btSmallBtn:active{transform:scale(.99)}
+
+.btNote{
+  margin-top:14px;
+  padding:14px 14px;border-radius:16px;
+  background:rgba(255,243,214,.10);
+  border:1px solid rgba(255,225,166,.20);
+  font-weight:950;line-height:1.6;
+}
+
+@media(max-width:720px){
+  .btTitle{font-size:20px}
+  .btCodeBig{font-size:40px}
+}
+
 	  
 	  
 	
@@ -587,27 +568,47 @@
     </div>
 
 
-	  <div class="codeFetchBox">
-  <div class="codeBadge">🔎 Find Your Referral Code</div>
-  <h2>Enter Mobile Number</h2>
-  <p>We will fetch your referral code from our official sheet.</p>
+	 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- ✅ Referral Code Finder (1000% working) -->
+<section class="btWrap">
+  <div class="btFinder">
+    <div class="btTag">🔎 Find Your Referral Code</div>
 
-  <div class="codeRow">
-    <input id="mobInp" placeholder="Enter mobile number" />
-<button id="fetchBtn">Fetch Code</button>
+    <h2 class="btTitle">Enter Mobile Number</h2>
+    <p class="btSub">We will fetch your referral code from our official sheet.</p>
 
-<div id="codeMsg" style="margin-top:10px;"></div>
-<div id="codeBig" style="display:none; margin-top:10px;"></div>
+    <div class="btRow">
+      <input id="mobInp" class="btInput" inputmode="numeric" maxlength="14"
+             placeholder="Enter mobile number" />
+      <button class="btBtn" onclick="fetchMyCode()">Fetch Code</button>
+    </div>
 
+    <div id="codeMsg" class="btMsg" style="display:none;"></div>
+
+    <div id="codeBox" class="btCodeBox" style="display:none;">
+      <div class="btCodeLabel">Your Referral Code</div>
+      <div id="codeBig" class="btCodeBig">TB000</div>
+
+      <div class="btActions">
+        <button class="btSmallBtn" onclick="copyCode()">📋 Copy</button>
+        <a id="waShareBtn" class="btSmallBtn wa" href="#" target="_blank">💬 Share</a>
+      </div>
+    </div>
+
+    <div class="btNote">
+      ✅ If your code is not found, please apply first or contact institute.
+    </div>
   </div>
-
-  <div class="codeBig" id="codeBig" style="display:none;">TB000</div>
-  <div class="codeMsg" id="codeMsg" style="display:none;"></div>
-
-  <div class="codeNote">
-    ✅ If your code is not found, please apply first or contact institute.
-  </div>
-</div>
+</section>
 
 	
 	<div class="luckbox">
@@ -1220,59 +1221,120 @@ document.addEventListener("DOMContentLoaded", function(){
   
 
 
-const SHEET_ID = "1YW6QuBtryedN8L2t-Q6laTJE46VI8oarUFIVBvui4Mw";
-const CODE_SHEET_TAB = "Sheet1";
-const sheetURL = "https://opensheet.elk.sh/" + SHEET_ID + "/" + CODE_SHEET_TAB;
 
-document.getElementById("fetchBtn").addEventListener("click", fetchMyCode);
+
+
+
+
+
+        
+
+/* ✅ SHEET URL (Direct) */
+const sheetURL = "https://opensheet.elk.sh/1YW6QuBtryedN8L2t-Q6laTJE46VI8oarUFIVBvui4Mw/Sheet1";
+const ADMIN_WA = "917008186187"; // ✅ your WhatsApp number
+
+function cleanNumber(x){
+  return String(x || "").replace(/\D/g,'');
+}
 
 async function fetchMyCode(){
-  const mobInp = (document.getElementById("mobInp").value || "").trim();
-  const codeBig = document.getElementById("codeBig");
+  const mob = (document.getElementById("mobInp").value || "").trim();
+  const im = cleanNumber(mob);
+
   const msg = document.getElementById("codeMsg");
+  const codeBox = document.getElementById("codeBox");
+  const codeBig = document.getElementById("codeBig");
 
-  let mob = mobInp.replace(/\D/g, "");
-  if(mob.length === 12 && mob.startsWith("91")) mob = mob.slice(2);
-
+  codeBox.style.display = "none";
   msg.style.display = "block";
-  msg.innerText = "⏳ Fetching...";
-  codeBig.style.display = "none";
 
-  if(mob.length !== 10){
-    msg.innerText = "⚠️ Enter valid 10 digit mobile number";
+  if(im.length < 10){
+    msg.innerText = "⚠️ Enter valid 10 digit mobile number.";
     return;
   }
 
+  msg.innerText = "⏳ Fetching your referral code...";
+
   try{
-    const res = await fetch(sheetURL);
+    const res = await fetch(sheetURL, { cache:"no-store" });
     const data = await res.json();
 
-    const row = data.find(r => String(r.Mobile || "").trim() === mob);
-
-    if(!row){
-      msg.innerText = "❌ Mobile not found";
+    if(data && data.error){
+      msg.innerText = "❌ Opensheet error: " + data.error;
       return;
     }
 
-    msg.innerText = "";
-    codeBig.style.display = "block";
+    if(!Array.isArray(data)){
+      msg.innerText = "❌ Invalid sheet data.";
+      return;
+    }
 
-    codeBig.innerHTML = `
-      ✅ Code: <b>${row.Code}</b><br>
-      👤 Name: ${row.Name}<br>
-      🏙️ City: ${row.City}<br>
-      🤝 Referrals: ${row.Referrals}<br>
-      👥 Admissions: ${row.Admissions}<br>
-      💰 Amount: ₹${row.Amount}
-    `;
+    const row = data.find(r=>{
+      const sm = cleanNumber(r.Mobile || r.mobile);
+      // match last 10 digits
+      const sm10 = sm.slice(-10);
+      const im10 = im.slice(-10);
+      return sm10 === im10;
+    });
+
+    if(!row){
+      msg.innerText = "❌ Mobile number not found. Please apply first.";
+      return;
+    }
+
+    const code = String(row.Code || row.code || "").trim();
+    const name = String(row.Name || row.name || "Student").trim();
+
+    if(!code){
+      msg.innerText = "⚠️ Your code is missing in sheet.";
+      return;
+    }
+
+    // ✅ show code
+    codeBig.innerText = code;
+    codeBox.style.display = "block";
+    msg.innerText = "✅ Welcome " + name + "! Your referral code is below.";
+
+    // ✅ save for whole website
+    localStorage.setItem("bt_refcode", code);
+
+    // ✅ build WhatsApp share
+    const shareMsg = `Hi, my Referral Code is ${code}. Please check details on BlackTerminal Referral Job website.`;
+    const waUrl = `https://wa.me/?text=${encodeURIComponent(shareMsg)}`;
+    document.getElementById("waShareBtn").href = waUrl;
+
   }catch(err){
-    msg.innerText = "❌ Error: " + err.message;
+    console.log(err);
+    msg.innerText = "⚠️ Error loading. Check internet / sheet public access.";
   }
 }
 
+function copyCode(){
+  const code = document.getElementById("codeBig").innerText.trim();
+  if(!code) return;
 
-	
- 
+  navigator.clipboard.writeText(code).then(()=>{
+    const msg = document.getElementById("codeMsg");
+    msg.style.display = "block";
+    msg.innerText = "✅ Copied: " + code;
+  }).catch(()=>{
+    alert("Copy not supported. Please select and copy manually.");
+  });
+}
+
+/* ✅ auto load saved code */
+window.addEventListener("load", ()=>{
+  const saved = localStorage.getItem("bt_refcode");
+  if(saved){
+    document.getElementById("codeBox").style.display = "block";
+    document.getElementById("codeBig").innerText = saved;
+    document.getElementById("codeMsg").style.display = "block";
+    document.getElementById("codeMsg").innerText = "✅ Your saved referral code loaded.";
+
+    const shareMsg = `Hi, my Referral Code is ${saved}. Please check details on BlackTerminal Referral Job website.`;
+    document.getElementById("waShareBtn").href = `https://wa.me/?text=${encodeURIComponent(shareMsg)}`;
+  }
+});
 </script>
 
 	
