@@ -40,10 +40,7 @@
     .floatwa{position:fixed;right:14px;bottom:16px;z-index:999999;padding:12px 14px;border-radius:999px;background:#25D366;color:#fff;
       font-weight:950;text-decoration:none;box-shadow:0 10px 25px rgba(0,0,0,.2)}
     @media(max-width:750px){.grid{grid-template-columns:1fr}.btn{width:100%;text-align:center}}
-    /* Any light card should use dark text */
-.cardLight, .cardLight * {
-  color: #0b1a2a !important;
-}
+
 	
 
 
@@ -683,6 +680,44 @@ p{margin:0;color:var(--muted);}
   backdrop-filter: blur(10px);
   border-radius:22px;
 }
+
+
+
+
+
+
+
+/* Daily Posters + FAQ: Dark premium theme */
+.dailyPosters,
+.faqBox {
+  background: linear-gradient(180deg, #0b1630 0%, #050a16 100%) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.45) !important;
+  border-radius: 22px !important;
+}
+
+/* Make all text inside white */
+.dailyPosters *,
+.faqBox * {
+  color: #ffffff !important;
+}
+
+/* FAQ question buttons / items */
+.faqBox .faqItem,
+.faqBox button,
+.faqBox .faqQ {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  color: #ffffff !important;
+  border-radius: 14px !important;
+}
+
+/* FAQ hover effect */
+.faqBox .faqItem:hover,
+.faqBox button:hover {
+  background: rgba(255,255,255,0.10) !important;
+}
+
   </style>
 </head>
 <body>
