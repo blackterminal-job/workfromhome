@@ -1097,320 +1097,366 @@ window.addEventListener("load", startOfferBarCycle);
 
 
 
-const ADMIN_WA = "917008186187";
+// ✅ SETTINGS
+const INSTITUTE_NAME = "BlackTerminal Computer Institute";
+const WA_NUMBER = "917008186187"; // change if needed (no +)
 
-const BT_TOTAL_KEY = "bt_total_earn_lifetime";
-const BT_TODAY_KEY = "bt_today_earn";
-const BT_TODAY_DATE_KEY = "bt_today_date";
+const STORAGE_KEY = "bt_dailywork_FINAL_v1";
 
-const KEY_TASK = "bt_current_task";
-const KEY_SMALL_DONE = "bt_small_done_count";
-
-// Big task state
-const KEY_BIG = "bt_big_task_active";
-const KEY_BIG_UNLOCK_AT = "bt_big_unlock_at";
-const KEY_BIG_TODAY_COUNT = "bt_big_today_count";
-const KEY_BIG_DAY = "bt_big_day";
-
-/* Small task pool with steps */
-const TASKS = [
-  { task:"Post today's poster on WhatsApp status (keep 6 hours)", steps:["Download today's poster","Post on WhatsApp status","Keep for 6 hours","Take screenshot proof"] },
-  { task:"Share course poster in 2 WhatsApp groups", steps:["Download poster","Share in Group 1","Share in Group 2","Take screenshot proof"] },
-  { task:"Send course brochure to 5 friends", steps:["Copy brochure message","Send to 5 friends","Ask for reply","Take screenshot proof"] },
-  { task:"Post admission promo message on Facebook", steps:["Open Facebook","Post promo message","Add poster image","Take screenshot proof"] },
-  { task:"Send demo class invite to 3 contacts", steps:["Write demo invite message","Send to 3 contacts","Ask 'Interested?'","Take screenshot proof"] },
-  { task:"Share typing course poster to 5 contacts", steps:["Download typing poster","Send to 5 contacts","Request share","Take screenshot proof"] },
-  { task:"Explain PGDCA benefits to 1 student", steps:["Call/message 1 student","Explain PGDCA benefits","Share fee + duration","Take screenshot proof"] },
-  { task:"Ask 2 friends if they need computer course", steps:["Message Friend 1","Message Friend 2","Share course list","Take screenshot proof"] },
-  { task:"Share institute contact number to 2 students", steps:["Copy institute contact","Send to Student 1","Send to Student 2","Take screenshot proof"] },
-  { task:"Send admission message to 5 contacts", steps:["Copy admission message","Send to 5 contacts","Ask for response","Take screenshot proof"] }
-];
-
-const BIG_TASKS = [
-  { title:"🎯 Bring 1 confirmed admission today", amount:500 },
-  { title:"🎓 PGDCA admission (Special for you)", amount:3000 },
-  { title:"🚀 Advanced PGDCA admission (Special)", amount:3000 }
-];
+// ---------- Helpers ----------
+const ₹ = (n) => "₹" + Number(n).toFixed(2);
 
 function todayKey(){
-  const d = new Date();
-  return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+  return new Date().toISOString().slice(0,10);
 }
-
-function sendWA(text){
-  const url = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(text)}`;
-  window.open(url, "_blank");
+function rand(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
 }
-
-function checkReset(){
-  const saved = localStorage.getItem(BT_TODAY_DATE_KEY);
-  const t = todayKey();
-  if(saved !== t){
-    localStorage.setItem(BT_TODAY_DATE_KEY, t);
-    localStorage.setItem(BT_TODAY_KEY, "0");
-  }
-}
-
-function random10to60Minutes(){
-  return Math.floor(10 + Math.random() * 51);
-}
-
-function checkBigReset(){
-  const d = todayKey();
-  if(localStorage.getItem(KEY_BIG_DAY) !== d){
-    localStorage.setItem(KEY_BIG_DAY, d);
-    localStorage.setItem(KEY_BIG_TODAY_COUNT, "0");
-    localStorage.removeItem(KEY_BIG);
-
-    const mins = random10to60Minutes();
-    localStorage.setItem(KEY_BIG_UNLOCK_AT, String(Date.now() + mins*60*1000));
-  }
-}
-
-function getNum(k){ return parseFloat(localStorage.getItem(k) || "0"); }
-function setNum(k,v){ localStorage.setItem(k, Number(v).toFixed(2)); }
-
-function randomReward(){
-  return Number((Math.random() * (0.50 - 0.10) + 0.10).toFixed(2));
-}
-
-function generateNewTask(){
-  const item = TASKS[Math.floor(Math.random()*TASKS.length)];
-  const reward = randomReward();
-  const data = { task: item.task, steps: item.steps, reward, date: todayKey() };
-  localStorage.setItem(KEY_TASK, JSON.stringify(data));
-  showTask(data);
-}
-
-function showTask(data){
-  document.getElementById("taskTitle").innerText = "📌 " + data.task;
-  document.getElementById("taskAmt").innerText = "₹" + data.reward.toFixed(2);
-
-  const stepsBox = document.getElementById("taskSteps");
-  stepsBox.innerHTML = "";
-  (data.steps || []).forEach((s,i)=>{
-    stepsBox.innerHTML += `<div class="step">✅ Step ${i+1}: ${s}</div>`;
-  });
-}
-
-function animate(el, from, to, duration=800){
+function animateValue(el, from, to, dur=650){
   const start = performance.now();
-  function tick(now){
-    const p = Math.min((now-start)/duration,1);
-    const ease = 1 - Math.pow(1-p,3);
-    el.textContent = (from + (to-from)*ease).toFixed(2);
-    if(p<1) requestAnimationFrame(tick);
+  function frame(t){
+    const p = Math.min(1,(t-start)/dur);
+    const val = from + (to-from)*p;
+    el.textContent = ₹(val);
+    if(p<1) requestAnimationFrame(frame);
   }
-  requestAnimationFrame(tick);
+  requestAnimationFrame(frame);
+}
+function sendWA(text){
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`,"_blank");
 }
 
-function updateUI(){
-  checkReset();
-  checkBigReset();
+// ---------- State ----------
+function loadState(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(!raw){
+    return {
+      today: todayKey(),
+      todayEarn: 0,
+      lifeEarn: 0,
+      smallDone: 0,
+      activeSmall: [],
+      bigUnlocked: false,
+      bigDone: false,
+      bigTask: null,
+      bigEndsAt: null
+    };
+  }
+  const s = JSON.parse(raw);
 
-  const today = getNum(BT_TODAY_KEY);
-  const total = getNum(BT_TOTAL_KEY);
+  // New day reset small tasks
+  if(s.today !== todayKey()){
+    s.today = todayKey();
+    s.todayEarn = 0;
+    s.smallDone = 0;
+    s.activeSmall = [];
+    s.bigUnlocked = false;
+    s.bigDone = false;
+    s.bigTask = null;
+    s.bigEndsAt = null;
+  }
+  return s;
+}
 
-  animate(document.getElementById("todayEarn"), 0, today, 800);
-  animate(document.getElementById("totalEarn"), 0, total, 1000);
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
 
-  const smallDone = parseInt(localStorage.getItem(KEY_SMALL_DONE) || "0");
-  document.getElementById("smallDoneTxt").innerText = `Small Done: ${Math.min(smallDone,2)}/2`;
+let state = loadState();
 
-  updateBigUI();
+// ---------- Task Pools ----------
+const smallTasksPool = [
+  {title:"WhatsApp Status Poster", desc:"Post today's poster on WhatsApp status.", steps:["Download poster","Post on status","Keep 6 hours","Screenshot of views"]},
+  {title:"Instagram Story Share", desc:"Share institute poster on Instagram story.", steps:["Take poster screenshot","Upload story","Tag institute","Send screenshot proof"]},
+  {title:"Forward to 5 students", desc:"Forward offer message to 5 students.", steps:["Copy message","Send to 5 students","Ask interest","Send screenshot proof"]},
+  {title:"WhatsApp Group Post", desc:"Post in 1 WhatsApp group.", steps:["Select group","Post message","Answer queries","Send screenshot proof"]},
+  {title:"Call 1 Student", desc:"Call one student and explain course.", steps:["Call student","Explain short","Ask interest","Send proof"]},
+];
 
-  // ✅ lock small tasks while big task active
-  const bigActive = !!localStorage.getItem(KEY_BIG);
-  const overlay = document.getElementById("smallLockOverlay");
-  const completeBtn = document.getElementById("completeBtn");
-  const proofBtn = document.getElementById("smallProofBtn");
+function buildSmallTask(){
+  const t = smallTasksPool[rand(0, smallTasksPool.length-1)];
+  const amount = rand(10,50)/100; // ₹0.10 - ₹0.50
+  return {
+    id:"S"+Date.now()+rand(100,999),
+    title:t.title,
+    desc:t.desc,
+    amount,
+    mandatory:true,
+    steps:t.steps
+  };
+}
 
-  if(bigActive){
-    overlay.style.display = "flex";
-    completeBtn.disabled = true;
-    proofBtn.disabled = true;
+function buildBigTask(){
+  const options = [
+    {title:"Admission Referral Bonus", amount:500, desc:"Bring 1 confirmed admission referral."},
+    {title:"PGDCA Admission Lead", amount:3000, desc:"Bring confirmed PGDCA/Advanced PGDCA lead."},
+    {title:"Advanced Course Campaign", amount:2000, desc:"Promote advanced course + bring 2 leads."}
+  ];
+  const t = options[rand(0,options.length-1)];
+  return {id:"B"+Date.now()+rand(100,999), ...t};
+}
+
+function formatTimer(ms){
+  const s = Math.max(0, Math.floor(ms/1000));
+  const mm = String(Math.floor(s/60)).padStart(2,"0");
+  const ss = String(s%60).padStart(2,"0");
+  return `${mm}:${ss}`;
+}
+
+// ---------- UI ----------
+const smallGrid = document.getElementById("smallGrid");
+const todayEarnEl = document.getElementById("todayEarn");
+const lifeEarnEl = document.getElementById("lifeEarn");
+
+const progressText = document.getElementById("progressText");
+const progressFill = document.getElementById("progressFill");
+const hintMsg = document.getElementById("hintMsg");
+
+const smallLockOverlay = document.getElementById("smallLockOverlay");
+
+const bigInnerLocked = document.getElementById("bigInnerLocked");
+const bigInnerActive = document.getElementById("bigInnerActive");
+
+const nextBigIn = document.getElementById("nextBigIn");
+const comingLine = document.getElementById("comingLine");
+
+const bigName = document.getElementById("bigName");
+const bigAmount = document.getElementById("bigAmount");
+const bigDesc = document.getElementById("bigDesc");
+const bigTimer = document.getElementById("bigTimer");
+const bigSteps = document.getElementById("bigSteps");
+const bigDoneBtn = document.getElementById("bigDoneBtn");
+const bigProofBtn = document.getElementById("bigProofBtn");
+const bigMsg = document.getElementById("bigMsg");
+
+// ---------- Render ----------
+function updateEarningsUI(){
+  animateValue(todayEarnEl, Number(todayEarnEl.dataset.val||0), state.todayEarn);
+  animateValue(lifeEarnEl, Number(lifeEarnEl.dataset.val||0), state.lifeEarn);
+  todayEarnEl.dataset.val = state.todayEarn;
+  lifeEarnEl.dataset.val = state.lifeEarn;
+}
+
+function updateProgressUI(){
+  progressText.textContent = `${state.smallDone} / 2`;
+  progressFill.style.width = Math.min(100, (state.smallDone/2)*100) + "%";
+
+  if(state.bigUnlocked && !state.bigDone){
+    hintMsg.textContent = "BIG TASK unlocked! Small tasks locked until BIG task completed.";
   }else{
-    overlay.style.display = "none";
-    completeBtn.disabled = false;
-    proofBtn.disabled = false;
+    hintMsg.textContent = "Complete 2 small tasks to unlock BIG reward task.";
   }
 }
 
-function addEarning(amount){
-  checkReset();
-  amount = Number(amount||0);
-
-  const today = getNum(BT_TODAY_KEY) + amount;
-  const total = getNum(BT_TOTAL_KEY) + amount;
-
-  setNum(BT_TODAY_KEY, today);
-  setNum(BT_TOTAL_KEY, total);
-
-  updateUI();
+function lockSmall(lock){
+  smallLockOverlay.style.display = lock ? "flex" : "none";
 }
 
-/* BIG TASK */
-function pickBigTask(){
-  if(Math.random() < 0.75) return BIG_TASKS[0];
-  return BIG_TASKS[Math.floor(Math.random() * (BIG_TASKS.length-1)) + 1];
-}
-
-function maybeActivateBigTask(){
-  const now = Date.now();
-  const unlockAt = parseInt(localStorage.getItem(KEY_BIG_UNLOCK_AT) || "0");
-  const count = parseInt(localStorage.getItem(KEY_BIG_TODAY_COUNT) || "0");
-  const active = localStorage.getItem(KEY_BIG);
-
-  if(active) return;
-
-  if(now >= unlockAt && count < 2){
-    const t = pickBigTask();
-    localStorage.setItem(KEY_BIG, JSON.stringify(t));
-
-    const nextMins = random10to60Minutes();
-    localStorage.setItem(KEY_BIG_UNLOCK_AT, String(now + nextMins*60*1000));
+// ✅ show 2 tasks always
+function ensureTwoSmall(){
+  if(!state.activeSmall || state.activeSmall.length !== 2){
+    state.activeSmall = [buildSmallTask(), buildSmallTask()];
+    saveState();
   }
 }
 
-function updateBigUI(){
-  maybeActivateBigTask();
+function renderSmall(){
+  ensureTwoSmall();
+  smallGrid.innerHTML = "";
 
-  const smallDone = parseInt(localStorage.getItem(KEY_SMALL_DONE) || "0");
-  const active = localStorage.getItem(KEY_BIG);
-
-  const lockOverlay = document.getElementById("lockOverlay");
-  const bigDoneBtn = document.getElementById("bigDoneBtn");
-  const bigProofBtn = document.getElementById("bigProofBtn");
-
-  if(smallDone < 2){
-    lockOverlay.style.display = "flex";
-    bigDoneBtn.disabled = true;
-    bigProofBtn.disabled = true;
-  } else {
-    lockOverlay.style.display = "none";
-    bigDoneBtn.disabled = false;
-    bigProofBtn.disabled = false;
-  }
-
-  if(active){
-    const t = JSON.parse(active);
-    document.getElementById("bigTitle").innerText = t.title;
-    document.getElementById("bigAmt").innerText = "₹" + t.amount;
-    document.getElementById("bigSub").innerText = "Limited offer! Complete fast ✅";
-    document.getElementById("onlyTag").style.display = "inline-block";
+  // ✅ lock condition
+  if(state.bigUnlocked && !state.bigDone){
+    lockSmall(true);
   }else{
-    document.getElementById("bigTitle").innerText = "Big amount task coming soon...";
-    document.getElementById("bigAmt").innerText = "₹0";
-    document.getElementById("bigSub").innerText = "Stay active. Big tasks appear 2 times/day.";
-    document.getElementById("onlyTag").style.display = "none";
+    lockSmall(false);
   }
-}
 
-function startBigCountdown(){
-  const timerEl = document.getElementById("bigTimer");
-  setInterval(()=>{
-    const unlockAt = parseInt(localStorage.getItem(KEY_BIG_UNLOCK_AT) || "0");
-    const now = Date.now();
-    let diff = unlockAt - now;
+  state.activeSmall.forEach((t,idx)=>{
+    const card = document.createElement("div");
+    card.className = "taskCard";
+    card.innerHTML = `
+      <div class="taskHead">
+        <div>
+          <div class="taskTitle">📌 ${t.title}</div>
+          <div class="taskDesc">${t.desc}</div>
+        </div>
+        <div class="mandatory">MANDATORY</div>
+      </div>
 
-    if(diff <= 0){
-      timerEl.innerText = "00:00";
-      updateBigUI();
-      return;
-    }
-    const mm = String(Math.floor(diff/60000)).padStart(2,"0");
-    const ss = String(Math.floor((diff%60000)/1000)).padStart(2,"0");
-    timerEl.innerText = `${mm}:${ss}`;
-  }, 1000);
-}
+      <div class="rewardBox">
+        <div class="line1">🪙 Reward Rule</div>
+        <div class="line2">₹${t.amount.toFixed(2)} reward</div>
+        <div class="line1" style="margin-top:6px;">Guaranteed minimum: ₹${t.amount.toFixed(2)}</div>
+      </div>
 
-document.addEventListener("DOMContentLoaded", ()=>{
-  updateUI();
+      <ul class="steps">
+        ${t.steps.map((s,i)=>`<li>✅ Step ${i+1}: ${s}</li>`).join("")}
+      </ul>
 
-  const saved = localStorage.getItem(KEY_TASK);
-  if(saved) showTask(JSON.parse(saved));
-  else generateNewTask();
+      <div class="btnRow">
+        <button class="btn doneBtn">✅ Completed</button>
+        <button class="btn waBtn">📩 Send Proof WhatsApp</button>
+      </div>
+    `;
 
-  startBigCountdown();
+    // completed
+    card.querySelector(".doneBtn").onclick = ()=>{
+      if(state.bigUnlocked && !state.bigDone){
+        alert("Small tasks locked. Complete BIG task first.");
+        return;
+      }
 
-  document.getElementById("completeBtn").addEventListener("click", ()=>{
-    const task = JSON.parse(localStorage.getItem(KEY_TASK) || "{}");
-    const reward = Number(task.reward || 0);
+      state.smallDone += 1;
+      state.todayEarn += t.amount;
+      state.lifeEarn += t.amount;
 
-    addEarning(reward);
+      // replace completed task with new task
+      state.activeSmall[idx] = buildSmallTask();
 
-    let done = parseInt(localStorage.getItem(KEY_SMALL_DONE) || "0");
-    done++;
-    localStorage.setItem(KEY_SMALL_DONE, String(done));
+      // unlock big after 2
+      if(state.smallDone >= 2){
+        unlockBigTask();
+      }
 
-    document.getElementById("status").innerText =
-      `✅ Completed! Amount added ₹${reward.toFixed(2)} | New task loaded ✅`;
+      saveState();
+      updateEarningsUI();
+      updateProgressUI();
+      renderSmall();
+      renderBig();
+    };
 
-    generateNewTask();
-    updateUI();
-  });
-
-  document.getElementById("smallProofBtn").addEventListener("click", ()=>{
-    const task = JSON.parse(localStorage.getItem(KEY_TASK) || "{}");
-    const msg =
+    // proof
+    card.querySelector(".waBtn").onclick = ()=>{
+      const msg =
 `✅ SMALL TASK PROOF
-Institute: BlackTerminal Computer Institute
-Task: ${task.task || "N/A"}
-Reward: ₹${Number(task.reward||0).toFixed(2)}
+Institute: ${INSTITUTE_NAME}
+Task: ${t.title}
+Reward: ₹${t.amount.toFixed(2)}
 Date: ${todayKey()}
 Status: DONE
 
 Please verify fast.`;
-    sendWA(msg);
+      sendWA(msg);
+    };
+
+    smallGrid.appendChild(card);
   });
+}
 
-  document.getElementById("bigDoneBtn").addEventListener("click", ()=>{
-    const active = localStorage.getItem(KEY_BIG);
-    if(!active){
-      alert("Big task not available yet.");
-      return;
+function unlockBigTask(){
+  state.bigUnlocked = true;
+  state.bigDone = false;
+  state.bigTask = buildBigTask();
+  state.bigEndsAt = Date.now() + rand(10,60)*60*1000;
+  saveState();
+}
+
+function renderBig(){
+  if(!state.bigUnlocked){
+    bigInnerLocked.style.display="block";
+    bigInnerActive.style.display="none";
+    comingLine.style.display="block";
+    nextBigIn.textContent = rand(10,60);
+    return;
+  }
+
+  // active
+  bigInnerLocked.style.display="none";
+  bigInnerActive.style.display="block";
+  comingLine.style.display="none";
+
+  const t = state.bigTask;
+  bigName.textContent = t.title;
+  bigAmount.textContent = "₹"+t.amount;
+  bigDesc.textContent = t.desc;
+
+  bigSteps.innerHTML = `
+    <li>Share course poster/message</li>
+    <li>Get interested student response</li>
+    <li>Send details to institute</li>
+    <li>Send WhatsApp proof screenshot</li>
+  `;
+
+  // ✅ lock small now
+  if(!state.bigDone) lockSmall(true);
+
+  if(state.bigDone){
+    bigDoneBtn.disabled=true;
+    bigDoneBtn.textContent="✅ BIG TASK Completed";
+    bigMsg.style.display="block";
+    bigMsg.textContent="✅ BIG task done. Small tasks unlocked now!";
+  }else{
+    bigDoneBtn.disabled=false;
+    bigDoneBtn.textContent="✅ Mark BIG Task Completed";
+    bigMsg.style.display="none";
+  }
+}
+
+// countdown tick
+function tick(){
+  if(state.bigUnlocked && state.bigEndsAt){
+    const left = state.bigEndsAt - Date.now();
+    bigTimer.textContent = formatTimer(left);
+
+    if(left <= 0){
+      // expired reset
+      state.bigUnlocked=false;
+      state.bigDone=false;
+      state.bigTask=null;
+      state.bigEndsAt=null;
+      state.smallDone=0;
+      state.activeSmall=[];
+      saveState();
+      renderSmall();
+      renderBig();
+      updateProgressUI();
     }
+  }
+}
 
-    const smallDone = parseInt(localStorage.getItem(KEY_SMALL_DONE) || "0");
-    if(smallDone < 2){
-      alert("Complete 2 small tasks to unlock big reward.");
-      return;
-    }
+bigDoneBtn.onclick = ()=>{
+  if(!state.bigTask) return;
 
-    const t = JSON.parse(active);
-    addEarning(Number(t.amount));
+  // mark big complete
+  state.bigDone=true;
 
-    let count = parseInt(localStorage.getItem(KEY_BIG_TODAY_COUNT) || "0");
-    count++;
-    localStorage.setItem(KEY_BIG_TODAY_COUNT, String(count));
+  // ✅ reset for new day flow
+  state.bigUnlocked=false;
+  state.bigTask=null;
+  state.bigEndsAt=null;
 
-    localStorage.removeItem(KEY_BIG);
+  // reset small progress + unlock
+  state.smallDone=0;
+  lockSmall(false);
 
-    alert("🎉 Big task completed! Amount added ✅");
-    updateUI();
-  });
+  saveState();
+  renderSmall();
+  renderBig();
+  updateProgressUI();
+};
 
-  document.getElementById("bigProofBtn").addEventListener("click", ()=>{
-    const active = localStorage.getItem(KEY_BIG);
-    if(!active){
-      alert("Big task not active yet.");
-      return;
-    }
+bigProofBtn.onclick = ()=>{
+  if(!state.bigTask) return;
 
-    const t = JSON.parse(active);
-    const msg =
+  const t = state.bigTask;
+  const msg =
 `🏆 BIG TASK PROOF
-Institute: BlackTerminal Computer Institute
+Institute: ${INSTITUTE_NAME}
 Task: ${t.title}
 Reward: ₹${t.amount}
 Date: ${todayKey()}
 Status: DONE
 
 Please verify fast.`;
-    sendWA(msg);
-  });
+  sendWA(msg);
+};
 
-});
+// ---------- Init ----------
+updateEarningsUI();
+updateProgressUI();
+renderSmall();
+renderBig();
+setInterval(tick,1000);
 
 </script>
 
