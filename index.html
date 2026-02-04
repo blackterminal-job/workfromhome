@@ -497,7 +497,156 @@
 
 
 
-  
+  /* ✅ Premium Offer Marquee */
+.bt-marquee-wrap{
+  max-width:1100px;
+  margin:14px auto;
+  padding:10px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#07142d,#0d2b58);
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 18px 45px rgba(0,0,0,.25);
+  display:flex;
+  gap:10px;
+  align-items:center;
+  overflow:hidden;
+}
+
+.bt-marquee-label{
+  padding:10px 14px;
+  border-radius:14px;
+  background:rgba(34,197,94,.16);
+  border:1px solid rgba(34,197,94,.35);
+  color:#baffd1;
+  font-weight:1100;
+  font-size:12px;
+  letter-spacing:.6px;
+  white-space:nowrap;
+  text-shadow:0 0 22px rgba(34,197,94,.25);
+  animation: badgePulse 1.2s infinite;
+}
+
+@keyframes badgePulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.06)}
+  100%{transform:scale(1)}
+}
+
+.bt-marquee{
+  flex:1;
+  overflow:hidden;
+  position:relative;
+}
+
+.bt-marquee-track{
+  display:inline-flex;
+  gap:18px;
+  align-items:center;
+  white-space:nowrap;
+  animation:btMarquee 18s linear infinite;
+  font-weight:1000;
+  color:rgba(255,255,255,.95);
+  text-shadow:0 0 30px rgba(0,140,255,.15);
+}
+
+.bt-marquee-track span{
+  opacity:.96;
+  font-size:14px;
+}
+
+@keyframes btMarquee{
+  0%{ transform:translateX(0); }
+  100%{ transform:translateX(-50%); }
+}
+
+/* ✅ Claimed Counter */
+.bt-claimed{
+  padding:10px 14px;
+  border-radius:14px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  font-weight:1100;
+  white-space:nowrap;
+  color:#fff;
+}
+#btClaimed{
+  display:inline-block;
+  min-width:22px;
+  color:#22c55e;
+  font-weight:1200;
+  text-shadow:0 0 18px rgba(34,197,94,.20);
+}
+#btClaimed.bump{
+  animation: bumpNum .28s ease;
+}
+@keyframes bumpNum{
+  0%{transform:scale(1)}
+  40%{transform:scale(1.18)}
+  100%{transform:scale(1)}
+}
+
+/* ✅ Countdown */
+.bt-countdown{
+  padding:10px 14px;
+  border-radius:14px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  color:#fff;
+  font-weight:1100;
+  white-space:nowrap;
+}
+#btTimer{
+  color:#ffd54a;
+  font-weight:1200;
+  letter-spacing:1px;
+  text-shadow:0 0 18px rgba(255,213,74,.25);
+}
+
+/* ✅ URGENT (last 5 minutes) */
+.bt-marquee-wrap.urgent{
+  border:1px solid rgba(255,204,0,.40);
+  box-shadow:0 0 0 rgba(255,204,0,0);
+  animation: urgentGlow 1.2s infinite;
+}
+.bt-marquee-wrap.urgent #btTimer{
+  animation: timerBlink .9s infinite;
+}
+
+@keyframes urgentGlow{
+  0%{box-shadow:0 0 0 rgba(255,204,0,.0)}
+  50%{box-shadow:0 0 35px rgba(255,204,0,.22)}
+  100%{box-shadow:0 0 0 rgba(255,204,0,.0)}
+}
+@keyframes timerBlink{
+  0%,100%{opacity:1}
+  50%{opacity:.25}
+}
+
+/* ✅ EXPIRED animation */
+.bt-marquee-wrap.expired{
+  background:linear-gradient(135deg,#2b0b0b,#7a0b0b);
+  border:1px solid rgba(255,59,48,.35);
+  animation: shakeOffer .5s ease 2;
+}
+.bt-marquee-wrap.expired #btTimer{
+  color:#fff;
+}
+
+@keyframes shakeOffer{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  50%{transform:translateX(6px)}
+  75%{transform:translateX(-5px)}
+  100%{transform:translateX(0)}
+}
+
+/* ✅ Mobile optimize */
+@media(max-width:720px){
+  .bt-marquee-track{ animation-duration: 14s; }
+  .bt-marquee-track span{ font-size:13px; }
+  .bt-countdown{ padding:8px 10px; font-size:12px; }
+  .bt-claimed{ padding:8px 10px; font-size:12px; }
+}
 
 	  
 	  
@@ -520,6 +669,44 @@
       </div>
     </div>
   </div>
+  
+  
+  
+  
+  
+  
+  
+  <!-- ✅ PREMIUM OFFER MARQUEE + CLAIMED COUNTER + COUNTDOWN (FINAL) -->
+<div class="bt-marquee-wrap" id="btOfferMarquee">
+  <div class="bt-marquee-label" id="btOfferLabel">🔥 TODAY OFFER</div>
+
+  <div class="bt-marquee">
+    <div class="bt-marquee-track">
+      <span>🎁 Surprise Gift Reward •</span>
+      <span>💰 Extra Bonus Commission •</span>
+      <span>🎓 Free Course Demo Pass •</span>
+      <span>📢 Social Media Shoutout •</span>
+      <span>✅ Certificate / Appreciation •</span>
+      <span>⭐ Lucky Draw Entry Confirmed •</span>
+
+      <!-- repeat for smooth loop -->
+      <span>🎁 Surprise Gift Reward •</span>
+      <span>💰 Extra Bonus Commission •</span>
+      <span>🎓 Free Course Demo Pass •</span>
+      <span>📢 Social Media Shoutout •</span>
+      <span>✅ Certificate / Appreciation •</span>
+      <span>⭐ Lucky Draw Entry Confirmed •</span>
+    </div>
+  </div>
+
+  <div class="bt-claimed">
+    ✅ Claimed by <span id="btClaimed">12</span> students today
+  </div>
+
+  <div class="bt-countdown">
+    ⏳ Ends in <span id="btTimer">00:00:00</span>
+  </div>
+</div>
 
   <div class="wrap">
     <div class="hero">
@@ -1160,6 +1347,89 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 
+
+function startTodayCountdown(){
+  const timerEl = document.getElementById("btTimer");
+  const wrap = document.getElementById("btOfferMarquee");
+  const label = document.getElementById("btOfferLabel");
+  if(!timerEl || !wrap || !label) return;
+
+  let urgentTriggered = false;
+
+  function update(){
+    const now = new Date();
+    const end = new Date();
+    end.setHours(23,59,59,999);
+
+    let diff = end - now;
+
+    // ✅ Offer expired
+    if(diff <= 0){
+      timerEl.textContent = "00:00:00";
+      wrap.classList.remove("urgent");
+      wrap.classList.add("expired");
+      label.textContent = "⛔ OFFER EXPIRED";
+
+      setTimeout(()=>{ wrap.style.display = "none"; }, 3000);
+      return;
+    }
+
+    const h = Math.floor(diff / (1000*60*60));
+    const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const s = Math.floor((diff % (1000*60)) / 1000);
+
+    timerEl.textContent =
+      String(h).padStart(2,"0") + ":" +
+      String(m).padStart(2,"0") + ":" +
+      String(s).padStart(2,"0");
+
+    // ✅ Last 5 minutes warning
+    if(diff <= 5 * 60 * 1000 && !urgentTriggered){
+      urgentTriggered = true;
+      wrap.classList.add("urgent");
+      label.textContent = "⚠️ LAST 5 MIN";
+    }
+  }
+
+  update();
+  setInterval(update, 1000);
+}
+
+function startClaimedCounter(){
+  const el = document.getElementById("btClaimed");
+  if(!el) return;
+
+  const todayKey = "bt_claimed_" + new Date().toDateString();
+
+  let count = Number(localStorage.getItem(todayKey));
+  if(!count){
+    count = Math.floor(10 + Math.random()*18); // 10–27
+    localStorage.setItem(todayKey, count);
+  }
+
+  el.textContent = count;
+
+  function bump(){
+    el.classList.remove("bump");
+    void el.offsetWidth;
+    el.classList.add("bump");
+  }
+
+  setInterval(()=>{
+    if(Math.random() < 0.55){
+      const inc = (Math.random() < 0.85 ? 1 : 2);
+      count += inc;
+      el.textContent = count;
+      localStorage.setItem(todayKey, count);
+      bump();
+    }
+  }, 9000);
+}
+
+window.addEventListener("load", ()=>{
+  startTodayCountdown();
+  startClaimedCounter();
+});
 
   
 
