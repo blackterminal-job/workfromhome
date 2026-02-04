@@ -1,268 +1,311 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>My Profile | BlackTerminal</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Profile | BlackTerminal Computer Institute</title>
 
   <style>
     body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:#f6f7fb;color:#111}
-    .nav{position:sticky;top:0;background:#0b1220;color:#fff;padding:12px 16px;z-index:9}
-    .navin{max-width:1050px;margin:auto;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+    .nav{position:sticky;top:0;z-index:99;background:#0b1220;color:#fff;padding:12px 16px}
+    .navin{max-width:1050px;margin:auto;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
     .brand{font-weight:950}
     .menu{display:flex;gap:10px;flex-wrap:wrap}
     .menu a{color:#fff;text-decoration:none;font-weight:850;font-size:13px;opacity:.92}
+    .menu a:hover{opacity:1;text-decoration:underline}
+
     .wrap{max-width:1050px;margin:auto;padding:16px}
+
     .hero{background:#0b1220;color:#fff;padding:18px;border-radius:16px}
     .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.12);font-weight:900;font-size:12px}
     h1{margin:10px 0 8px;font-size:24px}
     p{margin:0;opacity:.9;line-height:1.6;font-weight:700}
 
     .box{margin-top:14px;padding:16px;border:1px solid #e9e9e9;border-radius:16px;background:#fff}
-    input{
-      width:100%;padding:12px 12px;border-radius:14px;border:1px solid #e9e9e9;
-      font-weight:900;outline:none;margin-top:10px
+    .box h2{margin:0 0 12px;font-size:18px}
+
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .card{border:1px solid #eee;border-radius:14px;padding:12px;background:#fff}
+    .money{margin-top:6px;font-size:22px;font-weight:950}
+
+    .note{
+      margin-top:10px;
+      font-weight:900;
+      color:#333;
+      background:#f4f8ff;
+      border:1px solid #dbe8ff;
+      padding:10px 12px;
+      border-radius:14px;
+      line-height:1.6;
     }
-    input:focus{border-color:#0a84ff}
+
     .btn{
-      margin-top:10px;width:100%;
-      border:none;border-radius:14px;padding:12px 14px;font-weight:950;cursor:pointer;
-      background:#0a84ff;color:#fff
+      text-decoration:none;
+      padding:11px 14px;
+      border-radius:12px;
+      font-weight:950;
+      display:inline-block;
+      color:#fff;
+    }
+    .wa{background:#25D366}
+
+    .in{
+      padding:12px;
+      border-radius:12px;
+      border:1px solid #ddd;
+      font-weight:900;
+      width:100%;
+      outline:none;
+    }
+    .in:focus{
+      border-color:#0a84ff;
+      box-shadow:0 0 0 4px rgba(10,132,255,.10);
     }
 
-    .profile{
-      margin-top:14px;
-      padding:16px;
-      border-radius:16px;
-      border:1px solid #e9e9e9;
-      background:#fff;
-      display:none;
-    }
+    .footer{padding:18px;text-align:center;color:#555;font-weight:800}
 
-    .pgrid{
-      margin-top:12px;
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:10px;
+    @media(max-width:750px){
+      .grid{grid-template-columns:1fr}
     }
-    .pcard{
-      border:1px solid #eee;border-radius:14px;padding:12px;background:#f9fafc;text-align:center
-    }
-    .pcard b{font-size:22px;font-weight:950;display:block}
-    .pcard small{display:block;margin-top:6px;color:#444;font-weight:850}
-
-    .phead{
-      display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center
-    }
-    .pname{font-weight:950;font-size:18px}
-    .pline{font-weight:850;color:#444;margin-top:6px}
-    .tag{
-      display:inline-block;padding:6px 10px;border-radius:999px;
-      background:#eaf7ef;border:1px solid #cfeedd;
-      font-weight:950;color:#145a2a;font-size:12px
-    }
-    .err{
-      margin-top:12px;
-      padding:12px;border-radius:14px;
-      background:#fff3d6;border:1px solid #ffe1a6;
-      font-weight:900;color:#333;display:none
-    }
-
-    @media(max-width:800px){
-      .pgrid{grid-template-columns:repeat(2,1fr)}
-    }
-	
-	.shareRow{
-  margin-top:12px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.shareBtn{
-  flex:1;
-  border:none;
-  background:#25D366;
-  color:#fff;
-  font-weight:950;
-  padding:12px 14px;
-  border-radius:14px;
-  cursor:pointer;
-}
-.copyBtn{
-  flex:1;
-  border:none;
-  background:#0a84ff;
-  color:#fff;
-  font-weight:950;
-  padding:12px 14px;
-  border-radius:14px;
-  cursor:pointer;
-}
-.shareBtn:hover,.copyBtn:hover{opacity:.95}
-
   </style>
 </head>
 
 <body>
+
+  <!-- NAV -->
   <div class="nav">
     <div class="navin">
       <div class="brand">BlackTerminal Computer Institute</div>
       <div class="menu">
         <a href="index.html">Home</a>
-        <a href="apply.html">Apply</a>
-        <a href="login.html">Posters</a>
         <a href="profile.html">My Profile</a>
+        <a href="job-details.html">Job Details</a>
+        <a href="how-it-works.html">How it Works</a>
+        <a href="earnings.html">Earnings</a>
+        <a href="apply.html">Apply</a>
         <a href="contact.html">Contact</a>
       </div>
     </div>
   </div>
 
   <div class="wrap">
+
+    <!-- HERO -->
     <div class="hero">
-      <div class="badge">👤 My Profile</div>
-      <h1>Check Your Referral Earnings</h1>
-      <p>Enter your referral code to view referrals, admissions and commission amount.</p>
+      <span class="badge">👤 MY PROFILE</span>
+      <h1>Welcome Partner ✅</h1>
+      <p>Your referral progress and withdraw details will show here.</p>
     </div>
 
-    <div class="box">
-      <b>Enter Referral Code</b>
-      <input id="code" placeholder="Example: BT017" />
-      <button class="btn" onclick="findProfile()">🔍 Search</button>
+    <!-- ✅ Earnings + Withdraw Box -->
+    <div class="box" id="earnBox">
+      <h2>💰 My Earnings</h2>
 
-      <div class="err" id="err">No record found for this code.</div>
-    </div>
-
-    <div class="profile" id="profile">
-      <div class="phead">
-        <div>
-          <div class="pname" id="pname">Name</div>
-          <div class="pline" id="pcity">City</div>
+      <div class="grid">
+        <div class="card">
+          <div>Lifetime Earnings</div>
+          <div class="money">₹<span id="pfTotalEarn">0.00</span></div>
         </div>
-        <div class="tag" id="pcode">CODE</div>
+
+        <div class="card">
+          <div>Total Withdraw</div>
+          <div class="money">₹<span id="pfTotalWithdraw">0.00</span></div>
+        </div>
+
+        <div class="card">
+          <div>Available Balance</div>
+          <div class="money">₹<span id="pfBalance">0.00</span></div>
+        </div>
       </div>
 
-      <div class="pgrid">
-        <div class="pcard"><b id="pref">0</b><small>Referrals</small></div>
-        <div class="pcard"><b id="padm">0</b><small>Admissions</small></div>
-        <div class="pcard"><b id="pamt">₹0</b><small>Commission</small></div>
-        <div class="pcard"><b id="pstatus">Active</b><small>Status</small></div>
+      <div class="note">
+        ✅ Withdraw request WhatsApp pe send karo. Admin verify ke baad payment hoga.<br/>
+        <b>Minimum Withdraw: ₹500</b>
       </div>
-	  
-	  <div class="shareRow">
-  <button class="shareBtn" onclick="shareProfileWA()">📤 Share My Profile on WhatsApp</button>
-  <button class="copyBtn" onclick="copyCode()">📋 Copy Referral Code</button>
-</div>
 
+      <!-- ✅ Referral + UPI -->
+      <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <input id="pfReferralCode" class="in" placeholder="Enter Referral Code (required)">
+        <input id="pfUPI" class="in" placeholder="Enter UPI ID (example@upi)">
+      </div>
+
+      <!-- ✅ Withdraw amount -->
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <input id="pfWithdrawAmt" class="in" type="number" min="500"
+          placeholder="Enter withdraw amount (Min ₹500)" style="flex:1;min-width:220px;">
+
+        <button class="btn wa" id="pfWithdrawBtn" style="border:none;cursor:pointer">
+          💬 Request Withdraw
+        </button>
+      </div>
+
+      <!-- ✅ Withdraw history -->
+      <div style="margin-top:14px;">
+        <h2 style="font-size:16px;margin:10px 0;">📜 Withdraw History</h2>
+        <div id="pfWithdrawHistory"></div>
+      </div>
     </div>
+
+    <div class="footer">© BlackTerminal Computer Institute</div>
   </div>
 
-<script>
-  // ✅ Replace with your Google Sheet ID
-  const SHEET_ID = "1YW6QuBtryedN8L2t-Q6laTJE46VI8oarUFlVBvui4Mw";
+  <script>
+    /* ===== Earnings + Withdraw system (FINAL) ===== */
 
-  // Sheet as JSON using opensheet (easy)
-  const sheetURL = "https://opensheet.elk.sh/" + SHEET_ID + "/Sheet1";
+    const ADMIN_WA = "917008186187";
 
-  async function findProfile(){
+    // ✅ Daily work lifetime earning key
+    const EARN_KEY = "bt_total_earn_lifetime";
 
-    const code = document.getElementById("code").value.trim().toUpperCase();
-    const err = document.getElementById("err");
-    const prof = document.getElementById("profile");
+    // ✅ Withdraw keys
+    const WD_KEY = "bt_withdraw_total";
+    const WD_LIST_KEY = "bt_withdraw_list";
 
-    err.style.display = "none";
-    prof.style.display = "none";
+    // ✅ Referral + UPI keys
+    const REF_KEY = "bt_referral_code";
+    const UPI_KEY = "bt_upi_id";
 
-    if(!code){
-      err.style.display = "block";
-      err.innerText = "⚠️ Please enter referral code.";
-      return;
+    const MIN_WITHDRAW = 500;
+
+    function num(key){
+      return parseFloat(localStorage.getItem(key) || "0");
+    }
+    function setnum(key,val){
+      localStorage.setItem(key, Number(val).toFixed(2));
     }
 
-    try{
-      const res = await fetch(sheetURL);
-      const data = await res.json();
+    function getWithdrawList(){
+      try{
+        return JSON.parse(localStorage.getItem(WD_LIST_KEY) || "[]");
+      }catch(e){
+        return [];
+      }
+    }
+    function setWithdrawList(list){
+      localStorage.setItem(WD_LIST_KEY, JSON.stringify(list));
+    }
 
-      const row = data.find(r => (r.Code || "").toUpperCase() === code);
+    function sendWA(text){
+      window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(text)}`, "_blank");
+    }
 
-      if(!row){
-        err.style.display = "block";
-        err.innerText = "❌ No record found for code: " + code;
+    function renderWithdrawHistory(){
+      const list = getWithdrawList();
+      const box = document.getElementById("pfWithdrawHistory");
+      if(!box) return;
+
+      if(list.length === 0){
+        box.innerHTML = "<div style='opacity:.8;font-weight:800'>No withdraw request yet.</div>";
         return;
       }
 
-      document.getElementById("pname").innerText = row.Name || "Promoter";
-      document.getElementById("pcity").innerText = "📍 " + (row.City || "—");
-      document.getElementById("pcode").innerText = code;
-	  
-	  lastSearchedCode = code;
-
-      document.getElementById("pref").innerText = row.Referrals || "0";
-      document.getElementById("padm").innerText = row.Admissions || "0";
-      document.getElementById("pamt").innerText = "₹" + (row.Amount || "0");
-
-      const status = (row.Admissions && Number(row.Admissions) > 0) ? "Active ✅" : "New ⭐";
-      document.getElementById("pstatus").innerText = status;
-
-      prof.style.display = "block";
-
-      // save last code
-      localStorage.setItem("bt_refcode_profile", code);
-
-    }catch(e){
-      err.style.display = "block";
-      err.innerText = "⚠️ Error loading data. Please try again later.";
+      box.innerHTML = list.slice().reverse().map(x => `
+        <div style="
+          margin-top:10px;
+          padding:12px;
+          border-radius:14px;
+          border:1px solid #eee;
+          background:#fff;
+          font-weight:850;">
+          ✅ Withdraw: ₹${Number(x.amount).toFixed(2)} <br/>
+          <small style="opacity:.75;font-weight:800">Date: ${x.date}</small>
+        </div>
+      `).join("");
     }
-  }
 
-  // auto-fill last searched code
-  (function(){
-    const last = localStorage.getItem("bt_refcode_profile");
-    if(last){
-      document.getElementById("code").value = last;
+    function updateProfileEarningUI(){
+      const totalEarn = num(EARN_KEY);
+      const totalWithdraw = num(WD_KEY);
+      const balance = Math.max(0, totalEarn - totalWithdraw);
+
+      document.getElementById("pfTotalEarn").innerText = totalEarn.toFixed(2);
+      document.getElementById("pfTotalWithdraw").innerText = totalWithdraw.toFixed(2);
+      document.getElementById("pfBalance").innerText = balance.toFixed(2);
+
+      // load saved referral + upi
+      document.getElementById("pfReferralCode").value = localStorage.getItem(REF_KEY) || "";
+      document.getElementById("pfUPI").value = localStorage.getItem(UPI_KEY) || "";
+
+      renderWithdrawHistory();
     }
-  })();
-  
-  
-  let lastSearchedCode = "";
 
-function copyCode(){
-  if(!lastSearchedCode){
-    alert("Search your profile first.");
-    return;
-  }
-  navigator.clipboard.writeText(lastSearchedCode);
-  alert("✅ Referral Code Copied: " + lastSearchedCode);
-}
+    // ✅ Auto save referral & UPI
+    document.getElementById("pfReferralCode").addEventListener("input", ()=>{
+      localStorage.setItem(REF_KEY, document.getElementById("pfReferralCode").value.trim());
+    });
+    document.getElementById("pfUPI").addEventListener("input", ()=>{
+      localStorage.setItem(UPI_KEY, document.getElementById("pfUPI").value.trim());
+    });
 
-function shareProfileWA(){
-  if(!lastSearchedCode){
-    alert("Search your profile first.");
-    return;
-  }
+    // ✅ Withdraw button
+    document.getElementById("pfWithdrawBtn").addEventListener("click", ()=>{
+      const amt = Number(document.getElementById("pfWithdrawAmt").value || 0);
 
-  const url = window.location.origin + window.location.pathname + "?code=" + encodeURIComponent(lastSearchedCode);
+      const referral = (document.getElementById("pfReferralCode").value || "").trim();
+      const upi = (document.getElementById("pfUPI").value || "").trim();
 
-  const name = document.getElementById("pname").innerText;
-  const city = document.getElementById("pcity").innerText;
-  const ref = document.getElementById("pref").innerText;
-  const adm = document.getElementById("padm").innerText;
-  const amt = document.getElementById("pamt").innerText;
+      if(!referral){
+        alert("Please enter your Referral Code");
+        return;
+      }
+      if(!upi || !upi.includes("@")){
+        alert("Please enter valid UPI ID (example@upi)");
+        return;
+      }
 
-  const msg =
-    "🔥 BlackTerminal Referral Job Profile\n\n" +
-    "👤 Name: " + name + "\n" +
-    city + "\n" +
-    "🏷 Code: " + lastSearchedCode + "\n" +
-    "📌 Referrals: " + ref + "\n" +
-    "✅ Admissions: " + adm + "\n" +
-    "💰 Commission: " + amt + "\n\n" +
-    "Check Profile: " + url + "\n\n" +
-    "Interested? MSG ME ✅";
+      if(!amt || amt <= 0){
+        alert("Enter valid withdraw amount");
+        return;
+      }
 
-  window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
-}
+      if(amt < MIN_WITHDRAW){
+        alert("Minimum withdraw amount is ₹500");
+        return;
+      }
 
-</script>
+      const totalEarn = num(EARN_KEY);
+      const totalWithdraw = num(WD_KEY);
+      const balance = Math.max(0, totalEarn - totalWithdraw);
+
+      if(amt > balance){
+        alert("Not enough balance!");
+        return;
+      }
+
+      // ✅ update withdraw totals
+      setnum(WD_KEY, totalWithdraw + amt);
+
+      // ✅ save history
+      const list = getWithdrawList();
+      list.push({
+        amount: amt,
+        date: new Date().toLocaleString()
+      });
+      setWithdrawList(list);
+
+      // ✅ WhatsApp message
+      const msg =
+`💸 WITHDRAW REQUEST
+Institute: BlackTerminal Computer Institute
+
+Referral Code: ${referral}
+UPI ID: ${upi}
+
+Requested Amount: ₹${amt.toFixed(2)}
+Available Balance After Request: ₹${(balance-amt).toFixed(2)}
+Date: ${new Date().toLocaleString()}
+
+✅ Please verify and process payment.`;
+
+      sendWA(msg);
+
+      document.getElementById("pfWithdrawAmt").value = "";
+      updateProfileEarningUI();
+    });
+
+    // INIT
+    updateProfileEarningUI();
+  </script>
 
 </body>
 </html>
