@@ -497,189 +497,222 @@
     
     
     
-  :root{
-  --bg:#061426;
-  --line:rgba(255,255,255,.10);
-  --txt:#eaf2ff;
-  --muted:rgba(255,255,255,.70);
-  --blue:#1e90ff;
-  --green:#2ee58a;
-  --gold:#ffcc4d;
-}
-
-*{box-sizing:border-box}
+  *{box-sizing:border-box}
 body{
   margin:0;
-  font-family: system-ui,-apple-system,Segoe UI,Roboto;
-  background: radial-gradient(1200px 800px at 20% 0%, #0a2b53 0%, var(--bg) 55%, #030913 100%);
-  color:var(--txt);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:#0b1220;
+  color:#fff;
 }
+.wrap{max-width:920px;margin:auto;padding:18px}
 
-.wrap{max-width:520px;margin:0 auto;padding:18px 14px 40px;}
+.top{padding:10px 0}
+.top h1{margin:0;font-size:26px}
+.sub{opacity:.8;margin:6px 0 0}
 
-.head{
-  padding:18px 14px 12px;border-radius:18px;
-  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-  border:1px solid var(--line);
-}
-.tag{
-  display:inline-block;padding:7px 12px;border-radius:999px;
-  background: rgba(255,255,255,.08);border:1px solid var(--line);
-  font-weight:900;font-size:13px;
-}
-h1{margin:12px 0 4px;font-size:28px;}
-p{margin:0;color:var(--muted);}
-
-.earnGrid{
+.earnBar{
+  margin-top:14px;
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap:12px;
-  margin-top:14px;
 }
-@media(max-width:720px){.earnGrid{grid-template-columns:1fr}}
-
 .earnCard{
-  padding:14px;
-  border-radius:20px;
-  border:1px solid var(--line);
-  background: rgba(255,255,255,.06);
+  padding:16px;
+  border-radius:18px;
+  background: linear-gradient(145deg,#0e1931,#091226);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 16px 50px rgba(0,0,0,.35);
 }
-.earnCard.glow{
-  border:1px solid rgba(46,229,138,.35);
-  box-shadow:0 0 22px rgba(46,229,138,.18);
-}
-.lbl{opacity:.8;font-weight:800;font-size:13px;}
-.val{margin-top:8px;font-size:30px;font-weight:1000;}
-.val.big{font-size:34px}
-
-.card{
-  margin-top:14px;
-  padding:16px;border-radius:22px;
-  background: rgba(0,0,0,.25);
-  border:1px solid var(--line);
-  position:relative;
-}
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px;}
-.pill{
-  padding:7px 12px;border-radius:999px;
-  font-weight:900;font-size:12px;
-  background: rgba(255,255,255,.08);
-  border:1px solid var(--line);
-}
-.amt{font-weight:1000;color:#d8ffe9}
-
-.title{margin-top:14px;font-size:18px;font-weight:1000;line-height:1.35;}
-.sub{margin-top:8px;color:var(--muted);font-size:13px;}
-
-.btn{
-  width:100%;
-  margin-top:12px;
-  padding:14px;
-  border-radius:16px;
-  border:none;
+.earnCard .label{opacity:.75;font-size:13px}
+.earnCard .value{
+  margin-top:6px;
+  font-size:28px;
   font-weight:1000;
-  cursor:pointer;
 }
-.btn.primary{background:linear-gradient(90deg,var(--blue),#53b0ff);color:#fff;}
-.btn.gold{background:linear-gradient(90deg,var(--gold),#ffe3a4);color:#120b00;}
-.btn.whatsapp{background:linear-gradient(90deg,#2ee58a,#1ccf74);color:#062013;}
-.btn:active{transform:scale(.985)}
-.btn:disabled{filter:grayscale(.5) brightness(.7);cursor:not-allowed;}
+.earnCard .mini{opacity:.7;font-size:12px;margin-top:4px}
 
-.mini{margin-top:10px;font-size:12px;color:var(--muted);}
+.progressBox{
+  margin-top:14px;
+  padding:16px;
+  border-radius:18px;
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+}
+.progressTop{display:flex;justify-content:space-between;font-weight:900}
+.progressBar{
+  margin-top:10px;height:12px;
+  background: rgba(255,255,255,.12);
+  border-radius:999px;
+  overflow:hidden;
+}
+.progressFill{
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background: linear-gradient(90deg,#00c6ff,#00ff87);
+  transition: width .35s ease;
+}
+.hint{margin-top:10px;opacity:.85;font-size:13px}
 
-/* ✅ Steps UI */
-.stepsBox{
+.taskBlock{
+  position:relative;
+  margin-top:16px;
+  padding:16px;
+  border-radius:22px;
+  background: rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+}
+.pill{
+  display:inline-flex;
+  padding:7px 12px;
+  border-radius:999px;
+  background: rgba(255,255,255,.08);
+  font-weight:1000;
+  font-size:13px;
+}
+.taskGrid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
+
+.taskCard{
+  padding:14px;
+  border-radius:18px;
+  background: linear-gradient(145deg,#0c1830,#081225);
+  border:1px solid rgba(255,255,255,.08);
+}
+.taskHead{display:flex;justify-content:space-between;gap:10px}
+.taskTitle{font-weight:1000;font-size:16px}
+.taskDesc{opacity:.9;margin-top:6px;font-weight:700}
+.mandatory{
+  padding:6px 10px;border-radius:999px;
+  font-size:12px;font-weight:1000;
+  color:#ffb7b7;
+  background: rgba(255,75,75,.13);
+  border:1px solid rgba(255,75,75,.25);
+}
+.rewardBox{
   margin-top:12px;
   padding:12px;
   border-radius:16px;
-  border:1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.06);
-}
-.stepsTitle{
-  font-weight:1000;
-  font-size:13px;
-  margin-bottom:8px;
-  color:#cfe7ff;
-}
-.stepsList .step{
-  padding:10px 10px;
-  border-radius:12px;
-  background: rgba(0,0,0,.22);
+  background: rgba(0,0,0,.35);
   border:1px solid rgba(255,255,255,.07);
-  margin-bottom:8px;
-  font-size:13px;
-  color: rgba(255,255,255,.86);
+}
+.rewardBox .line1{opacity:.85;font-size:13px}
+.rewardBox .line2{margin-top:6px;font-weight:1000;color:#ffe27b}
+
+.steps{
+  margin:12px 0 0;padding:0;list-style:none;
+  display:grid;gap:8px;
+}
+.steps li{
+  padding:10px 12px;
+  border-radius:14px;
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.06);
+  font-weight:900;
 }
 
-/* ✅ Small lock overlay */
+.btnRow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.btn{
+  border:0;border-radius:16px;
+  padding:14px 12px;
+  font-weight:1100;
+  cursor:pointer;
+}
+.doneBtn{background:#1886ff;color:#fff}
+.waBtn{background:#25d366;color:#fff}
+.btn:active{transform:scale(.98)}
+
 .smallLockOverlay{
-  position:absolute;
-  inset:0;
+  position:absolute; inset:0;
   display:none;
   align-items:center;
   justify-content:center;
   text-align:center;
-  font-weight:1000;
   background: rgba(0,0,0,.55);
   backdrop-filter: blur(10px);
   border-radius:22px;
   padding:16px;
+  flex-direction: column; /* ✅ 2 line */
+  gap:6px;
+  font-weight:1100;
 }
-.smallLockOverlay small{
-  display:block;
-  margin-top:6px;
-  font-size:12px;
-  opacity:.85;
-}
+.smallLockOverlay small{font-size:13px;opacity:.9}
 
-/* BIG CARD */
-.bigCard{
-  border:1px solid rgba(255,204,77,.25);
-  background: rgba(255,204,77,.08);
-  overflow:hidden;
+.bigTaskBox{
+  margin-top:18px;
+  padding:16px;
+  border-radius:22px;
+  background: rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
 }
-.bigPill{
-  background: rgba(255,204,77,.18);
-  border:1px solid rgba(255,204,77,.26);
-}
-.bigAmt{color:#ffe8b0;}
+.bigTop{display:flex;justify-content:space-between;gap:12px;align-items:center}
 .onlyTag{
-  display:none;
-  margin-top:10px;
-  padding:6px 10px;
+  background: rgba(255,255,255,.1);
+  padding:7px 12px;
   border-radius:999px;
   font-weight:1000;
   font-size:12px;
-  color:#110c00;
-  background: linear-gradient(90deg,#ffcc4d,#ffdca1);
-  animation:pulse 1.4s infinite;
 }
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.bigTitle{font-weight:1100;font-size:18px}
 
-.timerBox{
+.bigLocked{
+  padding:22px;text-align:center;
+  border-radius:18px;
+  background: rgba(0,0,0,.25);
+  border:1px dashed rgba(255,255,255,.2);
+  font-weight:1000;
+}
+.bigLockedSub{opacity:.85;margin-top:8px;font-size:13px}
+
+.bigCard{
+  padding:14px;
+  border-radius:18px;
+  background: linear-gradient(145deg,#19110b,#0b1a2f);
+  border:1px solid rgba(255,255,255,.08);
+}
+.bigRow{display:flex;justify-content:space-between;gap:10px}
+.bigName{font-weight:1100;font-size:16px}
+.bigAmount{font-weight:1200;font-size:20px;color:#00ff87}
+.bigDesc{margin-top:8px;opacity:.9;font-weight:900}
+
+.countDownRow{
+  margin-top:12px;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;
+}
+.warnTag{
+  font-weight:1000;padding:6px 10px;
+  border-radius:999px;
+  background: rgba(255,165,0,.15);
+  border:1px solid rgba(255,165,0,.25);
+  color:#ffd18a;
+  font-size:12px;
+}
+.stepsTitle{margin-top:14px;font-weight:1100}
+
+.bigMsg{
   margin-top:12px;
   padding:10px 12px;
   border-radius:14px;
-  border:1px dashed rgba(255,255,255,.25);
-  background: rgba(0,0,0,.22);
-  font-weight:900;
-  color:#ffe8b0;
+  background: rgba(0,0,0,.3);
+  border:1px solid rgba(255,255,255,.08);
+  display:none;
 }
 
-.lockOverlay{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+.comingLine{
+  margin-top:12px;
+  opacity:.9;
   font-weight:1000;
-  background: rgba(0,0,0,.55);
-  backdrop-filter: blur(10px);
-  border-radius:22px;
+  text-align:center;
+  background: rgba(255,255,255,.06);
+  padding:10px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.08);
 }
-	
+
+@media(max-width:560px){
+  .earnBar{grid-template-columns:1fr}
+  .btnRow{grid-template-columns:1fr}
+}
   </style>
 </head>
 <body>
