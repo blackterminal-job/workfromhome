@@ -1218,55 +1218,52 @@ document.addEventListener("DOMContentLoaded", function(){
 const sheetURL = "https://opensheet.elk.sh/1YW6QuBtryedN8L2t-Q6laTJE46VI8oarUFIVBvui4Mw/Sheet1";
 
 async function fetchMyCode(){
-  const mob = (document.getElementById("mobInp").value || "").trim();
+  const mobInp = (document.getElementById("mobInp").value || "").trim();
   const codeBig = document.getElementById("codeBig");
   const msg = document.getElementById("codeMsg");
+  const row = data.find(r => String(r.Mobile).includes(mob));
+
+
+  let mob = mobInp.replace(/\D/g, "");
+  if(mob.length === 12 && mob.startsWith("91")) mob = mob.slice(2);
 
   codeBig.style.display = "none";
   msg.style.display = "block";
   msg.innerText = "⏳ Fetching your code...";
 
-  const im = mob.replace(/\D/g,'');
-  if(im.length < 10){
+  if(mob.length !== 10){
     msg.innerText = "⚠️ Enter valid mobile number.";
     return;
   }
 
   try{
-    const res = await fetch(sheetURL, {cache:"no-store"});
+    const res = await fetch(sheetURL);
     const data = await res.json();
 
-    if(data.error){
-      msg.innerText = "❌ " + data.error;
-      return;
-    }
-
-    const row = data.find(r=>{
-      const sm = String(r.Mobile || "").replace(/\D/g,'');
-      return sm.endsWith(im) || im.endsWith(sm);
-    });
+    // ✅ find matching row by mobile
+    const row = data.find(r => String(r.Mobile || "").trim() === mob);
 
     if(!row){
-      msg.innerText = "❌ Mobile not found in sheet.";
+      msg.innerText = "❌ Mobile number not found.";
       return;
     }
 
-    const code = String(row.Code || "").trim();
     codeBig.style.display = "block";
-    codeBig.innerText = code;
+    msg.style.display = "none";
 
-    msg.innerText = "✅ Code found!";
-    localStorage.setItem("bt_refcode", code);
-
+    // Example output
+    codeBig.innerHTML = `
+      ✅ Code: <b>${row.Code}</b><br>
+      👤 Name: ${row.Name}<br>
+      🏙️ City: ${row.City}<br>
+      🤝 Referrals: ${row.Referrals}<br>
+      👥 Admissions: ${row.Admissions}<br>
+      💰 Amount: ₹${row.Amount}
+    `;
   }catch(err){
-    console.log(err);
-    msg.innerText = "⚠️ Error loading. Check sheet share is public.";
+    msg.innerText = "❌ Error: " + err.message;
   }
 }
-
-
-
-
 
 	
  
@@ -1277,6 +1274,7 @@ async function fetchMyCode(){
 
 </body>
 </html>
+
 
 
 
