@@ -271,6 +271,182 @@
 
 	  
 	  
+    
+    
+    
+    
+    
+    
+    /* ✅ NEW OFFER BAR (Mobile first) */
+.btOfferBar{
+  max-width:1100px;
+  margin:14px auto;
+  padding:14px;
+  border-radius:22px;
+  background:linear-gradient(135deg,#0b1220,#132a5a);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 20px 55px rgba(0,0,0,.28);
+  overflow:hidden;
+  position:relative;
+}
+
+.btOfferBar:before{
+  content:"";
+  position:absolute;
+  inset:-80px;
+  background:radial-gradient(circle at 20% 10%, rgba(10,132,255,.25), transparent 55%),
+             radial-gradient(circle at 90% 80%, rgba(34,197,94,.25), transparent 60%);
+  filter:blur(10px);
+  z-index:0;
+}
+
+.btOfferTop{
+  position:relative;
+  z-index:2;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+
+.btOfferLeft{flex:1;min-width:180px;}
+.btOfferTag{
+  display:inline-block;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.14);
+  font-weight:1100;
+  font-size:12px;
+  letter-spacing:.6px;
+  animation: tagPulse 1.2s infinite;
+}
+@keyframes tagPulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.06)}
+  100%{transform:scale(1)}
+}
+.btOfferTitle{
+  margin-top:10px;
+  font-size:18px;
+  font-weight:1200;
+}
+.btOfferSub{
+  margin-top:6px;
+  font-weight:900;
+  opacity:.88;
+  line-height:1.5;
+}
+
+.btTimerBox{
+  padding:10px 12px;
+  border-radius:18px;
+  background:rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.14);
+  min-width:140px;
+  text-align:center;
+}
+.btTimerLabel{
+  font-weight:1000;
+  font-size:12px;
+  opacity:.82;
+}
+.btTimerTime{
+  margin-top:5px;
+  font-weight:1200;
+  font-size:18px;
+  letter-spacing:1px;
+  color:#ffd54a;
+  text-shadow:0 0 20px rgba(255,213,74,.18);
+}
+
+/* Bottom row */
+.btOfferBottom{
+  position:relative;
+  z-index:2;
+  margin-top:12px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.btOfferSlide{
+  flex:1;
+  overflow:hidden;
+  border-radius:16px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  padding:10px 12px;
+}
+.btOfferTrack{
+  display:inline-flex;
+  gap:14px;
+  white-space:nowrap;
+  font-weight:1000;
+  animation: offerSlide 16s linear infinite;
+}
+.btOfferTrack span{
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.10);
+  font-size:13px;
+}
+
+@keyframes offerSlide{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+
+/* Claimed mini */
+.btClaimMini{
+  padding:10px 12px;
+  border-radius:16px;
+  background:rgba(34,197,94,.16);
+  border:1px solid rgba(34,197,94,.30);
+  font-weight:1100;
+  white-space:nowrap;
+}
+.btClaimMini b{
+  color:#baffd1;
+}
+
+/* Urgent */
+.btOfferBar.urgent{
+  border:1px solid rgba(255,204,0,.35);
+  box-shadow:0 0 35px rgba(255,204,0,.12), 0 20px 55px rgba(0,0,0,.28);
+}
+.btOfferBar.urgent .btTimerTime{
+  animation: blink 0.9s infinite;
+}
+@keyframes blink{
+  0%,100%{opacity:1}
+  50%{opacity:.3}
+}
+
+/* Expired */
+.btOfferBar.expired{
+  background:linear-gradient(135deg,#2b0b0b,#7a0b0b);
+  border:1px solid rgba(255,59,48,.35);
+}
+.btOfferBar.expired .btTimerTime{
+  color:#fff;
+}
+
+/* ✅ Mobile */
+@media(max-width:720px){
+  .btOfferTop{flex-direction:column}
+  .btTimerBox{width:100%;min-width:auto}
+  .btOfferBottom{flex-direction:column;align-items:stretch}
+  .btClaimMini{text-align:center}
+  .btOfferTrack{animation-duration:13s}
+}
+/* very small phones */
+@media(max-width:380px){
+  .btClaimMini{display:none}
+}
+    
 	
   </style>
 </head>
@@ -297,38 +473,46 @@
   
   
   
-  <!-- ✅ PREMIUM OFFER MARQUEE + CLAIMED COUNTER + COUNTDOWN (FINAL) -->
-<div class="bt-marquee-wrap" id="btOfferMarquee">
-  <div class="bt-marquee-label" id="btOfferLabel">🔥 TODAY OFFER</div>
+  <!-- ✅ NEW STYLE: Premium Offer Bar -->
+<div class="btOfferBar" id="btOfferBar" style="display:none;">
+  <div class="btOfferTop">
+    <div class="btOfferLeft">
+      <div class="btOfferTag" id="btOfferTag">⚡ TODAY ONLY</div>
+      <div class="btOfferTitle">Special Student Offer</div>
+      <div class="btOfferSub">Free Demo Pass + Discount Benefit</div>
+    </div>
 
-  <div class="bt-marquee">
-    <div class="bt-marquee-track">
-      <span>🎁 Surprise Gift Reward •</span>
-      <span>💰 Extra Bonus Commission •</span>
-      <span>🎓 Free Course Demo Pass •</span>
-      <span>📢 Social Media Shoutout •</span>
-      <span>✅ Certificate / Appreciation •</span>
-      <span>⭐ Lucky Draw Entry Confirmed •</span>
-
-      <!-- repeat for smooth loop -->
-      <span>🎁 Surprise Gift Reward •</span>
-      <span>💰 Extra Bonus Commission •</span>
-      <span>🎓 Free Course Demo Pass •</span>
-      <span>📢 Social Media Shoutout •</span>
-      <span>✅ Certificate / Appreciation •</span>
-      <span>⭐ Lucky Draw Entry Confirmed •</span>
+    <div class="btOfferRight">
+      <div class="btTimerBox">
+        <div class="btTimerLabel">Ends In</div>
+        <div class="btTimerTime" id="btTimer2">00:00:00</div>
+      </div>
     </div>
   </div>
 
-  <div class="bt-claimed">
-    ✅ Claimed by <span id="btClaimed">12</span> students today
-  </div>
+  <div class="btOfferBottom">
+    <div class="btOfferSlide">
+      <div class="btOfferTrack">
+        <span>🎁 Surprise Gift Reward</span>
+        <span>💰 Extra Bonus Commission</span>
+        <span>🎓 Free Course Demo Pass</span>
+        <span>✅ Certificate / Appreciation</span>
+        <span>⭐ Lucky Draw Entry Confirmed</span>
 
-  <div class="bt-countdown">
-    ⏳ Ends in <span id="btTimer">00:00:00</span>
+        <!-- repeat -->
+        <span>🎁 Surprise Gift Reward</span>
+        <span>💰 Extra Bonus Commission</span>
+        <span>🎓 Free Course Demo Pass</span>
+        <span>✅ Certificate / Appreciation</span>
+        <span>⭐ Lucky Draw Entry Confirmed</span>
+      </div>
+    </div>
+
+    <div class="btClaimMini">
+      ✅ Claimed: <b id="btClaimMini">12</b>
+    </div>
   </div>
 </div>
-
   
 	  
      
@@ -373,6 +557,83 @@
 
 <script>
   
+
+function startOfferBar(){
+  const bar = document.getElementById("btOfferBar");
+  const timerEl = document.getElementById("btTimer2");
+  const tag = document.getElementById("btOfferTag");
+  const claimEl = document.getElementById("btClaimMini");
+
+  if(!bar || !timerEl || !tag) return;
+
+  // show only today
+  bar.style.display = "block";
+
+  // claimed counter daily storage
+  const key = "bt_claimed_mini_" + new Date().toDateString();
+  let claimed = Number(localStorage.getItem(key));
+  if(!claimed){
+    claimed = Math.floor(10 + Math.random()*20); // 10-29
+    localStorage.setItem(key, claimed);
+  }
+  if(claimEl) claimEl.textContent = claimed;
+
+  function bumpClaim(){
+    if(!claimEl) return;
+    claimEl.style.transform = "scale(1.15)";
+    setTimeout(()=>claimEl.style.transform="scale(1)",180);
+  }
+
+  let urgentTriggered = false;
+
+  function tick(){
+    const now = new Date();
+    const end = new Date();
+    end.setHours(23,59,59,999);
+
+    let diff = end - now;
+
+    if(diff <= 0){
+      timerEl.textContent = "00:00:00";
+      bar.classList.remove("urgent");
+      bar.classList.add("expired");
+      tag.textContent = "⛔ OFFER EXPIRED";
+      setTimeout(()=>{ bar.style.display="none"; }, 3000);
+      return;
+    }
+
+    const h = Math.floor(diff/(1000*60*60));
+    const m = Math.floor((diff%(1000*60*60))/(1000*60));
+    const s = Math.floor((diff%(1000*60))/1000);
+
+    timerEl.textContent =
+      String(h).padStart(2,"0")+":"+
+      String(m).padStart(2,"0")+":"+
+      String(s).padStart(2,"0");
+
+    // urgent last 5 min
+    if(diff <= 5*60*1000 && !urgentTriggered){
+      urgentTriggered = true;
+      bar.classList.add("urgent");
+      tag.textContent = "⚠️ LAST 5 MIN";
+    }
+  }
+
+  tick();
+  setInterval(tick, 1000);
+
+  // claimed increases slowly
+  setInterval(()=>{
+    if(Math.random()<0.55){
+      claimed += (Math.random()<0.85 ? 1 : 2);
+      localStorage.setItem(key, claimed);
+      if(claimEl) claimEl.textContent = claimed;
+      bumpClaim();
+    }
+  }, 9000);
+}
+
+window.addEventListener("load", startOfferBar);
 
     
 
