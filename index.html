@@ -497,7 +497,7 @@
     
     
     
-    :root{
+  :root{
   --bg:#061426;
   --line:rgba(255,255,255,.10);
   --txt:#eaf2ff;
@@ -610,6 +610,27 @@ p{margin:0;color:var(--muted);}
   margin-bottom:8px;
   font-size:13px;
   color: rgba(255,255,255,.86);
+}
+
+/* ✅ Small lock overlay */
+.smallLockOverlay{
+  position:absolute;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-weight:1000;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(10px);
+  border-radius:22px;
+  padding:16px;
+}
+.smallLockOverlay small{
+  display:block;
+  margin-top:6px;
+  font-size:12px;
+  opacity:.85;
 }
 
 /* BIG CARD */
@@ -737,6 +758,16 @@ p{margin:0;color:var(--muted);}
 
 
 
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -771,7 +802,7 @@ p{margin:0;color:var(--muted);}
     </div>
 
     <!-- Small task -->
-    <div class="card">
+    <div class="card" id="smallCard">
       <div class="top">
         <div class="pill">✅ Small Task</div>
         <div class="amt" id="taskAmt">₹0.00</div>
@@ -790,6 +821,12 @@ p{margin:0;color:var(--muted);}
       <button class="btn whatsapp" id="smallProofBtn">📩 Send Small Proof (WhatsApp)</button>
 
       <div class="mini" id="status"></div>
+
+      <!-- ✅ lock small tasks while big task active -->
+      <div class="smallLockOverlay" id="smallLockOverlay">
+        🔒 Small tasks locked<br/>
+        <small>Complete BIG TASK to unlock</small>
+      </div>
     </div>
 
     <!-- BIG TASK -->
@@ -997,10 +1034,6 @@ window.addEventListener("load", startOfferBarCycle);
 
 
 
-/**********************
- Daily Work Final ✅
-**********************/
-
 const ADMIN_WA = "917008186187";
 
 const BT_TOTAL_KEY = "bt_total_earn_lifetime";
@@ -1016,48 +1049,18 @@ const KEY_BIG_UNLOCK_AT = "bt_big_unlock_at";
 const KEY_BIG_TODAY_COUNT = "bt_big_today_count";
 const KEY_BIG_DAY = "bt_big_day";
 
-/* ✅ Small task pool with steps */
+/* Small task pool with steps */
 const TASKS = [
-  {
-    task: "Post today's poster on WhatsApp status (keep 6 hours)",
-    steps: ["Download today's poster", "Post on WhatsApp status", "Keep for 6 hours", "Take screenshot proof"]
-  },
-  {
-    task: "Share course poster in 2 WhatsApp groups",
-    steps: ["Download poster", "Share in Group 1", "Share in Group 2", "Take screenshot proof"]
-  },
-  {
-    task: "Send course brochure to 5 friends",
-    steps: ["Copy brochure message", "Send to 5 friends", "Ask for reply", "Take screenshot proof"]
-  },
-  {
-    task: "Post admission promo message on Facebook",
-    steps: ["Open Facebook", "Post promo message", "Add poster image", "Take screenshot proof"]
-  },
-  {
-    task: "Send demo class invite to 3 contacts",
-    steps: ["Write demo invite message", "Send to 3 contacts", "Ask 'Interested?'", "Take screenshot proof"]
-  },
-  {
-    task: "Share typing course poster to 5 contacts",
-    steps: ["Download typing poster", "Send to 5 contacts", "Request share", "Take screenshot proof"]
-  },
-  {
-    task: "Explain PGDCA benefits to 1 student",
-    steps: ["Call/message 1 student", "Explain PGDCA benefits", "Share fee + duration", "Take screenshot proof"]
-  },
-  {
-    task: "Ask 2 friends if they need computer course",
-    steps: ["Message Friend 1", "Message Friend 2", "Share course list", "Take screenshot proof"]
-  },
-  {
-    task: "Share institute contact number to 2 students",
-    steps: ["Copy institute contact", "Send to Student 1", "Send to Student 2", "Take screenshot proof"]
-  },
-  {
-    task: "Send admission message to 5 contacts",
-    steps: ["Copy admission message", "Send to 5 contacts", "Ask for response", "Take screenshot proof"]
-  }
+  { task:"Post today's poster on WhatsApp status (keep 6 hours)", steps:["Download today's poster","Post on WhatsApp status","Keep for 6 hours","Take screenshot proof"] },
+  { task:"Share course poster in 2 WhatsApp groups", steps:["Download poster","Share in Group 1","Share in Group 2","Take screenshot proof"] },
+  { task:"Send course brochure to 5 friends", steps:["Copy brochure message","Send to 5 friends","Ask for reply","Take screenshot proof"] },
+  { task:"Post admission promo message on Facebook", steps:["Open Facebook","Post promo message","Add poster image","Take screenshot proof"] },
+  { task:"Send demo class invite to 3 contacts", steps:["Write demo invite message","Send to 3 contacts","Ask 'Interested?'","Take screenshot proof"] },
+  { task:"Share typing course poster to 5 contacts", steps:["Download typing poster","Send to 5 contacts","Request share","Take screenshot proof"] },
+  { task:"Explain PGDCA benefits to 1 student", steps:["Call/message 1 student","Explain PGDCA benefits","Share fee + duration","Take screenshot proof"] },
+  { task:"Ask 2 friends if they need computer course", steps:["Message Friend 1","Message Friend 2","Share course list","Take screenshot proof"] },
+  { task:"Share institute contact number to 2 students", steps:["Copy institute contact","Send to Student 1","Send to Student 2","Take screenshot proof"] },
+  { task:"Send admission message to 5 contacts", steps:["Copy admission message","Send to 5 contacts","Ask for response","Take screenshot proof"] }
 ];
 
 const BIG_TASKS = [
@@ -1120,7 +1123,6 @@ function showTask(data){
   document.getElementById("taskTitle").innerText = "📌 " + data.task;
   document.getElementById("taskAmt").innerText = "₹" + data.reward.toFixed(2);
 
-  // ✅ show steps
   const stepsBox = document.getElementById("taskSteps");
   stepsBox.innerHTML = "";
   (data.steps || []).forEach((s,i)=>{
@@ -1153,6 +1155,22 @@ function updateUI(){
   document.getElementById("smallDoneTxt").innerText = `Small Done: ${Math.min(smallDone,2)}/2`;
 
   updateBigUI();
+
+  // ✅ lock small tasks while big task active
+  const bigActive = !!localStorage.getItem(KEY_BIG);
+  const overlay = document.getElementById("smallLockOverlay");
+  const completeBtn = document.getElementById("completeBtn");
+  const proofBtn = document.getElementById("smallProofBtn");
+
+  if(bigActive){
+    overlay.style.display = "flex";
+    completeBtn.disabled = true;
+    proofBtn.disabled = true;
+  }else{
+    overlay.style.display = "none";
+    completeBtn.disabled = false;
+    proofBtn.disabled = false;
+  }
 }
 
 function addEarning(amount){
@@ -1168,8 +1186,7 @@ function addEarning(amount){
   updateUI();
 }
 
-/* -------- BIG TASK -------- */
-
+/* BIG TASK */
 function pickBigTask(){
   if(Math.random() < 0.75) return BIG_TASKS[0];
   return BIG_TASKS[Math.floor(Math.random() * (BIG_TASKS.length-1)) + 1];
@@ -1228,7 +1245,6 @@ function updateBigUI(){
 
 function startBigCountdown(){
   const timerEl = document.getElementById("bigTimer");
-
   setInterval(()=>{
     const unlockAt = parseInt(localStorage.getItem(KEY_BIG_UNLOCK_AT) || "0");
     const now = Date.now();
@@ -1245,8 +1261,6 @@ function startBigCountdown(){
   }, 1000);
 }
 
-/* -------- EVENTS -------- */
-
 document.addEventListener("DOMContentLoaded", ()=>{
   updateUI();
 
@@ -1256,7 +1270,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   startBigCountdown();
 
-  // ✅ small complete
   document.getElementById("completeBtn").addEventListener("click", ()=>{
     const task = JSON.parse(localStorage.getItem(KEY_TASK) || "{}");
     const reward = Number(task.reward || 0);
@@ -1274,7 +1287,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
     updateUI();
   });
 
-  // ✅ small proof WhatsApp
   document.getElementById("smallProofBtn").addEventListener("click", ()=>{
     const task = JSON.parse(localStorage.getItem(KEY_TASK) || "{}");
     const msg =
@@ -1286,11 +1298,9 @@ Date: ${todayKey()}
 Status: DONE
 
 Please verify fast.`;
-
     sendWA(msg);
   });
 
-  // ✅ big complete
   document.getElementById("bigDoneBtn").addEventListener("click", ()=>{
     const active = localStorage.getItem(KEY_BIG);
     if(!active){
@@ -1317,7 +1327,6 @@ Please verify fast.`;
     updateUI();
   });
 
-  // ✅ big proof WhatsApp
   document.getElementById("bigProofBtn").addEventListener("click", ()=>{
     const active = localStorage.getItem(KEY_BIG);
     if(!active){
@@ -1335,7 +1344,6 @@ Date: ${todayKey()}
 Status: DONE
 
 Please verify fast.`;
-
     sendWA(msg);
   });
 
