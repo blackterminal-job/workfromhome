@@ -977,6 +977,333 @@ window.addEventListener("load", startOfferBarCycle);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ✅ Settings */
+const DT_WHATSAPP = "917008186187"; // ✅ change your WhatsApp number
+
+/* ✅ Helpers */
+function pad2(n){ return String(n).padStart(2,"0"); }
+
+function seededNumber(str){
+  let sum = 0;
+  for(let i=0;i<str.length;i++){
+    sum = (sum + str.charCodeAt(i) * (i+1)) % 999999;
+  }
+  return sum;
+}
+
+function getUserKey(){
+  if(!localStorage.getItem("bt_user_id")){
+    localStorage.setItem("bt_user_id", Math.random().toString(16).slice(2));
+  }
+  return localStorage.getItem("bt_refcode") || ("USER-" + localStorage.getItem("bt_user_id"));
+}
+
+/* ✅ fixed reward >= 0.10 per user per day */
+function fixedRewardForToday(userKey, today){
+  const seed = seededNumber(userKey + "|" + today);
+  const min = 0.10, max = 0.50;
+  const rand = (seed % 10000) / 10000; // 0-0.9999
+  let value = min + rand * (max - min);
+  value = Math.round(value * 100) / 100;
+  if(value < 0.10) value = 0.10;
+  if(value > 0.50) value = 0.50;
+  return value;
+}
+
+/* ✅ 50 tasks pool */
+const TASKS = [];
+const baseTasks = [
+  ["📲 WhatsApp Status Poster","Post today’s poster on WhatsApp status.",true,
+    ["Download poster","Post WhatsApp status","Keep for 6 hours","Take screenshot of views"]],
+  ["👥 Group Share Task","Share apply link in local groups.",true,
+    ["Share in 3 WhatsApp groups","Share in 2 Facebook groups","Screenshot proof"]],
+  ["💬 DM Promotion Task","Send message + poster to people.",false,
+    ["Send poster to 10 friends","Ask: Interested in course?","Take screenshot"]],
+  ["🎯 Lead Collection Task","Collect 1 student name + mobile.",true,
+    ["Talk to 3 students","Collect 1 mobile number","Send to institute WhatsApp"]],
+  ["🏫 Demo Class Push","Invite 1 student for free demo class.",true,
+    ["Send demo invite message","Share demo timing","Confirm attendance"]],
+];
+
+for(let i=0;i<50;i++){
+  const tpl = baseTasks[i % baseTasks.length];
+  TASKS.push({
+    t: tpl[0] + " #" + (i+1),
+    d: tpl[1],
+    mandatory: tpl[2],
+    s: tpl[3]
+  });
+}
+
+/* ✅ pick daily task (unique per user) */
+function pickTaskIndex(userKey, today){
+  const seed = seededNumber(today + "|" + userKey);
+  return seed % TASKS.length;
+}
+
+/* ✅ Big reward slots info */
+function getNextBigSlot(){
+  const now = new Date();
+
+  const slot1Start = new Date(now); slot1Start.setHours(10,0,0,0);
+  const slot1End   = new Date(now); slot1End.setHours(11,0,0,0);
+
+  const slot2Start = new Date(now); slot2Start.setHours(18,0,0,0);
+  const slot2End   = new Date(now); slot2End.setHours(19,0,0,0);
+
+  if(now >= slot1Start && now < slot1End) return {active:true, slot:1, start:slot1Start, end:slot1End};
+  if(now >= slot2Start && now < slot2End) return {active:true, slot:2, start:slot2Start, end:slot2End};
+
+  if(now < slot1Start) return {active:false, next:slot1Start};
+  if(now < slot2Start) return {active:false, next:slot2Start};
+
+  const tomorrow = new Date(now);
+  tomorrow.setDate(tomorrow.getDate()+1);
+  tomorrow.setHours(10,0,0,0);
+  return {active:false, next:tomorrow};
+}
+
+function pickBigReward(userKey, dayKey, slot){
+  const seed = seededNumber(userKey + "|" + dayKey + "|BIG|" + slot);
+  const roll = seed % 100;
+  if(roll < 70) return { amount: 500, title: "✅ Admission Bonus Task", sub:"Get 1 confirmed admission today." };
+  return { amount: 3000, title: "🎓 PGDCA / Advanced PGDCA Special", sub:"Get 1 PGDCA admission today." };
+}
+
+/* ✅ confetti */
+function blastConfetti(){
+  for(let i=0;i<26;i++){
+    const b = document.createElement("div");
+    b.style.position="fixed";
+    b.style.zIndex="999999";
+    b.style.left=(Math.random()*100)+"vw";
+    b.style.top="-10px";
+    b.style.width="10px";
+    b.style.height="14px";
+    b.style.opacity="0.95";
+    b.style.borderRadius="4px";
+    b.style.background="hsl("+(Math.random()*360)+",90%,60%)";
+    b.style.transform="rotate("+(Math.random()*90)+"deg)";
+    b.style.transition="transform 2.8s linear, top 2.8s linear, opacity 2.8s linear";
+    document.body.appendChild(b);
+
+    setTimeout(()=>{
+      b.style.top="110vh";
+      b.style.transform="rotate("+(Math.random()*360)+"deg)";
+      b.style.opacity="0";
+    },60);
+
+    setTimeout(()=>b.remove(),3000);
+  }
+}
+
+/* ✅ Coming Notice + Progress */
+function startBigComingNotice(){
+  const box = document.getElementById("bigComing");
+  const tEl = document.getElementById("bigComingTimer");
+  const fill = document.getElementById("bigFill");
+  if(!box || !tEl || !fill) return;
+
+  function tick(){
+    const info = getNextBigSlot();
+    const now = new Date();
+
+    if(info.active){
+      box.style.display="none";
+      return;
+    }
+
+    const diff = info.next - now;
+    if(diff <= 0){
+      box.style.display="none";
+      return;
+    }
+
+    const WINDOW = 2*60*60*1000;
+    if(diff <= WINDOW){
+      box.style.display="block";
+
+      const mins = Math.floor(diff/(1000*60));
+      const hh = Math.floor(mins/60);
+      const mm = mins % 60;
+
+      if(hh > 0) tEl.innerText = `${hh}h ${mm}m`;
+      else tEl.innerText = `${mm} min`;
+
+      const progress = Math.max(0, Math.min(1, 1 - (diff / WINDOW)));
+      fill.style.width = Math.round(progress * 100) + "%";
+    }else{
+      box.style.display="none";
+    }
+  }
+
+  tick();
+  setInterval(tick, 15000);
+}
+
+/* ✅ Big Slot display */
+function startSpecialSlots(){
+  const box = document.getElementById("spBox");
+  const titleEl = document.getElementById("spTitle");
+  const amtEl = document.getElementById("spAmt");
+  const subEl = document.getElementById("spSub");
+  const timerEl = document.getElementById("spTimer");
+  const waEl = document.getElementById("spWa");
+  if(!box || !timerEl) return;
+
+  const dayKey = new Date().toDateString();
+  const userKey = getUserKey();
+
+  let confettiDoneForSlot = "";
+
+  function check(){
+    const info = getNextBigSlot();
+    if(!info.active){
+      box.style.display = "none";
+      confettiDoneForSlot = "";
+      return;
+    }
+
+    box.style.display = "block";
+
+    const reward = pickBigReward(userKey, dayKey, info.slot);
+    titleEl.innerText = reward.title;
+    amtEl.innerText = "₹" + reward.amount;
+    subEl.innerText = "Join before end. " + reward.sub;
+
+    const diff = info.end - new Date();
+    const hh = Math.floor(diff/(1000*60*60));
+    const mm = Math.floor((diff%(1000*60*60))/(1000*60));
+    const ss = Math.floor((diff%(1000*60))/1000);
+    timerEl.innerText = pad2(hh)+":"+pad2(mm)+":"+pad2(ss);
+
+    const msg =
+      "✨ SPECIAL BIG REWARD TASK (ONLY FOR YOU)\n\n" +
+      "Date: " + dayKey + "\n" +
+      "User: " + userKey + "\n" +
+      "Slot: " + info.slot + "\n" +
+      "Reward: ₹" + reward.amount + "\n" +
+      "Task: " + reward.title + "\n\n" +
+      "I want to join this reward task ✅";
+
+    if(waEl){
+      waEl.href = "https://wa.me/" + DT_WHATSAPP + "?text=" + encodeURIComponent(msg);
+    }
+
+    // confetti once per slot activation
+    const slotKey = dayKey + "_slot_" + info.slot;
+    if(confettiDoneForSlot !== slotKey){
+      blastConfetti();
+      confettiDoneForSlot = slotKey;
+    }
+  }
+
+  check();
+  setInterval(check, 1000);
+}
+
+/* ✅ Normal daily task render */
+function startDailyTask(){
+  const today = new Date().toDateString();
+  const userKey = getUserKey();
+
+  const idx = pickTaskIndex(userKey, today);
+  const task = TASKS[idx];
+
+  const doneKey = "bt_task_done_" + today + "_" + userKey;
+  const rewardMin = fixedRewardForToday(userKey, today);
+
+  document.getElementById("dtDate").innerText = today;
+  document.getElementById("dtTitle").innerText = task.t;
+  document.getElementById("dtDesc").innerText = task.d;
+
+  const badge = document.getElementById("dtMandatory");
+  if(task.mandatory){
+    badge.className = "dtBadge mandatory";
+    badge.innerText = "MANDATORY";
+  }else{
+    badge.className = "dtBadge";
+    badge.innerText = "OPTIONAL";
+    badge.style.background="#e8f4ff";
+    badge.style.border="1px solid rgba(10,132,255,.25)";
+    badge.style.color="#0a84ff";
+  }
+
+  document.getElementById("dtPayText").innerText =
+    "₹" + rewardMin.toFixed(2) + " – ₹0.50 per performance (estimated)";
+
+  document.getElementById("dtPayRange").innerText =
+    "Guaranteed minimum: ₹" + rewardMin.toFixed(2);
+
+  document.getElementById("dtSteps").innerHTML = task.s
+    .map((x,i)=>`<div class="step">✅ Step ${i+1}: ${x}</div>`)
+    .join("");
+
+  const msg =
+    "✅ DAILY TASK PROOF\n\n" +
+    "📅 Date: " + today + "\n" +
+    "👤 User: " + userKey + "\n" +
+    "📌 Task: " + task.t + "\n" +
+    "💸 Reward: ₹" + rewardMin.toFixed(2) + " – ₹0.50\n\n" +
+    "📸 Screenshot attached ✅\nPlease verify.";
+
+  document.getElementById("dtWa").href =
+    "https://wa.me/" + DT_WHATSAPP + "?text=" + encodeURIComponent(msg);
+
+  const done = localStorage.getItem(doneKey) === "yes";
+  const btn = document.getElementById("dtDoneBtn");
+  const st = document.getElementById("dtStatus");
+
+  if(done){
+    btn.disabled = true;
+    btn.innerText = "✅ Completed";
+    st.style.display = "block";
+    st.innerHTML = "✅ Task marked completed. Now send WhatsApp proof + screenshot.";
+  }else{
+    btn.disabled = false;
+    btn.innerText = "✅ Mark Completed";
+    st.style.display = "none";
+  }
+
+  window.completeTask = function(){
+    localStorage.setItem(doneKey, "yes");
+    btn.disabled = true;
+    btn.innerText = "✅ Completed";
+    st.style.display = "block";
+    st.innerHTML = "✅ Task marked completed. Now send WhatsApp proof + screenshot.";
+  };
+}
+
+/* ✅ init */
+window.addEventListener("load", ()=>{
+  startDailyTask();
+  startBigComingNotice();
+  startSpecialSlots();
+});
+
+
+
 </script>
 
 
