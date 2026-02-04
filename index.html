@@ -648,6 +648,43 @@
   .bt-claimed{ padding:8px 10px; font-size:12px; }
 }
 
+/* ✅ Mobile Fix: 2-line layout */
+@media(max-width:720px){
+  .bt-marquee-wrap{
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .bt-marquee-label{
+    width:auto;
+    padding:8px 10px;
+    font-size:11px;
+  }
+
+  .bt-marquee{
+    width:100%;
+    order:3;
+  }
+
+  .bt-claimed{
+    order:2;
+    flex:1;
+    min-width:170px;
+    padding:8px 10px;
+    font-size:12px;
+  }
+
+  .bt-countdown{
+    order:1;
+    padding:8px 10px;
+    font-size:12px;
+  }
+
+  .bt-marquee-track{
+    animation-duration: 12s;
+  }
+}
+
 	  
 	  
 	
