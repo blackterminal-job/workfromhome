@@ -478,6 +478,206 @@
 
 
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /* ✅ Daily Task styles */
+.dtWrap{max-width:1100px;margin:14px auto;padding:0 14px;}
+.dtHead{padding:10px 2px;}
+.dtTag{
+  display:inline-block;padding:6px 10px;border-radius:999px;
+  background:#0b1220;color:#fff;font-weight:1100;font-size:12px;
+}
+.dtTitleBig{margin:10px 0 6px;font-size:20px;font-weight:1200;}
+.dtSub{margin:0;opacity:.8;font-weight:900;line-height:1.6;}
+
+.dtCard{
+  margin-top:12px;
+  padding:16px;
+  border-radius:22px;
+  background:#fff;
+  border:1px solid #eaeaea;
+  box-shadow:0 16px 40px rgba(0,0,0,.08);
+}
+.dtTopRow{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;}
+.dtDate{
+  padding:8px 12px;border-radius:14px;
+  background:#f5f7fb;border:1px solid #eaeaea;
+  font-weight:1100;color:#111;
+}
+.dtBadge{
+  padding:8px 12px;border-radius:999px;
+  font-weight:1200;font-size:12px;
+  letter-spacing:.6px;
+}
+.dtBadge.mandatory{
+  background:#ffe3e3;
+  border:1px solid rgba(255,59,48,.25);
+  color:#c00000;
+  animation: mandPulse 1.2s infinite;
+}
+@keyframes mandPulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.06)}
+  100%{transform:scale(1)}
+}
+
+.dtTaskTitle{margin-top:12px;font-size:18px;font-weight:1200;color:#111;}
+.dtTaskDesc{margin-top:6px;font-weight:900;opacity:.85;line-height:1.6;}
+
+.dtPayBox{
+  margin-top:12px;
+  padding:12px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#0b1220,#132a5a);
+  color:#fff;
+}
+.dtPayLabel{font-weight:1100;font-size:12px;opacity:.95;}
+.dtPayText{margin-top:6px;font-size:15px;font-weight:1150;line-height:1.5;}
+.dtPayRange{margin-top:6px;font-weight:1100;color:#ffd54a;}
+
+.dtSteps{margin-top:12px;display:grid;gap:10px;}
+.dtSteps .step{
+  padding:12px;border-radius:18px;
+  background:#f9fafc;border:1px solid #eee;
+  font-weight:950;line-height:1.6;
+}
+
+.dtBtns{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;}
+.dtBtn{
+  flex:1;
+  border:none;
+  padding:12px 14px;
+  border-radius:18px;
+  font-weight:1200;
+  cursor:pointer;
+  text-align:center;
+  text-decoration:none;
+}
+.dtBtn.done{background:#0a84ff;color:#fff;}
+.dtBtn.wa{background:#25D366;color:#fff;}
+.dtBtn:active{transform:scale(.99)}
+
+.dtStatus{
+  margin-top:12px;
+  padding:12px;
+  border-radius:18px;
+  background:#fff3d6;
+  border:1px solid #ffe1a6;
+  font-weight:950;
+  line-height:1.6;
+}
+
+/* ✅ Coming Notice + Progress */
+.bigComing{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#0b1220,#132a5a);
+  border:1px solid rgba(255,255,255,.14);
+  color:#fff;
+  font-weight:1100;
+  box-shadow:0 16px 35px rgba(0,0,0,.18);
+  animation: bigPulse 1.2s infinite;
+}
+.bigComing b{color:#ffd54a;font-weight:1300;}
+@keyframes bigPulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.02)}
+  100%{transform:scale(1)}
+}
+.bigRow{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;}
+.bigBar{
+  margin-top:10px;height:10px;border-radius:999px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.14);
+  overflow:hidden;
+}
+.bigFill{
+  height:100%;
+  width:10%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#ffd54a,#25D366);
+  box-shadow:0 0 25px rgba(255,213,74,.20);
+  transition:width .35s ease;
+}
+.bigHint{margin-top:10px;opacity:.9;font-weight:1000;font-size:12px;}
+
+/* ✅ Special Slot Box */
+.spBox{
+  margin-top:12px;
+  padding:16px;
+  border-radius:22px;
+  background:linear-gradient(135deg,#fff0c2,#ffe6f5);
+  border:2px solid rgba(255,193,7,.60);
+  box-shadow:0 22px 60px rgba(255,193,7,.18);
+  position:relative;
+  overflow:hidden;
+  animation: spPop .55s ease;
+}
+@keyframes spPop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.spBox:before{
+  content:"";
+  position:absolute; inset:-40%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+  transform:rotate(15deg);
+  animation: spShine 1.5s infinite;
+}
+@keyframes spShine{
+  0%{transform:translateX(-120%) rotate(15deg)}
+  100%{transform:translateX(260%) rotate(15deg)}
+}
+.spTop{
+  display:flex;justify-content:space-between;gap:10px;
+  flex-wrap:wrap;align-items:center;position:relative;z-index:2;
+}
+.spTag{
+  padding:8px 12px;border-radius:999px;
+  background:#0b1220;color:#fff;font-weight:1300;
+  letter-spacing:1px;font-size:12px;
+  animation: spPulse 1.1s infinite;
+}
+@keyframes spPulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+.spTimer{
+  padding:8px 12px;border-radius:999px;
+  background:rgba(255,255,255,.75);
+  border:1px solid rgba(0,0,0,.08);
+  font-weight:1200;color:#111;
+}
+.spTitle{margin-top:12px;font-weight:1300;font-size:18px;color:#111;position:relative;z-index:2;}
+.spAmt{
+  margin-top:8px;font-size:46px;font-weight:1500;color:#0b1220;
+  text-shadow:0 16px 35px rgba(0,0,0,.12);
+  position:relative;z-index:2;
+  animation: spAmtPulse 1s infinite;
+}
+@keyframes spAmtPulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
+.spSub{margin-top:6px;font-weight:1000;color:#222;opacity:.9;line-height:1.6;position:relative;z-index:2;}
+.spBtns{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:2;}
+.spBtn{
+  flex:1;text-align:center;text-decoration:none;padding:12px 14px;border-radius:18px;
+  font-weight:1300;background:#0a84ff;color:#fff;
+}
+.spBtn.wa{background:#25D366}
+.spBtn:active{transform:scale(.99)}
+
+@media(max-width:720px){ .dtBtn,.spBtn{width:100%} }
 	
   </style>
 </head>
