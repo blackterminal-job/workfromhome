@@ -277,8 +277,7 @@
     
     
     
-    /* ✅ NEW OFFER BAR (Mobile first) */
-.btOfferBar{
+    .btOfferBar{
   max-width:1100px;
   margin:14px auto;
   padding:14px;
@@ -289,19 +288,15 @@
   box-shadow:0 20px 55px rgba(0,0,0,.28);
   overflow:hidden;
   position:relative;
-  animation: fadeIn .35s ease;
-}
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(-8px)}
-  to{opacity:1; transform:translateY(0)}
 }
 
 .btOfferBar:before{
   content:"";
   position:absolute;
   inset:-80px;
-  background:radial-gradient(circle at 20% 10%, rgba(10,132,255,.25), transparent 55%),
-             radial-gradient(circle at 90% 80%, rgba(34,197,94,.25), transparent 60%);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(10,132,255,.25), transparent 55%),
+    radial-gradient(circle at 90% 80%, rgba(34,197,94,.25), transparent 60%);
   filter:blur(10px);
   z-index:0;
 }
@@ -332,17 +327,9 @@
   50%{transform:scale(1.06)}
   100%{transform:scale(1)}
 }
-.btOfferTitle{
-  margin-top:10px;
-  font-size:18px;
-  font-weight:1200;
-}
-.btOfferSub{
-  margin-top:6px;
-  font-weight:900;
-  opacity:.88;
-  line-height:1.5;
-}
+
+.btOfferTitle{margin-top:10px;font-size:18px;font-weight:1200;}
+.btOfferSub{margin-top:6px;font-weight:900;opacity:.88;line-height:1.5;}
 
 .btTimerBox{
   padding:10px 12px;
@@ -352,11 +339,7 @@
   min-width:140px;
   text-align:center;
 }
-.btTimerLabel{
-  font-weight:1000;
-  font-size:12px;
-  opacity:.82;
-}
+.btTimerLabel{font-weight:1000;font-size:12px;opacity:.82;}
 .btTimerTime{
   margin-top:5px;
   font-weight:1200;
@@ -366,19 +349,18 @@
   text-shadow:0 0 20px rgba(255,213,74,.18);
 }
 
-/* Bottom row */
+/* ✅ FIXED Bottom Row Layout: GRID */
 .btOfferBottom{
   position:relative;
   z-index:2;
   margin-top:12px;
-  display:flex;
+  display:grid;
+  grid-template-columns: 1fr auto auto;
   gap:10px;
   align-items:center;
-  flex-wrap:wrap;
 }
 
 .btOfferSlide{
-  flex:1;
   overflow:hidden;
   border-radius:16px;
   background:rgba(255,255,255,.08);
@@ -400,13 +382,12 @@
   border:1px solid rgba(255,255,255,.10);
   font-size:13px;
 }
-
 @keyframes offerSlide{
   0%{transform:translateX(0)}
   100%{transform:translateX(-50%)}
 }
 
-/* Claimed mini */
+/* Claimed */
 .btClaimMini{
   padding:10px 12px;
   border-radius:16px;
@@ -417,7 +398,7 @@
 }
 .btClaimMini b{color:#baffd1}
 
-/* ✅ Apply Now button */
+/* Apply Button */
 .btApplyNowBtn{
   text-decoration:none;
   display:inline-flex;
@@ -436,14 +417,8 @@
   overflow:hidden;
   animation: applyPulse 1.4s infinite;
 }
-.btApplyNowBtn span{
-  font-weight:1300;
-  animation: arrowMove 1s infinite;
-}
-@keyframes arrowMove{
-  0%,100%{transform:translateX(0)}
-  50%{transform:translateX(6px)}
-}
+.btApplyNowBtn span{font-weight:1300;animation: arrowMove 1s infinite;}
+@keyframes arrowMove{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
 @keyframes applyPulse{
   0%{transform:scale(1); box-shadow:0 0 0 rgba(37,211,102,.0)}
   50%{transform:scale(1.03); box-shadow:0 0 35px rgba(37,211,102,.24)}
@@ -471,13 +446,8 @@
   border:1px solid rgba(255,204,0,.35);
   box-shadow:0 0 35px rgba(255,204,0,.12), 0 20px 55px rgba(0,0,0,.28);
 }
-.btOfferBar.urgent .btTimerTime{
-  animation: blink 0.9s infinite;
-}
-@keyframes blink{
-  0%,100%{opacity:1}
-  50%{opacity:.3}
-}
+.btOfferBar.urgent .btTimerTime{animation: blink 0.9s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* Expired */
 .btOfferBar.expired{
@@ -486,11 +456,11 @@
 }
 .btOfferBar.expired .btTimerTime{color:#fff;}
 
-/* ✅ Mobile */
+/* Mobile */
 @media(max-width:720px){
   .btOfferTop{flex-direction:column}
   .btTimerBox{width:100%;min-width:auto}
-  .btOfferBottom{flex-direction:column;align-items:stretch}
+  .btOfferBottom{grid-template-columns: 1fr}
   .btClaimMini{text-align:center}
   .btApplyNowBtn{width:100%}
   .btOfferTrack{animation-duration:13s}
@@ -498,7 +468,6 @@
 @media(max-width:380px){
   .btClaimMini{display:none}
 }
-
 
 
 
@@ -537,7 +506,7 @@
   
   
   
-  <!-- ✅ Premium Offer Bar (Auto Show/Hide 2H Cycle) -->
+<!-- ✅ Premium Offer Bar (2H Show/Hide + Claimed + Apply) -->
 <div class="btOfferBar" id="btOfferBar">
   <div class="btOfferTop">
     <div class="btOfferLeft">
@@ -639,7 +608,11 @@
 
 
 <script>
-  <script>
+
+
+
+
+
 function startOfferBarCycle(){
   const bar = document.getElementById("btOfferBar");
   const timerEl = document.getElementById("btTimer2");
@@ -656,24 +629,18 @@ function startOfferBarCycle(){
   const HIDE_MS = HIDE_HOURS * 60 * 60 * 1000;
   const CYCLE_MS = SHOW_MS + HIDE_MS;
 
-  // claimed counter daily storage
+  // ✅ Claimed counter (daily)
   const claimedKey = "bt_claimed_mini_" + new Date().toDateString();
   let claimed = Number(localStorage.getItem(claimedKey));
   if(!claimed){
-    claimed = Math.floor(10 + Math.random()*20);
+    claimed = Math.floor(10 + Math.random()*20); // 10-29
     localStorage.setItem(claimedKey, claimed);
   }
   if(claimEl) claimEl.textContent = claimed;
 
-  function bumpClaim(){
-    if(!claimEl) return;
-    claimEl.style.transform = "scale(1.12)";
-    setTimeout(()=>claimEl.style.transform="scale(1)",180);
-  }
-
   let urgentTriggered = false;
 
-  // ✅ countdown timer (ends midnight)
+  // ✅ Countdown ends midnight
   function tickCountdown(){
     const now = new Date();
     const end = new Date();
@@ -697,6 +664,7 @@ function startOfferBarCycle(){
       String(m).padStart(2,"0")+":"+
       String(s).padStart(2,"0");
 
+    // last 5 min urgent
     if(diff <= 5*60*1000 && !urgentTriggered){
       urgentTriggered = true;
       bar.classList.add("urgent");
@@ -704,7 +672,7 @@ function startOfferBarCycle(){
     }
   }
 
-  // ✅ show/hide cycle based on time of day
+  // ✅ Show/hide 2-hour cycle
   function updateCycle(){
     const now = new Date();
     const dayStart = new Date(now);
@@ -713,11 +681,7 @@ function startOfferBarCycle(){
     const passed = now - dayStart;
     const pos = passed % CYCLE_MS;
 
-    if(pos < SHOW_MS){
-      bar.style.display = "block";
-    }else{
-      bar.style.display = "none";
-    }
+    bar.style.display = (pos < SHOW_MS) ? "block" : "none";
   }
 
   tickCountdown();
@@ -726,18 +690,29 @@ function startOfferBarCycle(){
   setInterval(tickCountdown, 1000);
   setInterval(updateCycle, 30000);
 
-  // claimed increases slowly
+  // ✅ Claimed slowly increases
   setInterval(()=>{
-    if(Math.random()<0.55){
-      claimed += (Math.random()<0.85 ? 1 : 2);
+    if(Math.random() < 0.55){
+      claimed += (Math.random() < 0.85 ? 1 : 2);
       localStorage.setItem(claimedKey, claimed);
       if(claimEl) claimEl.textContent = claimed;
-      bumpClaim();
     }
   }, 9000);
 }
 
 window.addEventListener("load", startOfferBarCycle);
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 
 
@@ -755,7 +730,7 @@ window.addEventListener("load", startOfferBarCycle);
         
 
 
-</script>
+
 
 	
 
