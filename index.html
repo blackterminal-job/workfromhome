@@ -726,7 +726,6 @@ p{margin:0;color:var(--muted);}
 
 
 
-
 /* ✅ Flash Offer Section */
 .flashOffer{
   max-width:1050px;
@@ -788,8 +787,6 @@ p{margin:0;color:var(--muted);}
   50%{background-position:100% 50%; transform:scale(1.06);}
   100%{background-position:0% 50%; transform:scale(1);}
 }
-
-/* 🔥 fire spark effect */
 .hotTag:after{
   content:"🔥";
   position:absolute;
@@ -860,15 +857,14 @@ p{margin:0;color:var(--muted);}
   animation: pulseCTA 1.2s infinite;
 }
 .flashWA{background: rgba(0,0,0,.25);}
-
 @keyframes pulseCTA{
   0%,100%{transform:scale(1)}
   50%{transform:scale(1.05)}
 }
-
 @media(max-width:720px){
   .flashBtn{width:100%;}
 }
+
 
 
 
@@ -1083,13 +1079,11 @@ p{margin:0;color:var(--muted);}
     
     
     
-    <!-- ✅ Flash Offer (Random 5 min) -->
+    <!-- ✅ Evening Flash Offer (30 min show / 30 min hide) -->
 <div class="flashOffer" id="flashOffer" style="display:none;">
   <div class="flashTop">
-    <!-- ✅ HOT tag -->
     <span class="flashTag hotTag">HOT</span>
-
-    <span class="flashTimer">⏳ <b id="flashTime">05:00</b></span>
+    <span class="flashTimer">⏳ <b id="flashTime">30:00</b></span>
   </div>
 
   <div class="flashTitle">
@@ -1581,90 +1575,92 @@ Please verify fast.`;
 
 
 
-/* ✅ Random Flash Offer System (5 minutes active) */
-const FLASH_KEY = "bt_flash_offer_state_v1";
 
-const SHOW_FOR_MS = 5 * 60 * 1000;  // 5 minutes
-const MIN_GAP_MIN = 20;             // next show after minimum 20 min
-const MAX_GAP_MIN = 90;             // maximum 90 min
+/* ✅ Evening-heavy Flash Offer (30m show/30m hide evening) */
 
-const flashBox = document.getElementById("flashOffer");
-const flashTime = document.getElementById("flashTime");
+const FLASH_KEY2 = "bt_flash_offer_cycle_v2";
 
-function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+const SHOW_MS = 30 * 60 * 1000;      // 30 minutes show
+const HIDE_EVE_MS = 30 * 60 * 1000;  // evening hide 30 min
+const HIDE_DAY_MS = 90 * 60 * 1000;  // day hide 90 min (less frequent)
 
-function loadFlash(){
-  try{ return JSON.parse(localStorage.getItem(FLASH_KEY) || "{}"); }
+function nowMinutes(){
+  const d = new Date();
+  return d.getHours()*60 + d.getMinutes();
+}
+
+// evening = 6PM to 12AM
+function isEvening(){
+  const m = nowMinutes();
+  return (m >= 18*60 && m <= 23*60+59);
+}
+
+function saveState(obj){
+  localStorage.setItem(FLASH_KEY2, JSON.stringify(obj));
+}
+function loadState(){
+  try{ return JSON.parse(localStorage.getItem(FLASH_KEY2)||"{}"); }
   catch(e){ return {}; }
 }
-function saveFlash(obj){
-  localStorage.setItem(FLASH_KEY, JSON.stringify(obj));
+
+function fmt(ms){
+  const sec = Math.max(0, Math.floor(ms/1000));
+  const mm = String(Math.floor(sec/60)).padStart(2,"0");
+  const ss = String(sec%60).padStart(2,"0");
+  return mm+":"+ss;
 }
 
-function format(ms){
-  const s = Math.max(0, Math.floor(ms/1000));
-  const m = String(Math.floor(s/60)).padStart(2,"0");
-  const ss = String(s%60).padStart(2,"0");
-  return `${m}:${ss}`;
-}
+function startCycle(){
+  const box = document.getElementById("flashOffer");
+  const tEl = document.getElementById("flashTime");
+  if(!box || !tEl) return;
 
-function scheduleNext(){
-  const gapMin = rand(MIN_GAP_MIN, MAX_GAP_MIN);
-  const nextAt = Date.now() + gapMin*60*1000;
-  saveFlash({ nextAt });
-}
+  let st = loadState();
 
-function showFlash(){
-  const startAt = Date.now();
-  const endAt = startAt + SHOW_FOR_MS;
-  saveFlash({ startAt, endAt });
-  flashBox.style.display = "block";
-}
-
-function hideFlash(){
-  flashBox.style.display = "none";
-  scheduleNext();
-}
-
-function flashInit(){
-  let state = loadFlash();
-
-  // first time init
-  if(!state.nextAt && !state.endAt){
-    scheduleNext();
-    state = loadFlash();
+  // init cycle
+  if(!st.phase || !st.until){
+    const showFirst = true;
+    st.phase = showFirst ? "show" : "hide";
+    st.until = Date.now() + (showFirst ? SHOW_MS : (isEvening()?HIDE_EVE_MS:HIDE_DAY_MS));
+    saveState(st);
   }
 
-  // if currently active
-  if(state.endAt && Date.now() < state.endAt){
-    flashBox.style.display = "block";
-  }else{
-    flashBox.style.display = "none";
+  function applyPhase(){
+    st = loadState();
+
+    const evening = isEvening();
+    const hideMs = evening ? HIDE_EVE_MS : HIDE_DAY_MS;
+
+    if(Date.now() >= st.until){
+      if(st.phase === "show"){
+        st.phase = "hide";
+        st.until = Date.now() + hideMs;
+      }else{
+        st.phase = "show";
+        st.until = Date.now() + SHOW_MS;
+      }
+      saveState(st);
+    }
+
+    // show/hide
+    if(st.phase === "show"){
+      // ✅ Evening priority: always show in cycle
+      // ✅ Daytime: show only in cycle, but long hide -> less frequent
+      box.style.display = "block";
+    }else{
+      box.style.display = "none";
+    }
+
+    // timer show
+    const left = st.until - Date.now();
+    tEl.textContent = fmt(left);
   }
 
-  setInterval(()=>{
-    const s = loadFlash();
-
-    if(s.endAt && Date.now() < s.endAt){
-      flashBox.style.display = "block";
-      flashTime.textContent = format(s.endAt - Date.now());
-      return;
-    }
-
-    if(s.endAt && Date.now() >= s.endAt){
-      hideFlash();
-      return;
-    }
-
-    if(s.nextAt && Date.now() >= s.nextAt){
-      showFlash();
-      return;
-    }
-  }, 1000);
+  applyPhase();
+  setInterval(applyPhase, 1000);
 }
 
-document.addEventListener("DOMContentLoaded", flashInit);
-
+document.addEventListener("DOMContentLoaded", startCycle);
 
 
 
