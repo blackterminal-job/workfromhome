@@ -497,221 +497,187 @@
     
     
     
-  *{box-sizing:border-box}
+  :root{
+  --bg:#061426;
+  --line:rgba(255,255,255,.10);
+  --txt:#eaf2ff;
+  --muted:rgba(255,255,255,.70);
+  --blue:#1e90ff;
+  --green:#2ee58a;
+  --gold:#ffcc4d;
+}
+
+*{box-sizing:border-box}
 body{
   margin:0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-  background:#0b1220;
-  color:#fff;
+  font-family: system-ui,-apple-system,Segoe UI,Roboto;
+  background: radial-gradient(1200px 800px at 20% 0%, #0a2b53 0%, var(--bg) 55%, #030913 100%);
+  color:var(--txt);
 }
-.wrap{max-width:920px;margin:auto;padding:18px}
 
-.top{padding:10px 0}
-.top h1{margin:0;font-size:26px}
-.sub{opacity:.8;margin:6px 0 0}
+.wrap{max-width:520px;margin:0 auto;padding:18px 14px 40px;}
 
-.earnBar{
-  margin-top:14px;
+.head{
+  padding:18px 14px 12px;border-radius:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border:1px solid var(--line);
+}
+.tag{
+  display:inline-block;padding:7px 12px;border-radius:999px;
+  background: rgba(255,255,255,.08);border:1px solid var(--line);
+  font-weight:900;font-size:13px;
+}
+h1{margin:12px 0 4px;font-size:28px;}
+p{margin:0;color:var(--muted);}
+
+.earnGrid{
   display:grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns:1fr 1fr;
   gap:12px;
-}
-.earnCard{
-  padding:16px;
-  border-radius:18px;
-  background: linear-gradient(145deg,#0e1931,#091226);
-  border:1px solid rgba(255,255,255,.08);
-  box-shadow:0 16px 50px rgba(0,0,0,.35);
-}
-.earnCard .label{opacity:.75;font-size:13px}
-.earnCard .value{
-  margin-top:6px;
-  font-size:28px;
-  font-weight:1000;
-}
-.earnCard .mini{opacity:.7;font-size:12px;margin-top:4px}
-
-.progressBox{
   margin-top:14px;
-  padding:16px;
-  border-radius:18px;
-  background: rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.08);
 }
-.progressTop{display:flex;justify-content:space-between;font-weight:900}
-.progressBar{
-  margin-top:10px;height:12px;
-  background: rgba(255,255,255,.12);
-  border-radius:999px;
-  overflow:hidden;
-}
-.progressFill{
-  height:100%;
-  width:0%;
-  border-radius:999px;
-  background: linear-gradient(90deg,#00c6ff,#00ff87);
-  transition: width .35s ease;
-}
-.hint{margin-top:10px;opacity:.85;font-size:13px}
+@media(max-width:720px){.earnGrid{grid-template-columns:1fr}}
 
-.taskBlock{
-  position:relative;
-  margin-top:16px;
-  padding:16px;
-  border-radius:22px;
-  background: rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.08);
-}
-.pill{
-  display:inline-flex;
-  padding:7px 12px;
-  border-radius:999px;
-  background: rgba(255,255,255,.08);
-  font-weight:1000;
-  font-size:13px;
-}
-.taskGrid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
-
-.taskCard{
+.earnCard{
   padding:14px;
-  border-radius:18px;
-  background: linear-gradient(145deg,#0c1830,#081225);
-  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;
+  border:1px solid var(--line);
+  background: rgba(255,255,255,.06);
 }
-.taskHead{display:flex;justify-content:space-between;gap:10px}
-.taskTitle{font-weight:1000;font-size:16px}
-.taskDesc{opacity:.9;margin-top:6px;font-weight:700}
-.mandatory{
-  padding:6px 10px;border-radius:999px;
-  font-size:12px;font-weight:1000;
-  color:#ffb7b7;
-  background: rgba(255,75,75,.13);
-  border:1px solid rgba(255,75,75,.25);
+.earnCard.glow{
+  border:1px solid rgba(46,229,138,.35);
+  box-shadow:0 0 22px rgba(46,229,138,.18);
 }
-.rewardBox{
+.lbl{opacity:.8;font-weight:800;font-size:13px;}
+.val{margin-top:8px;font-size:30px;font-weight:1000;}
+.val.big{font-size:34px}
+
+.card{
+  margin-top:14px;
+  padding:16px;border-radius:22px;
+  background: rgba(0,0,0,.25);
+  border:1px solid var(--line);
+  position:relative;
+}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.pill{
+  padding:7px 12px;border-radius:999px;
+  font-weight:900;font-size:12px;
+  background: rgba(255,255,255,.08);
+  border:1px solid var(--line);
+}
+.amt{font-weight:1000;color:#d8ffe9}
+
+.title{margin-top:14px;font-size:18px;font-weight:1000;line-height:1.35;}
+.sub{margin-top:8px;color:var(--muted);font-size:13px;}
+
+.btn{
+  width:100%;
+  margin-top:12px;
+  padding:14px;
+  border-radius:16px;
+  border:none;
+  font-weight:1000;
+  cursor:pointer;
+}
+.btn.primary{background:linear-gradient(90deg,var(--blue),#53b0ff);color:#fff;}
+.btn.gold{background:linear-gradient(90deg,var(--gold),#ffe3a4);color:#120b00;}
+.btn.whatsapp{background:linear-gradient(90deg,#2ee58a,#1ccf74);color:#062013;}
+.btn:active{transform:scale(.985)}
+.btn:disabled{filter:grayscale(.5) brightness(.7);cursor:not-allowed;}
+
+.mini{margin-top:10px;font-size:12px;color:var(--muted);}
+
+/* ✅ Steps UI */
+.stepsBox{
   margin-top:12px;
   padding:12px;
   border-radius:16px;
-  background: rgba(0,0,0,.35);
-  border:1px solid rgba(255,255,255,.07);
-}
-.rewardBox .line1{opacity:.85;font-size:13px}
-.rewardBox .line2{margin-top:6px;font-weight:1000;color:#ffe27b}
-
-.steps{
-  margin:12px 0 0;padding:0;list-style:none;
-  display:grid;gap:8px;
-}
-.steps li{
-  padding:10px 12px;
-  border-radius:14px;
+  border:1px solid rgba(255,255,255,.10);
   background: rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.06);
-  font-weight:900;
+}
+.stepsTitle{
+  font-weight:1000;
+  font-size:13px;
+  margin-bottom:8px;
+  color:#cfe7ff;
+}
+.stepsList .step{
+  padding:10px 10px;
+  border-radius:12px;
+  background: rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.07);
+  margin-bottom:8px;
+  font-size:13px;
+  color: rgba(255,255,255,.86);
 }
 
-.btnRow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.btn{
-  border:0;border-radius:16px;
-  padding:14px 12px;
-  font-weight:1100;
-  cursor:pointer;
-}
-.doneBtn{background:#1886ff;color:#fff}
-.waBtn{background:#25d366;color:#fff}
-.btn:active{transform:scale(.98)}
-
+/* ✅ Small lock overlay */
 .smallLockOverlay{
-  position:absolute; inset:0;
+  position:absolute;
+  inset:0;
   display:none;
   align-items:center;
   justify-content:center;
   text-align:center;
+  font-weight:1000;
   background: rgba(0,0,0,.55);
   backdrop-filter: blur(10px);
   border-radius:22px;
   padding:16px;
-  flex-direction: column; /* ✅ 2 line */
-  gap:6px;
-  font-weight:1100;
 }
-.smallLockOverlay small{font-size:13px;opacity:.9}
-
-.bigTaskBox{
-  margin-top:18px;
-  padding:16px;
-  border-radius:22px;
-  background: rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.08);
-}
-.bigTop{display:flex;justify-content:space-between;gap:12px;align-items:center}
-.onlyTag{
-  background: rgba(255,255,255,.1);
-  padding:7px 12px;
-  border-radius:999px;
-  font-weight:1000;
+.smallLockOverlay small{
+  display:block;
+  margin-top:6px;
   font-size:12px;
+  opacity:.85;
 }
-.bigTitle{font-weight:1100;font-size:18px}
 
-.bigLocked{
-  padding:22px;text-align:center;
-  border-radius:18px;
-  background: rgba(0,0,0,.25);
-  border:1px dashed rgba(255,255,255,.2);
-  font-weight:1000;
-}
-.bigLockedSub{opacity:.85;margin-top:8px;font-size:13px}
-
+/* BIG CARD */
 .bigCard{
-  padding:14px;
-  border-radius:18px;
-  background: linear-gradient(145deg,#19110b,#0b1a2f);
-  border:1px solid rgba(255,255,255,.08);
+  border:1px solid rgba(255,204,77,.25);
+  background: rgba(255,204,77,.08);
+  overflow:hidden;
 }
-.bigRow{display:flex;justify-content:space-between;gap:10px}
-.bigName{font-weight:1100;font-size:16px}
-.bigAmount{font-weight:1200;font-size:20px;color:#00ff87}
-.bigDesc{margin-top:8px;opacity:.9;font-weight:900}
-
-.countDownRow{
-  margin-top:12px;
-  display:flex;justify-content:space-between;align-items:center;
-  gap:10px;
+.bigPill{
+  background: rgba(255,204,77,.18);
+  border:1px solid rgba(255,204,77,.26);
 }
-.warnTag{
-  font-weight:1000;padding:6px 10px;
+.bigAmt{color:#ffe8b0;}
+.onlyTag{
+  display:none;
+  margin-top:10px;
+  padding:6px 10px;
   border-radius:999px;
-  background: rgba(255,165,0,.15);
-  border:1px solid rgba(255,165,0,.25);
-  color:#ffd18a;
+  font-weight:1000;
   font-size:12px;
+  color:#110c00;
+  background: linear-gradient(90deg,#ffcc4d,#ffdca1);
+  animation:pulse 1.4s infinite;
 }
-.stepsTitle{margin-top:14px;font-weight:1100}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
 
-.bigMsg{
+.timerBox{
   margin-top:12px;
   padding:10px 12px;
   border-radius:14px;
-  background: rgba(0,0,0,.3);
-  border:1px solid rgba(255,255,255,.08);
-  display:none;
+  border:1px dashed rgba(255,255,255,.25);
+  background: rgba(0,0,0,.22);
+  font-weight:900;
+  color:#ffe8b0;
 }
 
-.comingLine{
-  margin-top:12px;
-  opacity:.9;
-  font-weight:1000;
+.lockOverlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   text-align:center;
-  background: rgba(255,255,255,.06);
-  padding:10px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.08);
-}
-
-@media(max-width:560px){
-  .earnBar{grid-template-columns:1fr}
-  .btnRow{grid-template-columns:1fr}
+  font-weight:1000;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(10px);
+  border-radius:22px;
 }
   </style>
 </head>
@@ -796,99 +762,90 @@ body{
 
 
 
-
-
-
-
-
-
   <div class="wrap">
 
-    <header class="top">
-      <h1>Daily Work</h1>
-      <p class="sub">Complete task + send WhatsApp proof for verification.</p>
-    </header>
+    <div class="head">
+      <div class="tag">🔥 DAILY WORK</div>
+      <h1>Task for Today</h1>
+      <p>Complete task ➜ amount will add automatically ✅</p>
+    </div>
 
     <!-- Earnings -->
-    <section class="earnBar">
+    <div class="earnGrid">
       <div class="earnCard">
-        <div class="label">Today's Earnings</div>
-        <div class="value" id="todayEarn">₹0.00</div>
-        <div class="mini">Auto saved</div>
+        <div class="lbl">Today Earning</div>
+        <div class="val">₹<span id="todayEarn">0.00</span></div>
+        <div class="mini" id="smallDoneTxt">Small Done: 0/2</div>
       </div>
 
-      <div class="earnCard">
-        <div class="label">Lifetime Earnings</div>
-        <div class="value" id="lifeEarn">₹0.00</div>
-        <div class="mini">Saved on device</div>
+      <div class="earnCard glow">
+        <div class="lbl">Total Earning (Lifetime)</div>
+        <div class="val big">₹<span id="totalEarn">0.00</span></div>
+        <div class="mini">Verified after admin check ✅</div>
       </div>
-    </section>
+    </div>
 
-    <!-- Small tasks -->
-    <section class="taskBlock">
-      <div class="blockTitle">
-        <span class="pill">✅ Small Tasks</span>
+    <!-- Small task -->
+    <div class="card" id="smallCard">
+      <div class="top">
+        <div class="pill">✅ Small Task</div>
+        <div class="amt" id="taskAmt">₹0.00</div>
       </div>
 
-      <div class="taskGrid" id="smallGrid"></div>
+      <div class="title" id="taskTitle">Loading task...</div>
+      <div class="sub">Reward: ₹0.10 – ₹0.50</div>
 
-      <!-- Lock overlay -->
+      <!-- ✅ Steps -->
+      <div class="stepsBox">
+        <div class="stepsTitle">📌 Steps to Complete</div>
+        <div id="taskSteps" class="stepsList"></div>
+      </div>
+
+      <button class="btn primary" id="completeBtn">✅ Completed & Add Amount</button>
+      <button class="btn whatsapp" id="smallProofBtn">📩 Send Small Proof (WhatsApp)</button>
+
+      <div class="mini" id="status"></div>
+
+      <!-- ✅ lock small tasks while big task pending -->
       <div class="smallLockOverlay" id="smallLockOverlay">
-        🔒 Small tasks locked
+        🔒 Small tasks locked<br/>
         <small>Complete BIG TASK to unlock</small>
       </div>
-    </section>
+    </div>
 
-    <!-- Big task -->
-    <section class="bigTaskBox">
-
-      <div class="bigTop">
-        <span class="onlyTag">✨ Only for you</span>
-        <span class="bigTitle">BIG Reward Task</span>
+    <!-- BIG TASK -->
+    <div class="card bigCard" id="bigCard">
+      <div class="top">
+        <div class="pill bigPill">🎁 Big Reward Task</div>
+        <div class="amt bigAmt" id="bigAmt">₹0</div>
       </div>
 
-      <div class="bigInner" id="bigInnerLocked">
-        <div class="bigLocked">
-          🔒 BIG TASK locked
-          <div class="bigLockedSub">Complete 2 small tasks first.</div>
-        </div>
+      <div class="onlyTag" id="onlyTag">ONLY FOR YOU ✨</div>
+      <div class="title" id="bigTitle">🔒 Big task locked</div>
+      <div class="sub" id="bigSub">Complete 2 small tasks to unlock big reward task.</div>
+
+      <div class="timerBox" id="bigTimerBox">
+        ⏳ Next Big Task in: <b id="bigTimer">--:--</b>
       </div>
 
-      <div class="bigInner" id="bigInnerActive" style="display:none;">
-        <div class="bigCard">
-          <div class="bigRow">
-            <div class="bigName" id="bigName">Special Bonus Campaign</div>
-            <div class="bigAmount" id="bigAmount">₹500</div>
-          </div>
+      <button class="btn gold" id="bigDoneBtn" disabled>🏆 Complete Big Task & Add Amount</button>
+      <button class="btn whatsapp" id="bigProofBtn" disabled>📩 Send Big Proof (WhatsApp)</button>
 
-          <div class="bigDesc" id="bigDesc"></div>
-
-          <div class="countDownRow">
-            <div class="countText">
-              ⏳ Ends in: <b id="bigTimer">--:--</b>
-            </div>
-            <div class="warnTag">Join before end!</div>
-          </div>
-
-          <div class="stepsTitle">✅ Steps</div>
-          <ul class="steps" id="bigSteps"></ul>
-
-          <div class="btnRow">
-            <button class="btn doneBtn" id="bigDoneBtn">✅ Mark BIG Task Completed</button>
-            <button class="btn waBtn" id="bigProofBtn">📩 Send Proof WhatsApp</button>
-          </div>
-        </div>
+      <div class="lockOverlay" id="lockOverlay">
+        🔒 Complete 2 small tasks to unlock
       </div>
-
-      <div class="comingLine" id="comingLine">
-        ⏳ Next BIG amount task coming in <b id="nextBigIn">--</b> min
-      </div>
-
-    </section>
+    </div>
 
   </div>
 
   <script src="daily-work.js"></script>
+
+
+
+
+
+
+
 
 
 
@@ -1040,321 +997,363 @@ window.addEventListener("load", startOfferBarCycle);
 
 
 
+const ADMIN_WA = "917008186187";
 
+const BT_TOTAL_KEY = "bt_total_earn_lifetime";
+const BT_TODAY_KEY = "bt_today_earn";
+const BT_TODAY_DATE_KEY = "bt_today_date";
 
+const KEY_TASK = "bt_current_task";
+const KEY_SMALL_DONE = "bt_small_done_count";
 
+// Big task state
+const KEY_BIG = "bt_big_task_active";
+const KEY_BIG_UNLOCK_AT = "bt_big_unlock_at";
+const KEY_BIG_TODAY_COUNT = "bt_big_today_count";
+const KEY_BIG_DAY = "bt_big_day";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const INSTITUTE_NAME = "BlackTerminal Computer Institute";
-const WA_NUMBER = "917008186187";
-const STORAGE_KEY = "bt_dailywork_final_v2";
-
-const ₹ = (n) => "₹" + Number(n).toFixed(2);
-
-function todayKey(){
-  return new Date().toISOString().slice(0,10);
-}
-function rand(min,max){
-  return Math.floor(Math.random()*(max-min+1))+min;
-}
-function sendWA(text){
-  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`,"_blank");
-}
-
-// ---- State ----
-function loadState(){
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if(!raw){
-    return {
-      today: todayKey(),
-      todayEarn: 0,
-      lifeEarn: 0,
-      smallDone: 0,
-      activeSmall: [],
-      bigUnlocked: false,
-      bigTask: null,
-      bigEndsAt: null,
-      nextBigMin: rand(10,60)
-    };
-  }
-
-  const s = JSON.parse(raw);
-
-  // reset new day
-  if(s.today !== todayKey()){
-    s.today = todayKey();
-    s.todayEarn = 0;
-    s.smallDone = 0;
-    s.activeSmall = [];
-    s.bigUnlocked = false;
-    s.bigTask = null;
-    s.bigEndsAt = null;
-    s.nextBigMin = rand(10,60);
-  }
-  return s;
-}
-function saveState(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
-let state = loadState();
-
-// ---- UI ----
-const smallGrid = document.getElementById("smallGrid");
-const todayEarnEl = document.getElementById("todayEarn");
-const lifeEarnEl = document.getElementById("lifeEarn");
-const smallLockOverlay = document.getElementById("smallLockOverlay");
-
-const bigInnerLocked = document.getElementById("bigInnerLocked");
-const bigInnerActive = document.getElementById("bigInnerActive");
-const comingLine = document.getElementById("comingLine");
-const nextBigIn = document.getElementById("nextBigIn");
-
-const bigName = document.getElementById("bigName");
-const bigAmount = document.getElementById("bigAmount");
-const bigDesc = document.getElementById("bigDesc");
-const bigTimer = document.getElementById("bigTimer");
-const bigSteps = document.getElementById("bigSteps");
-const bigDoneBtn = document.getElementById("bigDoneBtn");
-const bigProofBtn = document.getElementById("bigProofBtn");
-
-// ---- Task pools ----
-const smallPool = [
-  {title:"WhatsApp Status Poster", desc:"Post today's poster on WhatsApp status.", steps:["Download poster","Post on status","Keep 6 hours","Screenshot of views"]},
-  {title:"Instagram Story Share", desc:"Share institute poster on Instagram story.", steps:["Upload story","Write short caption","Tag institute","Send screenshot proof"]},
-  {title:"Forward to 5 students", desc:"Forward message to 5 students.", steps:["Copy message","Send to 5 students","Ask interest","Screenshot proof"]},
-  {title:"WhatsApp Group Post", desc:"Post in 1 WhatsApp group.", steps:["Select group","Post message","Reply if asked","Screenshot proof"]},
-  {title:"Call 1 Student", desc:"Call one student & explain course.", steps:["Call student","Explain course","Get response","Send note proof"]},
+/* Small task pool with steps */
+const TASKS = [
+  { task:"Post today's poster on WhatsApp status (keep 6 hours)", steps:["Download today's poster","Post on WhatsApp status","Keep for 6 hours","Take screenshot proof"] },
+  { task:"Share course poster in 2 WhatsApp groups", steps:["Download poster","Share in Group 1","Share in Group 2","Take screenshot proof"] },
+  { task:"Send course brochure to 5 friends", steps:["Copy brochure message","Send to 5 friends","Ask for reply","Take screenshot proof"] },
+  { task:"Post admission promo message on Facebook", steps:["Open Facebook","Post promo message","Add poster image","Take screenshot proof"] },
+  { task:"Send demo class invite to 3 contacts", steps:["Write demo invite message","Send to 3 contacts","Ask 'Interested?'","Take screenshot proof"] },
+  { task:"Share typing course poster to 5 contacts", steps:["Download typing poster","Send to 5 contacts","Request share","Take screenshot proof"] },
+  { task:"Explain PGDCA benefits to 1 student", steps:["Call/message 1 student","Explain PGDCA benefits","Share fee + duration","Take screenshot proof"] },
+  { task:"Ask 2 friends if they need computer course", steps:["Message Friend 1","Message Friend 2","Share course list","Take screenshot proof"] },
+  { task:"Share institute contact number to 2 students", steps:["Copy institute contact","Send to Student 1","Send to Student 2","Take screenshot proof"] },
+  { task:"Send admission message to 5 contacts", steps:["Copy admission message","Send to 5 contacts","Ask for response","Take screenshot proof"] }
 ];
 
-function buildSmall(){
-  const t = smallPool[rand(0, smallPool.length-1)];
-  const amount = rand(10,50)/100;
-  return {
-    id:"S"+Date.now()+rand(100,999),
-    title:t.title,
-    desc:t.desc,
-    amount,
-    mandatory:true,
-    steps:t.steps
-  };
+const BIG_TASKS = [
+  { title:"🎯 Bring 1 confirmed admission today", amount:500 },
+  { title:"🎓 PGDCA admission (Special for you)", amount:3000 },
+  { title:"🚀 Advanced PGDCA admission (Special)", amount:3000 }
+];
+
+function todayKey(){
+  const d = new Date();
+  return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
 }
 
-function buildBig(){
-  const options = [
-    {title:"Admission Referral Bonus", amount:500, desc:"Bring 1 confirmed admission referral today."},
-    {title:"PGDCA Admission Lead", amount:3000, desc:"Bring 1 confirmed PGDCA/Advanced PGDCA lead."},
-    {title:"Special Student Campaign", amount:2000, desc:"Send 5 student leads for advanced course."}
-  ];
-  return {id:"B"+Date.now()+rand(100,999), ...options[rand(0,options.length-1)]};
+function sendWA(text){
+  const url = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(text)}`;
+  window.open(url, "_blank");
 }
 
-function ensureSmall(){
-  if(!state.activeSmall || state.activeSmall.length !== 2){
-    state.activeSmall = [buildSmall(), buildSmall()];
-    saveState();
+function checkReset(){
+  const saved = localStorage.getItem(BT_TODAY_DATE_KEY);
+  const t = todayKey();
+  if(saved !== t){
+    localStorage.setItem(BT_TODAY_DATE_KEY, t);
+    localStorage.setItem(BT_TODAY_KEY, "0");
+    localStorage.setItem(KEY_SMALL_DONE, "0");
   }
 }
 
-function lockSmall(lock){
-  smallLockOverlay.style.display = lock ? "flex" : "none";
+function random10to60Minutes(){
+  return Math.floor(10 + Math.random() * 51);
 }
 
-function renderEarnings(){
-  todayEarnEl.textContent = ₹(state.todayEarn);
-  lifeEarnEl.textContent = ₹(state.lifeEarn);
+function checkBigReset(){
+  const d = todayKey();
+  if(localStorage.getItem(KEY_BIG_DAY) !== d){
+    localStorage.setItem(KEY_BIG_DAY, d);
+    localStorage.setItem(KEY_BIG_TODAY_COUNT, "0");
+    localStorage.removeItem(KEY_BIG);
+
+    const mins = random10to60Minutes();
+    localStorage.setItem(KEY_BIG_UNLOCK_AT, String(Date.now() + mins*60*1000));
+  }
 }
 
-function renderSmall(){
-  ensureSmall();
-  smallGrid.innerHTML="";
+function getNum(k){ return parseFloat(localStorage.getItem(k) || "0"); }
+function setNum(k,v){ localStorage.setItem(k, Number(v).toFixed(2)); }
 
-  if(state.bigUnlocked){
-    lockSmall(true);
+function randomReward(){
+  return Number((Math.random() * (0.50 - 0.10) + 0.10).toFixed(2));
+}
+
+function generateNewTask(){
+  const item = TASKS[Math.floor(Math.random()*TASKS.length)];
+  const reward = randomReward();
+  const data = { task: item.task, steps: item.steps, reward, date: todayKey() };
+  localStorage.setItem(KEY_TASK, JSON.stringify(data));
+  showTask(data);
+}
+
+function showTask(data){
+  document.getElementById("taskTitle").innerText = "📌 " + data.task;
+  document.getElementById("taskAmt").innerText = "₹" + data.reward.toFixed(2);
+
+  const stepsBox = document.getElementById("taskSteps");
+  stepsBox.innerHTML = "";
+  (data.steps || []).forEach((s,i)=>{
+    stepsBox.innerHTML += `<div class="step">✅ Step ${i+1}: ${s}</div>`;
+  });
+}
+
+function animate(el, from, to, duration=800){
+  const start = performance.now();
+  function tick(now){
+    const p = Math.min((now-start)/duration,1);
+    const ease = 1 - Math.pow(1-p,3);
+    el.textContent = (from + (to-from)*ease).toFixed(2);
+    if(p<1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+function addEarning(amount){
+  amount = Number(amount||0);
+  const today = getNum(BT_TODAY_KEY) + amount;
+  const total = getNum(BT_TOTAL_KEY) + amount;
+
+  setNum(BT_TODAY_KEY, today);
+  setNum(BT_TOTAL_KEY, total);
+}
+
+/* BIG TASK */
+function pickBigTask(){
+  if(Math.random() < 0.75) return BIG_TASKS[0];
+  return BIG_TASKS[Math.floor(Math.random() * (BIG_TASKS.length-1)) + 1];
+}
+
+/* ✅ BIG unlock immediately after 2 small tasks */
+function forceActivateBigTask(){
+  if(localStorage.getItem(KEY_BIG)) return;
+
+  const count = parseInt(localStorage.getItem(KEY_BIG_TODAY_COUNT) || "0");
+  if(count >= 2) return;
+
+  const t = pickBigTask();
+  localStorage.setItem(KEY_BIG, JSON.stringify(t));
+
+  // set next big unlock time (random 10-60 mins)
+  const nextMins = random10to60Minutes();
+  localStorage.setItem(KEY_BIG_UNLOCK_AT, String(Date.now() + nextMins*60*1000));
+}
+
+function maybeActivateBigTask(){
+  const now = Date.now();
+  const unlockAt = parseInt(localStorage.getItem(KEY_BIG_UNLOCK_AT) || "0");
+  const count = parseInt(localStorage.getItem(KEY_BIG_TODAY_COUNT) || "0");
+  const active = localStorage.getItem(KEY_BIG);
+
+  if(active) return;
+
+  if(now >= unlockAt && count < 2){
+    const t = pickBigTask();
+    localStorage.setItem(KEY_BIG, JSON.stringify(t));
+
+    const nextMins = random10to60Minutes();
+    localStorage.setItem(KEY_BIG_UNLOCK_AT, String(now + nextMins*60*1000));
+  }
+}
+
+function updateBigUI(){
+  maybeActivateBigTask();
+
+  const smallDone = parseInt(localStorage.getItem(KEY_SMALL_DONE) || "0");
+  const active = localStorage.getItem(KEY_BIG);
+
+  const lockOverlay = document.getElementById("lockOverlay");
+  const bigDoneBtn = document.getElementById("bigDoneBtn");
+  const bigProofBtn = document.getElementById("bigProofBtn");
+
+  if(smallDone < 2){
+    lockOverlay.style.display = "flex";
+    bigDoneBtn.disabled = true;
+    bigProofBtn.disabled = true;
+  } else {
+    lockOverlay.style.display = "none";
+    bigDoneBtn.disabled = false;
+    bigProofBtn.disabled = false;
+  }
+
+  if(active){
+    const t = JSON.parse(active);
+    document.getElementById("bigTitle").innerText = t.title;
+    document.getElementById("bigAmt").innerText = "₹" + t.amount;
+    document.getElementById("bigSub").innerText = "Limited offer! Complete fast ✅";
+    document.getElementById("onlyTag").style.display = "inline-block";
   }else{
-    lockSmall(false);
+    document.getElementById("bigTitle").innerText = "Big amount task coming soon...";
+    document.getElementById("bigAmt").innerText = "₹0";
+    document.getElementById("bigSub").innerText = "Stay active. Big tasks appear 2 times/day.";
+    document.getElementById("onlyTag").style.display = "none";
   }
+}
 
-  state.activeSmall.forEach((t,idx)=>{
-    const card = document.createElement("div");
-    card.className="taskCard";
-    card.innerHTML=`
-      <div class="taskHead">
-        <div>
-          <div class="taskTitle">📌 ${t.title}</div>
-          <div class="taskDesc">${t.desc}</div>
-        </div>
-        <div class="mandatory">MANDATORY</div>
-      </div>
+function updateUI(){
+  checkReset();
+  checkBigReset();
 
-      <div class="rewardBox">
-        <div class="line1">🪙 Reward Rule</div>
-        <div class="line2">₹${t.amount.toFixed(2)} reward</div>
-        <div class="line1" style="margin-top:6px;">Guaranteed minimum: ₹${t.amount.toFixed(2)}</div>
-      </div>
+  const today = getNum(BT_TODAY_KEY);
+  const total = getNum(BT_TOTAL_KEY);
 
-      <ul class="steps">
-        ${t.steps.map((s,i)=>`<li>✅ Step ${i+1}: ${s}</li>`).join("")}
-      </ul>
+  animate(document.getElementById("todayEarn"), 0, today, 800);
+  animate(document.getElementById("totalEarn"), 0, total, 1000);
 
-      <div class="btnRow">
-        <button class="btn doneBtn">✅ Completed</button>
-        <button class="btn waBtn">📩 Send Proof WhatsApp</button>
-      </div>
-    `;
+  const smallDone = parseInt(localStorage.getItem(KEY_SMALL_DONE) || "0");
+  document.getElementById("smallDoneTxt").innerText = `Small Done: ${Math.min(smallDone,2)}/2`;
 
-    card.querySelector(".doneBtn").onclick=()=>{
-      if(state.bigUnlocked){
-        alert("Small tasks locked. Complete BIG task first.");
-        return;
-      }
-      state.smallDone++;
-      state.todayEarn += t.amount;
-      state.lifeEarn += t.amount;
+  updateBigUI();
 
-      // replace task
-      state.activeSmall[idx] = buildSmall();
+  // ✅ lock small after 2 small tasks until big complete
+  const bigActive = !!localStorage.getItem(KEY_BIG);
+  const smallOverlay = document.getElementById("smallLockOverlay");
+  const completeBtn = document.getElementById("completeBtn");
+  const proofBtn = document.getElementById("smallProofBtn");
 
-      if(state.smallDone >= 2){
-        unlockBig();
-      }
+  if(smallDone >= 2 && bigActive){
+    smallOverlay.style.display = "flex";
+    completeBtn.disabled = true;
+    proofBtn.disabled = true;
+  }else{
+    smallOverlay.style.display = "none";
+    completeBtn.disabled = false;
+    proofBtn.disabled = false;
+  }
+}
 
-      saveState();
-      renderEarnings();
-      renderSmall();
-      renderBig();
-    };
+function startBigCountdown(){
+  const timerEl = document.getElementById("bigTimer");
+  setInterval(()=>{
+    const unlockAt = parseInt(localStorage.getItem(KEY_BIG_UNLOCK_AT) || "0");
+    const now = Date.now();
+    let diff = unlockAt - now;
 
-    card.querySelector(".waBtn").onclick=()=>{
-      const msg =
+    if(diff <= 0){
+      timerEl.innerText = "00:00";
+      updateBigUI();
+      return;
+    }
+    const mm = String(Math.floor(diff/60000)).padStart(2,"0");
+    const ss = String(Math.floor((diff%60000)/1000)).padStart(2,"0");
+    timerEl.innerText = `${mm}:${ss}`;
+  }, 1000);
+}
+
+/* EVENTS */
+document.addEventListener("DOMContentLoaded", ()=>{
+  updateUI();
+
+  const saved = localStorage.getItem(KEY_TASK);
+  if(saved) showTask(JSON.parse(saved));
+  else generateNewTask();
+
+  startBigCountdown();
+
+  document.getElementById("completeBtn").addEventListener("click", ()=>{
+    const task = JSON.parse(localStorage.getItem(KEY_TASK) || "{}");
+    const reward = Number(task.reward || 0);
+
+    addEarning(reward);
+
+    let done = parseInt(localStorage.getItem(KEY_SMALL_DONE) || "0");
+    done++;
+    localStorage.setItem(KEY_SMALL_DONE, String(done));
+
+    // ✅ instant unlock big task after 2 small tasks
+    if(done >= 2){
+      forceActivateBigTask();
+    }
+
+    document.getElementById("status").innerText =
+      `✅ Completed! Amount added ₹${reward.toFixed(2)} | New task loaded ✅`;
+
+    generateNewTask();
+    updateUI();
+  });
+
+  document.getElementById("smallProofBtn").addEventListener("click", ()=>{
+    const task = JSON.parse(localStorage.getItem(KEY_TASK) || "{}");
+    const msg =
 `✅ SMALL TASK PROOF
-Institute: ${INSTITUTE_NAME}
-Task: ${t.title}
-Reward: ₹${t.amount.toFixed(2)}
+Institute: BlackTerminal Computer Institute
+Task: ${task.task || "N/A"}
+Reward: ₹${Number(task.reward||0).toFixed(2)}
 Date: ${todayKey()}
 Status: DONE
 
 Please verify fast.`;
-      sendWA(msg);
-    };
-
-    smallGrid.appendChild(card);
+    sendWA(msg);
   });
-}
 
-function unlockBig(){
-  state.bigUnlocked=true;
-  state.bigTask=buildBig();
-  state.bigEndsAt = Date.now() + rand(10,60)*60*1000;
-  saveState();
-}
-
-function renderBig(){
-  if(!state.bigUnlocked){
-    bigInnerLocked.style.display="block";
-    bigInnerActive.style.display="none";
-    comingLine.style.display="block";
-    nextBigIn.textContent = state.nextBigMin;
-    return;
-  }
-
-  bigInnerLocked.style.display="none";
-  bigInnerActive.style.display="block";
-  comingLine.style.display="none";
-
-  const t = state.bigTask;
-  bigName.textContent=t.title;
-  bigAmount.textContent="₹"+t.amount;
-  bigDesc.textContent=t.desc;
-
-  bigSteps.innerHTML=`
-    <li>Share posters/messages</li>
-    <li>Collect interested leads</li>
-    <li>Send details to institute</li>
-    <li>Send WhatsApp proof</li>
-  `;
-}
-
-function formatTimer(ms){
-  const s = Math.max(0, Math.floor(ms/1000));
-  const mm = String(Math.floor(s/60)).padStart(2,"0");
-  const ss = String(s%60).padStart(2,"0");
-  return `${mm}:${ss}`;
-}
-
-function tick(){
-  if(state.bigUnlocked && state.bigEndsAt){
-    const left = state.bigEndsAt - Date.now();
-    bigTimer.textContent = formatTimer(left);
-    if(left<=0){
-      // expire big
-      state.bigUnlocked=false;
-      state.bigTask=null;
-      state.bigEndsAt=null;
-      state.smallDone=0;
-      state.nextBigMin = rand(10,60);
-      saveState();
-      renderSmall();
-      renderBig();
+  document.getElementById("bigDoneBtn").addEventListener("click", ()=>{
+    const active = localStorage.getItem(KEY_BIG);
+    if(!active){
+      alert("Big task not available yet.");
+      return;
     }
-  }
-}
 
-bigDoneBtn.onclick=()=>{
-  if(!state.bigTask) return;
+    const smallDone = parseInt(localStorage.getItem(KEY_SMALL_DONE) || "0");
+    if(smallDone < 2){
+      alert("Complete 2 small tasks to unlock big reward.");
+      return;
+    }
 
-  // Big completed (unlock small again)
-  state.bigUnlocked=false;
-  state.bigTask=null;
-  state.bigEndsAt=null;
-  state.smallDone=0;
-  state.nextBigMin = rand(10,60);
-  saveState();
+    const t = JSON.parse(active);
+    addEarning(Number(t.amount));
 
-  renderSmall();
-  renderBig();
-};
+    let count = parseInt(localStorage.getItem(KEY_BIG_TODAY_COUNT) || "0");
+    count++;
+    localStorage.setItem(KEY_BIG_TODAY_COUNT, String(count));
 
-bigProofBtn.onclick=()=>{
-  if(!state.bigTask) return;
+    localStorage.removeItem(KEY_BIG);
 
-  const t = state.bigTask;
-  const msg =
+    alert("🎉 Big task completed! Amount added ✅");
+    updateUI();
+  });
+
+  document.getElementById("bigProofBtn").addEventListener("click", ()=>{
+    const active = localStorage.getItem(KEY_BIG);
+    if(!active){
+      alert("Big task not active yet.");
+      return;
+    }
+
+    const t = JSON.parse(active);
+    const msg =
 `🏆 BIG TASK PROOF
-Institute: ${INSTITUTE_NAME}
+Institute: BlackTerminal Computer Institute
 Task: ${t.title}
 Reward: ₹${t.amount}
 Date: ${todayKey()}
 Status: DONE
 
 Please verify fast.`;
-  sendWA(msg);
-};
+    sendWA(msg);
+  });
 
-// INIT
-renderEarnings();
-renderSmall();
-renderBig();
-setInterval(tick,1000);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
