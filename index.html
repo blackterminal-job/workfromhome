@@ -557,7 +557,71 @@
 
 
 
+<!-- ✅ DAILY WORK SECTION (FINAL) -->
+<section class="dtWrap">
+  <div class="dtHead">
+    <div class="dtTag">📌 DAILY WORK</div>
+    <h2 class="dtTitleBig">Task for Today</h2>
+    <p class="dtSub">Complete task + send WhatsApp proof for verification.</p>
+  </div>
 
+  <!-- ✅ Big Reward Coming Countdown + Progress -->
+  <div class="bigComing" id="bigComing" style="display:none;">
+    <div class="bigRow">
+      <span>💎 Big Reward Task coming in</span>
+      <b id="bigComingTimer">50 min</b>
+    </div>
+
+    <div class="bigBar">
+      <div class="bigFill" id="bigFill"></div>
+    </div>
+
+    <div class="bigHint">⏳ Stay active. Big reward slot opens soon!</div>
+  </div>
+
+  <!-- ✅ Special Big Reward Slot (Only For You) -->
+  <div class="spBox" id="spBox" style="display:none;">
+    <div class="spTop">
+      <div class="spTag">✨ ONLY FOR YOU</div>
+      <div class="spTimer">⏳ Ends in <span id="spTimer">01:00:00</span></div>
+    </div>
+
+    <div class="spTitle" id="spTitle">Special Reward Task</div>
+    <div class="spAmt" id="spAmt">₹500</div>
+    <div class="spSub" id="spSub">Join before end to unlock reward.</div>
+
+    <div class="spBtns">
+      <a class="spBtn" href="apply.html">✅ Join Now</a>
+      <a class="spBtn wa" id="spWa" target="_blank" href="#">💬 Claim on WhatsApp</a>
+    </div>
+  </div>
+
+  <!-- ✅ Normal Daily Task Card -->
+  <div class="dtCard">
+    <div class="dtTopRow">
+      <div class="dtDate" id="dtDate">Today</div>
+      <div class="dtBadge mandatory" id="dtMandatory">MANDATORY</div>
+    </div>
+
+    <div class="dtTaskTitle" id="dtTitle">Loading task...</div>
+    <div class="dtTaskDesc" id="dtDesc">Please wait</div>
+
+    <div class="dtPayBox">
+      <div class="dtPayLabel">💸 Reward Rule</div>
+      <div class="dtPayText" id="dtPayText">Loading...</div>
+      <div class="dtPayRange" id="dtPayRange">Guaranteed: ₹0.10</div>
+    </div>
+
+    <div class="dtSteps" id="dtSteps"></div>
+
+    <div class="dtBtns">
+      <button class="dtBtn done" id="dtDoneBtn" onclick="completeTask()">✅ Mark Completed</button>
+      <a class="dtBtn wa" id="dtWa" target="_blank" href="#">📤 Send Proof WhatsApp</a>
+    </div>
+
+    <div class="dtStatus" id="dtStatus" style="display:none;"></div>
+  </div>
+</section>
 
 
 
