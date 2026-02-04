@@ -497,187 +497,167 @@
     
     
     
-    /* ✅ Daily Task styles */
-.dtWrap{max-width:1100px;margin:14px auto;padding:0 14px;}
-.dtHead{padding:10px 2px;}
-.dtTag{
-  display:inline-block;padding:6px 10px;border-radius:999px;
-  background:#0b1220;color:#fff;font-weight:1100;font-size:12px;
-}
-.dtTitleBig{margin:10px 0 6px;font-size:20px;font-weight:1200;}
-.dtSub{margin:0;opacity:.8;font-weight:900;line-height:1.6;}
-
-.dtCard{
-  margin-top:12px;
-  padding:16px;
-  border-radius:22px;
-  background:#fff;
-  border:1px solid #eaeaea;
-  box-shadow:0 16px 40px rgba(0,0,0,.08);
-}
-.dtTopRow{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;}
-.dtDate{
-  padding:8px 12px;border-radius:14px;
-  background:#f5f7fb;border:1px solid #eaeaea;
-  font-weight:1100;color:#111;
-}
-.dtBadge{
-  padding:8px 12px;border-radius:999px;
-  font-weight:1200;font-size:12px;
-  letter-spacing:.6px;
-}
-.dtBadge.mandatory{
-  background:#ffe3e3;
-  border:1px solid rgba(255,59,48,.25);
-  color:#c00000;
-  animation: mandPulse 1.2s infinite;
-}
-@keyframes mandPulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.06)}
-  100%{transform:scale(1)}
+    :root{
+  --bg:#061426;
+  --line:rgba(255,255,255,.10);
+  --txt:#eaf2ff;
+  --muted:rgba(255,255,255,.70);
+  --blue:#1e90ff;
+  --green:#2ee58a;
+  --gold:#ffcc4d;
 }
 
-.dtTaskTitle{margin-top:12px;font-size:18px;font-weight:1200;color:#111;}
-.dtTaskDesc{margin-top:6px;font-weight:900;opacity:.85;line-height:1.6;}
-
-.dtPayBox{
-  margin-top:12px;
-  padding:12px;
-  border-radius:18px;
-  background:linear-gradient(135deg,#0b1220,#132a5a);
-  color:#fff;
-}
-.dtPayLabel{font-weight:1100;font-size:12px;opacity:.95;}
-.dtPayText{margin-top:6px;font-size:15px;font-weight:1150;line-height:1.5;}
-.dtPayRange{margin-top:6px;font-weight:1100;color:#ffd54a;}
-
-.dtSteps{margin-top:12px;display:grid;gap:10px;}
-.dtSteps .step{
-  padding:12px;border-radius:18px;
-  background:#f9fafc;border:1px solid #eee;
-  font-weight:950;line-height:1.6;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: system-ui,-apple-system,Segoe UI,Roboto;
+  background: radial-gradient(1200px 800px at 20% 0%, #0a2b53 0%, var(--bg) 55%, #030913 100%);
+  color:var(--txt);
 }
 
-.dtBtns{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;}
-.dtBtn{
-  flex:1;
-  border:none;
-  padding:12px 14px;
-  border-radius:18px;
-  font-weight:1200;
-  cursor:pointer;
-  text-align:center;
-  text-decoration:none;
-}
-.dtBtn.done{background:#0a84ff;color:#fff;}
-.dtBtn.wa{background:#25D366;color:#fff;}
-.dtBtn:active{transform:scale(.99)}
+.wrap{max-width:520px;margin:0 auto;padding:18px 14px 40px;}
 
-.dtStatus{
-  margin-top:12px;
-  padding:12px;
-  border-radius:18px;
-  background:#fff3d6;
-  border:1px solid #ffe1a6;
-  font-weight:950;
-  line-height:1.6;
+.head{
+  padding:18px 14px 12px;border-radius:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border:1px solid var(--line);
 }
+.tag{
+  display:inline-block;padding:7px 12px;border-radius:999px;
+  background: rgba(255,255,255,.08);border:1px solid var(--line);
+  font-weight:900;font-size:13px;
+}
+h1{margin:12px 0 4px;font-size:28px;}
+p{margin:0;color:var(--muted);}
 
-/* ✅ Coming Notice + Progress */
-.bigComing{
-  margin-top:12px;
-  padding:12px 14px;
-  border-radius:18px;
-  background:linear-gradient(135deg,#0b1220,#132a5a);
-  border:1px solid rgba(255,255,255,.14);
-  color:#fff;
-  font-weight:1100;
-  box-shadow:0 16px 35px rgba(0,0,0,.18);
-  animation: bigPulse 1.2s infinite;
+.earnGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:14px;
 }
-.bigComing b{color:#ffd54a;font-weight:1300;}
-@keyframes bigPulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.02)}
-  100%{transform:scale(1)}
-}
-.bigRow{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;}
-.bigBar{
-  margin-top:10px;height:10px;border-radius:999px;
-  background:rgba(255,255,255,.10);
-  border:1px solid rgba(255,255,255,.14);
-  overflow:hidden;
-}
-.bigFill{
-  height:100%;
-  width:10%;
-  border-radius:999px;
-  background:linear-gradient(90deg,#ffd54a,#25D366);
-  box-shadow:0 0 25px rgba(255,213,74,.20);
-  transition:width .35s ease;
-}
-.bigHint{margin-top:10px;opacity:.9;font-weight:1000;font-size:12px;}
+@media(max-width:720px){.earnGrid{grid-template-columns:1fr}}
 
-/* ✅ Special Slot Box */
-.spBox{
-  margin-top:12px;
-  padding:16px;
-  border-radius:22px;
-  background:linear-gradient(135deg,#fff0c2,#ffe6f5);
-  border:2px solid rgba(255,193,7,.60);
-  box-shadow:0 22px 60px rgba(255,193,7,.18);
+.earnCard{
+  padding:14px;
+  border-radius:20px;
+  border:1px solid var(--line);
+  background: rgba(255,255,255,.06);
+}
+.earnCard.glow{
+  border:1px solid rgba(46,229,138,.35);
+  box-shadow:0 0 22px rgba(46,229,138,.18);
+}
+.lbl{opacity:.8;font-weight:800;font-size:13px;}
+.val{margin-top:8px;font-size:30px;font-weight:1000;}
+.val.big{font-size:34px}
+
+.card{
+  margin-top:14px;
+  padding:16px;border-radius:22px;
+  background: rgba(0,0,0,.25);
+  border:1px solid var(--line);
   position:relative;
-  overflow:hidden;
-  animation: spPop .55s ease;
 }
-@keyframes spPop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
-.spBox:before{
-  content:"";
-  position:absolute; inset:-40%;
-  background:linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
-  transform:rotate(15deg);
-  animation: spShine 1.5s infinite;
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.pill{
+  padding:7px 12px;border-radius:999px;
+  font-weight:900;font-size:12px;
+  background: rgba(255,255,255,.08);
+  border:1px solid var(--line);
 }
-@keyframes spShine{
-  0%{transform:translateX(-120%) rotate(15deg)}
-  100%{transform:translateX(260%) rotate(15deg)}
-}
-.spTop{
-  display:flex;justify-content:space-between;gap:10px;
-  flex-wrap:wrap;align-items:center;position:relative;z-index:2;
-}
-.spTag{
-  padding:8px 12px;border-radius:999px;
-  background:#0b1220;color:#fff;font-weight:1300;
-  letter-spacing:1px;font-size:12px;
-  animation: spPulse 1.1s infinite;
-}
-@keyframes spPulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
-.spTimer{
-  padding:8px 12px;border-radius:999px;
-  background:rgba(255,255,255,.75);
-  border:1px solid rgba(0,0,0,.08);
-  font-weight:1200;color:#111;
-}
-.spTitle{margin-top:12px;font-weight:1300;font-size:18px;color:#111;position:relative;z-index:2;}
-.spAmt{
-  margin-top:8px;font-size:46px;font-weight:1500;color:#0b1220;
-  text-shadow:0 16px 35px rgba(0,0,0,.12);
-  position:relative;z-index:2;
-  animation: spAmtPulse 1s infinite;
-}
-@keyframes spAmtPulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
-.spSub{margin-top:6px;font-weight:1000;color:#222;opacity:.9;line-height:1.6;position:relative;z-index:2;}
-.spBtns{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:2;}
-.spBtn{
-  flex:1;text-align:center;text-decoration:none;padding:12px 14px;border-radius:18px;
-  font-weight:1300;background:#0a84ff;color:#fff;
-}
-.spBtn.wa{background:#25D366}
-.spBtn:active{transform:scale(.99)}
+.amt{font-weight:1000;color:#d8ffe9}
 
-@media(max-width:720px){ .dtBtn,.spBtn{width:100%} }
+.title{margin-top:14px;font-size:18px;font-weight:1000;line-height:1.35;}
+.sub{margin-top:8px;color:var(--muted);font-size:13px;}
+
+.btn{
+  width:100%;
+  margin-top:12px;
+  padding:14px;
+  border-radius:16px;
+  border:none;
+  font-weight:1000;
+  cursor:pointer;
+}
+.btn.primary{background:linear-gradient(90deg,var(--blue),#53b0ff);color:#fff;}
+.btn.gold{background:linear-gradient(90deg,var(--gold),#ffe3a4);color:#120b00;}
+.btn.whatsapp{background:linear-gradient(90deg,#2ee58a,#1ccf74);color:#062013;}
+.btn:active{transform:scale(.985)}
+.btn:disabled{filter:grayscale(.5) brightness(.7);cursor:not-allowed;}
+
+.mini{margin-top:10px;font-size:12px;color:var(--muted);}
+
+/* ✅ Steps UI */
+.stepsBox{
+  margin-top:12px;
+  padding:12px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.06);
+}
+.stepsTitle{
+  font-weight:1000;
+  font-size:13px;
+  margin-bottom:8px;
+  color:#cfe7ff;
+}
+.stepsList .step{
+  padding:10px 10px;
+  border-radius:12px;
+  background: rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.07);
+  margin-bottom:8px;
+  font-size:13px;
+  color: rgba(255,255,255,.86);
+}
+
+/* BIG CARD */
+.bigCard{
+  border:1px solid rgba(255,204,77,.25);
+  background: rgba(255,204,77,.08);
+  overflow:hidden;
+}
+.bigPill{
+  background: rgba(255,204,77,.18);
+  border:1px solid rgba(255,204,77,.26);
+}
+.bigAmt{color:#ffe8b0;}
+.onlyTag{
+  display:none;
+  margin-top:10px;
+  padding:6px 10px;
+  border-radius:999px;
+  font-weight:1000;
+  font-size:12px;
+  color:#110c00;
+  background: linear-gradient(90deg,#ffcc4d,#ffdca1);
+  animation:pulse 1.4s infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+
+.timerBox{
+  margin-top:12px;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px dashed rgba(255,255,255,.25);
+  background: rgba(0,0,0,.22);
+  font-weight:900;
+  color:#ffe8b0;
+}
+
+.lockOverlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-weight:1000;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(10px);
+  border-radius:22px;
+}
 	
   </style>
 </head>
@@ -757,72 +737,89 @@
 
 
 
-<!-- ✅ DAILY WORK SECTION (FINAL) -->
-<section class="dtWrap">
-  <div class="dtHead">
-    <div class="dtTag">📌 DAILY WORK</div>
-    <h2 class="dtTitleBig">Task for Today</h2>
-    <p class="dtSub">Complete task + send WhatsApp proof for verification.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Work</title>
+  <link rel="stylesheet" href="daily-work.css"/>
+</head>
+<body>
+
+  <div class="wrap">
+
+    <div class="head">
+      <div class="tag">🔥 DAILY WORK</div>
+      <h1>Task for Today</h1>
+      <p>Complete task ➜ amount will add automatically ✅</p>
+    </div>
+
+    <!-- Earnings -->
+    <div class="earnGrid">
+      <div class="earnCard">
+        <div class="lbl">Today Earning</div>
+        <div class="val">₹<span id="todayEarn">0.00</span></div>
+        <div class="mini" id="smallDoneTxt">Small Done: 0/2</div>
+      </div>
+
+      <div class="earnCard glow">
+        <div class="lbl">Total Earning (Lifetime)</div>
+        <div class="val big">₹<span id="totalEarn">0.00</span></div>
+        <div class="mini">Verified after admin check ✅</div>
+      </div>
+    </div>
+
+    <!-- Small task -->
+    <div class="card">
+      <div class="top">
+        <div class="pill">✅ Small Task</div>
+        <div class="amt" id="taskAmt">₹0.00</div>
+      </div>
+
+      <div class="title" id="taskTitle">Loading task...</div>
+      <div class="sub">Reward: ₹0.10 – ₹0.50</div>
+
+      <!-- ✅ Steps -->
+      <div class="stepsBox">
+        <div class="stepsTitle">📌 Steps to Complete</div>
+        <div id="taskSteps" class="stepsList"></div>
+      </div>
+
+      <button class="btn primary" id="completeBtn">✅ Completed & Add Amount</button>
+      <button class="btn whatsapp" id="smallProofBtn">📩 Send Small Proof (WhatsApp)</button>
+
+      <div class="mini" id="status"></div>
+    </div>
+
+    <!-- BIG TASK -->
+    <div class="card bigCard" id="bigCard">
+      <div class="top">
+        <div class="pill bigPill">🎁 Big Reward Task</div>
+        <div class="amt bigAmt" id="bigAmt">₹0</div>
+      </div>
+
+      <div class="onlyTag" id="onlyTag">ONLY FOR YOU ✨</div>
+      <div class="title" id="bigTitle">🔒 Big task locked</div>
+      <div class="sub" id="bigSub">Complete 2 small tasks to unlock big reward task.</div>
+
+      <div class="timerBox" id="bigTimerBox">
+        ⏳ Next Big Task in: <b id="bigTimer">--:--</b>
+      </div>
+
+      <button class="btn gold" id="bigDoneBtn" disabled>🏆 Complete Big Task & Add Amount</button>
+      <button class="btn whatsapp" id="bigProofBtn" disabled>📩 Send Big Proof (WhatsApp)</button>
+
+      <div class="lockOverlay" id="lockOverlay">
+        🔒 Complete 2 small tasks to unlock
+      </div>
+    </div>
+
   </div>
 
-  <!-- ✅ Big Reward Coming Countdown + Progress -->
-  <div class="bigComing" id="bigComing" style="display:none;">
-    <div class="bigRow">
-      <span>💎 Big Reward Task coming in</span>
-      <b id="bigComingTimer">50 min</b>
-    </div>
-
-    <div class="bigBar">
-      <div class="bigFill" id="bigFill"></div>
-    </div>
-
-    <div class="bigHint">⏳ Stay active. Big reward slot opens soon!</div>
-  </div>
-
-  <!-- ✅ Special Big Reward Slot (Only For You) -->
-  <div class="spBox" id="spBox" style="display:none;">
-    <div class="spTop">
-      <div class="spTag">✨ ONLY FOR YOU</div>
-      <div class="spTimer">⏳ Ends in <span id="spTimer">01:00:00</span></div>
-    </div>
-
-    <div class="spTitle" id="spTitle">Special Reward Task</div>
-    <div class="spAmt" id="spAmt">₹500</div>
-    <div class="spSub" id="spSub">Join before end to unlock reward.</div>
-
-    <div class="spBtns">
-      <a class="spBtn" href="apply.html">✅ Join Now</a>
-      <a class="spBtn wa" id="spWa" target="_blank" href="#">💬 Claim on WhatsApp</a>
-    </div>
-  </div>
-
-  <!-- ✅ Normal Daily Task Card -->
-  <div class="dtCard">
-    <div class="dtTopRow">
-      <div class="dtDate" id="dtDate">Today</div>
-      <div class="dtBadge mandatory" id="dtMandatory">MANDATORY</div>
-    </div>
-
-    <div class="dtTaskTitle" id="dtTitle">Loading task...</div>
-    <div class="dtTaskDesc" id="dtDesc">Please wait</div>
-
-    <div class="dtPayBox">
-      <div class="dtPayLabel">💸 Reward Rule</div>
-      <div class="dtPayText" id="dtPayText">Loading...</div>
-      <div class="dtPayRange" id="dtPayRange">Guaranteed: ₹0.10</div>
-    </div>
-
-    <div class="dtSteps" id="dtSteps"></div>
-
-    <div class="dtBtns">
-      <button class="dtBtn done" id="dtDoneBtn" onclick="completeTask()">✅ Mark Completed</button>
-      <a class="dtBtn wa" id="dtWa" target="_blank" href="#">📤 Send Proof WhatsApp</a>
-    </div>
-
-    <div class="dtStatus" id="dtStatus" style="display:none;"></div>
-  </div>
-</section>
-
+  <script src="daily-work.js"></script>
+</body>
+</html>
 
 
 
@@ -998,311 +995,351 @@ window.addEventListener("load", startOfferBarCycle);
 
 
 
-/* ✅ Settings */
-const DT_WHATSAPP = "917008186187"; // ✅ change your WhatsApp number
 
-/* ✅ Helpers */
-function pad2(n){ return String(n).padStart(2,"0"); }
 
-function seededNumber(str){
-  let sum = 0;
-  for(let i=0;i<str.length;i++){
-    sum = (sum + str.charCodeAt(i) * (i+1)) % 999999;
+/**********************
+ Daily Work Final ✅
+**********************/
+
+const ADMIN_WA = "917008186187";
+
+const BT_TOTAL_KEY = "bt_total_earn_lifetime";
+const BT_TODAY_KEY = "bt_today_earn";
+const BT_TODAY_DATE_KEY = "bt_today_date";
+
+const KEY_TASK = "bt_current_task";
+const KEY_SMALL_DONE = "bt_small_done_count";
+
+// Big task state
+const KEY_BIG = "bt_big_task_active";
+const KEY_BIG_UNLOCK_AT = "bt_big_unlock_at";
+const KEY_BIG_TODAY_COUNT = "bt_big_today_count";
+const KEY_BIG_DAY = "bt_big_day";
+
+/* ✅ Small task pool with steps */
+const TASKS = [
+  {
+    task: "Post today's poster on WhatsApp status (keep 6 hours)",
+    steps: ["Download today's poster", "Post on WhatsApp status", "Keep for 6 hours", "Take screenshot proof"]
+  },
+  {
+    task: "Share course poster in 2 WhatsApp groups",
+    steps: ["Download poster", "Share in Group 1", "Share in Group 2", "Take screenshot proof"]
+  },
+  {
+    task: "Send course brochure to 5 friends",
+    steps: ["Copy brochure message", "Send to 5 friends", "Ask for reply", "Take screenshot proof"]
+  },
+  {
+    task: "Post admission promo message on Facebook",
+    steps: ["Open Facebook", "Post promo message", "Add poster image", "Take screenshot proof"]
+  },
+  {
+    task: "Send demo class invite to 3 contacts",
+    steps: ["Write demo invite message", "Send to 3 contacts", "Ask 'Interested?'", "Take screenshot proof"]
+  },
+  {
+    task: "Share typing course poster to 5 contacts",
+    steps: ["Download typing poster", "Send to 5 contacts", "Request share", "Take screenshot proof"]
+  },
+  {
+    task: "Explain PGDCA benefits to 1 student",
+    steps: ["Call/message 1 student", "Explain PGDCA benefits", "Share fee + duration", "Take screenshot proof"]
+  },
+  {
+    task: "Ask 2 friends if they need computer course",
+    steps: ["Message Friend 1", "Message Friend 2", "Share course list", "Take screenshot proof"]
+  },
+  {
+    task: "Share institute contact number to 2 students",
+    steps: ["Copy institute contact", "Send to Student 1", "Send to Student 2", "Take screenshot proof"]
+  },
+  {
+    task: "Send admission message to 5 contacts",
+    steps: ["Copy admission message", "Send to 5 contacts", "Ask for response", "Take screenshot proof"]
   }
-  return sum;
-}
-
-function getUserKey(){
-  if(!localStorage.getItem("bt_user_id")){
-    localStorage.setItem("bt_user_id", Math.random().toString(16).slice(2));
-  }
-  return localStorage.getItem("bt_refcode") || ("USER-" + localStorage.getItem("bt_user_id"));
-}
-
-/* ✅ fixed reward >= 0.10 per user per day */
-function fixedRewardForToday(userKey, today){
-  const seed = seededNumber(userKey + "|" + today);
-  const min = 0.10, max = 0.50;
-  const rand = (seed % 10000) / 10000; // 0-0.9999
-  let value = min + rand * (max - min);
-  value = Math.round(value * 100) / 100;
-  if(value < 0.10) value = 0.10;
-  if(value > 0.50) value = 0.50;
-  return value;
-}
-
-/* ✅ 50 tasks pool */
-const TASKS = [];
-const baseTasks = [
-  ["📲 WhatsApp Status Poster","Post today’s poster on WhatsApp status.",true,
-    ["Download poster","Post WhatsApp status","Keep for 6 hours","Take screenshot of views"]],
-  ["👥 Group Share Task","Share apply link in local groups.",true,
-    ["Share in 3 WhatsApp groups","Share in 2 Facebook groups","Screenshot proof"]],
-  ["💬 DM Promotion Task","Send message + poster to people.",false,
-    ["Send poster to 10 friends","Ask: Interested in course?","Take screenshot"]],
-  ["🎯 Lead Collection Task","Collect 1 student name + mobile.",true,
-    ["Talk to 3 students","Collect 1 mobile number","Send to institute WhatsApp"]],
-  ["🏫 Demo Class Push","Invite 1 student for free demo class.",true,
-    ["Send demo invite message","Share demo timing","Confirm attendance"]],
 ];
 
-for(let i=0;i<50;i++){
-  const tpl = baseTasks[i % baseTasks.length];
-  TASKS.push({
-    t: tpl[0] + " #" + (i+1),
-    d: tpl[1],
-    mandatory: tpl[2],
-    s: tpl[3]
+const BIG_TASKS = [
+  { title:"🎯 Bring 1 confirmed admission today", amount:500 },
+  { title:"🎓 PGDCA admission (Special for you)", amount:3000 },
+  { title:"🚀 Advanced PGDCA admission (Special)", amount:3000 }
+];
+
+function todayKey(){
+  const d = new Date();
+  return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+}
+
+function sendWA(text){
+  const url = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(text)}`;
+  window.open(url, "_blank");
+}
+
+function checkReset(){
+  const saved = localStorage.getItem(BT_TODAY_DATE_KEY);
+  const t = todayKey();
+  if(saved !== t){
+    localStorage.setItem(BT_TODAY_DATE_KEY, t);
+    localStorage.setItem(BT_TODAY_KEY, "0");
+  }
+}
+
+function random10to60Minutes(){
+  return Math.floor(10 + Math.random() * 51);
+}
+
+function checkBigReset(){
+  const d = todayKey();
+  if(localStorage.getItem(KEY_BIG_DAY) !== d){
+    localStorage.setItem(KEY_BIG_DAY, d);
+    localStorage.setItem(KEY_BIG_TODAY_COUNT, "0");
+    localStorage.removeItem(KEY_BIG);
+
+    const mins = random10to60Minutes();
+    localStorage.setItem(KEY_BIG_UNLOCK_AT, String(Date.now() + mins*60*1000));
+  }
+}
+
+function getNum(k){ return parseFloat(localStorage.getItem(k) || "0"); }
+function setNum(k,v){ localStorage.setItem(k, Number(v).toFixed(2)); }
+
+function randomReward(){
+  return Number((Math.random() * (0.50 - 0.10) + 0.10).toFixed(2));
+}
+
+function generateNewTask(){
+  const item = TASKS[Math.floor(Math.random()*TASKS.length)];
+  const reward = randomReward();
+  const data = { task: item.task, steps: item.steps, reward, date: todayKey() };
+  localStorage.setItem(KEY_TASK, JSON.stringify(data));
+  showTask(data);
+}
+
+function showTask(data){
+  document.getElementById("taskTitle").innerText = "📌 " + data.task;
+  document.getElementById("taskAmt").innerText = "₹" + data.reward.toFixed(2);
+
+  // ✅ show steps
+  const stepsBox = document.getElementById("taskSteps");
+  stepsBox.innerHTML = "";
+  (data.steps || []).forEach((s,i)=>{
+    stepsBox.innerHTML += `<div class="step">✅ Step ${i+1}: ${s}</div>`;
   });
 }
 
-/* ✅ pick daily task (unique per user) */
-function pickTaskIndex(userKey, today){
-  const seed = seededNumber(today + "|" + userKey);
-  return seed % TASKS.length;
+function animate(el, from, to, duration=800){
+  const start = performance.now();
+  function tick(now){
+    const p = Math.min((now-start)/duration,1);
+    const ease = 1 - Math.pow(1-p,3);
+    el.textContent = (from + (to-from)*ease).toFixed(2);
+    if(p<1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
 }
 
-/* ✅ Big reward slots info */
-function getNextBigSlot(){
-  const now = new Date();
+function updateUI(){
+  checkReset();
+  checkBigReset();
 
-  const slot1Start = new Date(now); slot1Start.setHours(10,0,0,0);
-  const slot1End   = new Date(now); slot1End.setHours(11,0,0,0);
+  const today = getNum(BT_TODAY_KEY);
+  const total = getNum(BT_TOTAL_KEY);
 
-  const slot2Start = new Date(now); slot2Start.setHours(18,0,0,0);
-  const slot2End   = new Date(now); slot2End.setHours(19,0,0,0);
+  animate(document.getElementById("todayEarn"), 0, today, 800);
+  animate(document.getElementById("totalEarn"), 0, total, 1000);
 
-  if(now >= slot1Start && now < slot1End) return {active:true, slot:1, start:slot1Start, end:slot1End};
-  if(now >= slot2Start && now < slot2End) return {active:true, slot:2, start:slot2Start, end:slot2End};
+  const smallDone = parseInt(localStorage.getItem(KEY_SMALL_DONE) || "0");
+  document.getElementById("smallDoneTxt").innerText = `Small Done: ${Math.min(smallDone,2)}/2`;
 
-  if(now < slot1Start) return {active:false, next:slot1Start};
-  if(now < slot2Start) return {active:false, next:slot2Start};
-
-  const tomorrow = new Date(now);
-  tomorrow.setDate(tomorrow.getDate()+1);
-  tomorrow.setHours(10,0,0,0);
-  return {active:false, next:tomorrow};
+  updateBigUI();
 }
 
-function pickBigReward(userKey, dayKey, slot){
-  const seed = seededNumber(userKey + "|" + dayKey + "|BIG|" + slot);
-  const roll = seed % 100;
-  if(roll < 70) return { amount: 500, title: "✅ Admission Bonus Task", sub:"Get 1 confirmed admission today." };
-  return { amount: 3000, title: "🎓 PGDCA / Advanced PGDCA Special", sub:"Get 1 PGDCA admission today." };
+function addEarning(amount){
+  checkReset();
+  amount = Number(amount||0);
+
+  const today = getNum(BT_TODAY_KEY) + amount;
+  const total = getNum(BT_TOTAL_KEY) + amount;
+
+  setNum(BT_TODAY_KEY, today);
+  setNum(BT_TOTAL_KEY, total);
+
+  updateUI();
 }
 
-/* ✅ confetti */
-function blastConfetti(){
-  for(let i=0;i<26;i++){
-    const b = document.createElement("div");
-    b.style.position="fixed";
-    b.style.zIndex="999999";
-    b.style.left=(Math.random()*100)+"vw";
-    b.style.top="-10px";
-    b.style.width="10px";
-    b.style.height="14px";
-    b.style.opacity="0.95";
-    b.style.borderRadius="4px";
-    b.style.background="hsl("+(Math.random()*360)+",90%,60%)";
-    b.style.transform="rotate("+(Math.random()*90)+"deg)";
-    b.style.transition="transform 2.8s linear, top 2.8s linear, opacity 2.8s linear";
-    document.body.appendChild(b);
+/* -------- BIG TASK -------- */
 
-    setTimeout(()=>{
-      b.style.top="110vh";
-      b.style.transform="rotate("+(Math.random()*360)+"deg)";
-      b.style.opacity="0";
-    },60);
+function pickBigTask(){
+  if(Math.random() < 0.75) return BIG_TASKS[0];
+  return BIG_TASKS[Math.floor(Math.random() * (BIG_TASKS.length-1)) + 1];
+}
 
-    setTimeout(()=>b.remove(),3000);
+function maybeActivateBigTask(){
+  const now = Date.now();
+  const unlockAt = parseInt(localStorage.getItem(KEY_BIG_UNLOCK_AT) || "0");
+  const count = parseInt(localStorage.getItem(KEY_BIG_TODAY_COUNT) || "0");
+  const active = localStorage.getItem(KEY_BIG);
+
+  if(active) return;
+
+  if(now >= unlockAt && count < 2){
+    const t = pickBigTask();
+    localStorage.setItem(KEY_BIG, JSON.stringify(t));
+
+    const nextMins = random10to60Minutes();
+    localStorage.setItem(KEY_BIG_UNLOCK_AT, String(now + nextMins*60*1000));
   }
 }
 
-/* ✅ Coming Notice + Progress */
-function startBigComingNotice(){
-  const box = document.getElementById("bigComing");
-  const tEl = document.getElementById("bigComingTimer");
-  const fill = document.getElementById("bigFill");
-  if(!box || !tEl || !fill) return;
+function updateBigUI(){
+  maybeActivateBigTask();
 
-  function tick(){
-    const info = getNextBigSlot();
-    const now = new Date();
+  const smallDone = parseInt(localStorage.getItem(KEY_SMALL_DONE) || "0");
+  const active = localStorage.getItem(KEY_BIG);
 
-    if(info.active){
-      box.style.display="none";
-      return;
-    }
+  const lockOverlay = document.getElementById("lockOverlay");
+  const bigDoneBtn = document.getElementById("bigDoneBtn");
+  const bigProofBtn = document.getElementById("bigProofBtn");
 
-    const diff = info.next - now;
+  if(smallDone < 2){
+    lockOverlay.style.display = "flex";
+    bigDoneBtn.disabled = true;
+    bigProofBtn.disabled = true;
+  } else {
+    lockOverlay.style.display = "none";
+    bigDoneBtn.disabled = false;
+    bigProofBtn.disabled = false;
+  }
+
+  if(active){
+    const t = JSON.parse(active);
+    document.getElementById("bigTitle").innerText = t.title;
+    document.getElementById("bigAmt").innerText = "₹" + t.amount;
+    document.getElementById("bigSub").innerText = "Limited offer! Complete fast ✅";
+    document.getElementById("onlyTag").style.display = "inline-block";
+  }else{
+    document.getElementById("bigTitle").innerText = "Big amount task coming soon...";
+    document.getElementById("bigAmt").innerText = "₹0";
+    document.getElementById("bigSub").innerText = "Stay active. Big tasks appear 2 times/day.";
+    document.getElementById("onlyTag").style.display = "none";
+  }
+}
+
+function startBigCountdown(){
+  const timerEl = document.getElementById("bigTimer");
+
+  setInterval(()=>{
+    const unlockAt = parseInt(localStorage.getItem(KEY_BIG_UNLOCK_AT) || "0");
+    const now = Date.now();
+    let diff = unlockAt - now;
+
     if(diff <= 0){
-      box.style.display="none";
+      timerEl.innerText = "00:00";
+      updateBigUI();
       return;
     }
-
-    const WINDOW = 2*60*60*1000;
-    if(diff <= WINDOW){
-      box.style.display="block";
-
-      const mins = Math.floor(diff/(1000*60));
-      const hh = Math.floor(mins/60);
-      const mm = mins % 60;
-
-      if(hh > 0) tEl.innerText = `${hh}h ${mm}m`;
-      else tEl.innerText = `${mm} min`;
-
-      const progress = Math.max(0, Math.min(1, 1 - (diff / WINDOW)));
-      fill.style.width = Math.round(progress * 100) + "%";
-    }else{
-      box.style.display="none";
-    }
-  }
-
-  tick();
-  setInterval(tick, 15000);
+    const mm = String(Math.floor(diff/60000)).padStart(2,"0");
+    const ss = String(Math.floor((diff%60000)/1000)).padStart(2,"0");
+    timerEl.innerText = `${mm}:${ss}`;
+  }, 1000);
 }
 
-/* ✅ Big Slot display */
-function startSpecialSlots(){
-  const box = document.getElementById("spBox");
-  const titleEl = document.getElementById("spTitle");
-  const amtEl = document.getElementById("spAmt");
-  const subEl = document.getElementById("spSub");
-  const timerEl = document.getElementById("spTimer");
-  const waEl = document.getElementById("spWa");
-  if(!box || !timerEl) return;
+/* -------- EVENTS -------- */
 
-  const dayKey = new Date().toDateString();
-  const userKey = getUserKey();
+document.addEventListener("DOMContentLoaded", ()=>{
+  updateUI();
 
-  let confettiDoneForSlot = "";
+  const saved = localStorage.getItem(KEY_TASK);
+  if(saved) showTask(JSON.parse(saved));
+  else generateNewTask();
 
-  function check(){
-    const info = getNextBigSlot();
-    if(!info.active){
-      box.style.display = "none";
-      confettiDoneForSlot = "";
-      return;
-    }
+  startBigCountdown();
 
-    box.style.display = "block";
+  // ✅ small complete
+  document.getElementById("completeBtn").addEventListener("click", ()=>{
+    const task = JSON.parse(localStorage.getItem(KEY_TASK) || "{}");
+    const reward = Number(task.reward || 0);
 
-    const reward = pickBigReward(userKey, dayKey, info.slot);
-    titleEl.innerText = reward.title;
-    amtEl.innerText = "₹" + reward.amount;
-    subEl.innerText = "Join before end. " + reward.sub;
+    addEarning(reward);
 
-    const diff = info.end - new Date();
-    const hh = Math.floor(diff/(1000*60*60));
-    const mm = Math.floor((diff%(1000*60*60))/(1000*60));
-    const ss = Math.floor((diff%(1000*60))/1000);
-    timerEl.innerText = pad2(hh)+":"+pad2(mm)+":"+pad2(ss);
+    let done = parseInt(localStorage.getItem(KEY_SMALL_DONE) || "0");
+    done++;
+    localStorage.setItem(KEY_SMALL_DONE, String(done));
 
+    document.getElementById("status").innerText =
+      `✅ Completed! Amount added ₹${reward.toFixed(2)} | New task loaded ✅`;
+
+    generateNewTask();
+    updateUI();
+  });
+
+  // ✅ small proof WhatsApp
+  document.getElementById("smallProofBtn").addEventListener("click", ()=>{
+    const task = JSON.parse(localStorage.getItem(KEY_TASK) || "{}");
     const msg =
-      "✨ SPECIAL BIG REWARD TASK (ONLY FOR YOU)\n\n" +
-      "Date: " + dayKey + "\n" +
-      "User: " + userKey + "\n" +
-      "Slot: " + info.slot + "\n" +
-      "Reward: ₹" + reward.amount + "\n" +
-      "Task: " + reward.title + "\n\n" +
-      "I want to join this reward task ✅";
+`✅ SMALL TASK PROOF
+Institute: BlackTerminal Computer Institute
+Task: ${task.task || "N/A"}
+Reward: ₹${Number(task.reward||0).toFixed(2)}
+Date: ${todayKey()}
+Status: DONE
 
-    if(waEl){
-      waEl.href = "https://wa.me/" + DT_WHATSAPP + "?text=" + encodeURIComponent(msg);
+Please verify fast.`;
+
+    sendWA(msg);
+  });
+
+  // ✅ big complete
+  document.getElementById("bigDoneBtn").addEventListener("click", ()=>{
+    const active = localStorage.getItem(KEY_BIG);
+    if(!active){
+      alert("Big task not available yet.");
+      return;
     }
 
-    // confetti once per slot activation
-    const slotKey = dayKey + "_slot_" + info.slot;
-    if(confettiDoneForSlot !== slotKey){
-      blastConfetti();
-      confettiDoneForSlot = slotKey;
+    const smallDone = parseInt(localStorage.getItem(KEY_SMALL_DONE) || "0");
+    if(smallDone < 2){
+      alert("Complete 2 small tasks to unlock big reward.");
+      return;
     }
-  }
 
-  check();
-  setInterval(check, 1000);
-}
+    const t = JSON.parse(active);
+    addEarning(Number(t.amount));
 
-/* ✅ Normal daily task render */
-function startDailyTask(){
-  const today = new Date().toDateString();
-  const userKey = getUserKey();
+    let count = parseInt(localStorage.getItem(KEY_BIG_TODAY_COUNT) || "0");
+    count++;
+    localStorage.setItem(KEY_BIG_TODAY_COUNT, String(count));
 
-  const idx = pickTaskIndex(userKey, today);
-  const task = TASKS[idx];
+    localStorage.removeItem(KEY_BIG);
 
-  const doneKey = "bt_task_done_" + today + "_" + userKey;
-  const rewardMin = fixedRewardForToday(userKey, today);
+    alert("🎉 Big task completed! Amount added ✅");
+    updateUI();
+  });
 
-  document.getElementById("dtDate").innerText = today;
-  document.getElementById("dtTitle").innerText = task.t;
-  document.getElementById("dtDesc").innerText = task.d;
+  // ✅ big proof WhatsApp
+  document.getElementById("bigProofBtn").addEventListener("click", ()=>{
+    const active = localStorage.getItem(KEY_BIG);
+    if(!active){
+      alert("Big task not active yet.");
+      return;
+    }
 
-  const badge = document.getElementById("dtMandatory");
-  if(task.mandatory){
-    badge.className = "dtBadge mandatory";
-    badge.innerText = "MANDATORY";
-  }else{
-    badge.className = "dtBadge";
-    badge.innerText = "OPTIONAL";
-    badge.style.background="#e8f4ff";
-    badge.style.border="1px solid rgba(10,132,255,.25)";
-    badge.style.color="#0a84ff";
-  }
+    const t = JSON.parse(active);
+    const msg =
+`🏆 BIG TASK PROOF
+Institute: BlackTerminal Computer Institute
+Task: ${t.title}
+Reward: ₹${t.amount}
+Date: ${todayKey()}
+Status: DONE
 
-  document.getElementById("dtPayText").innerText =
-    "₹" + rewardMin.toFixed(2) + " – ₹0.50 per performance (estimated)";
+Please verify fast.`;
 
-  document.getElementById("dtPayRange").innerText =
-    "Guaranteed minimum: ₹" + rewardMin.toFixed(2);
+    sendWA(msg);
+  });
 
-  document.getElementById("dtSteps").innerHTML = task.s
-    .map((x,i)=>`<div class="step">✅ Step ${i+1}: ${x}</div>`)
-    .join("");
-
-  const msg =
-    "✅ DAILY TASK PROOF\n\n" +
-    "📅 Date: " + today + "\n" +
-    "👤 User: " + userKey + "\n" +
-    "📌 Task: " + task.t + "\n" +
-    "💸 Reward: ₹" + rewardMin.toFixed(2) + " – ₹0.50\n\n" +
-    "📸 Screenshot attached ✅\nPlease verify.";
-
-  document.getElementById("dtWa").href =
-    "https://wa.me/" + DT_WHATSAPP + "?text=" + encodeURIComponent(msg);
-
-  const done = localStorage.getItem(doneKey) === "yes";
-  const btn = document.getElementById("dtDoneBtn");
-  const st = document.getElementById("dtStatus");
-
-  if(done){
-    btn.disabled = true;
-    btn.innerText = "✅ Completed";
-    st.style.display = "block";
-    st.innerHTML = "✅ Task marked completed. Now send WhatsApp proof + screenshot.";
-  }else{
-    btn.disabled = false;
-    btn.innerText = "✅ Mark Completed";
-    st.style.display = "none";
-  }
-
-  window.completeTask = function(){
-    localStorage.setItem(doneKey, "yes");
-    btn.disabled = true;
-    btn.innerText = "✅ Completed";
-    st.style.display = "block";
-    st.innerHTML = "✅ Task marked completed. Now send WhatsApp proof + screenshot.";
-  };
-}
-
-/* ✅ init */
-window.addEventListener("load", ()=>{
-  startDailyTask();
-  startBigComingNotice();
-  startSpecialSlots();
 });
-
-
 
 </script>
 
