@@ -801,21 +801,12 @@ body{
 
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Daily Work | BlackTerminal</title>
-  <link rel="stylesheet" href="daily-work.css"/>
-</head>
 
-<body>
   <div class="wrap">
 
     <header class="top">
       <h1>Daily Work</h1>
-      <p class="sub">Complete tasks + send WhatsApp proof for verification.</p>
+      <p class="sub">Complete task + send WhatsApp proof for verification.</p>
     </header>
 
     <!-- Earnings -->
@@ -833,27 +824,15 @@ body{
       </div>
     </section>
 
-    <!-- Progress -->
-    <section class="progressBox">
-      <div class="progressTop">
-        <span>Small Task Progress</span>
-        <b id="progressText">0 / 2</b>
-      </div>
-      <div class="progressBar">
-        <div class="progressFill" id="progressFill"></div>
-      </div>
-      <div class="hint" id="hintMsg">Complete 2 small tasks to unlock BIG reward task.</div>
-    </section>
-
     <!-- Small tasks -->
-    <section class="taskBlock" id="smallBlock">
+    <section class="taskBlock">
       <div class="blockTitle">
         <span class="pill">✅ Small Tasks</span>
       </div>
 
       <div class="taskGrid" id="smallGrid"></div>
 
-      <!-- ✅ Premium overlay lock -->
+      <!-- Lock overlay -->
       <div class="smallLockOverlay" id="smallLockOverlay">
         🔒 Small tasks locked
         <small>Complete BIG TASK to unlock</small>
@@ -861,14 +840,13 @@ body{
     </section>
 
     <!-- Big task -->
-    <section class="bigTaskBox" id="bigTaskBox">
+    <section class="bigTaskBox">
 
       <div class="bigTop">
         <span class="onlyTag">✨ Only for you</span>
         <span class="bigTitle">BIG Reward Task</span>
       </div>
 
-      <!-- Locked -->
       <div class="bigInner" id="bigInnerLocked">
         <div class="bigLocked">
           🔒 BIG TASK locked
@@ -876,18 +854,14 @@ body{
         </div>
       </div>
 
-      <!-- Active -->
       <div class="bigInner" id="bigInnerActive" style="display:none;">
         <div class="bigCard">
-
           <div class="bigRow">
-            <div class="bigName" id="bigName">Special Course Promotion</div>
+            <div class="bigName" id="bigName">Special Bonus Campaign</div>
             <div class="bigAmount" id="bigAmount">₹500</div>
           </div>
 
-          <div class="bigDesc" id="bigDesc">
-            Promote special course and send interested student details.
-          </div>
+          <div class="bigDesc" id="bigDesc"></div>
 
           <div class="countDownRow">
             <div class="countText">
@@ -903,12 +877,9 @@ body{
             <button class="btn doneBtn" id="bigDoneBtn">✅ Mark BIG Task Completed</button>
             <button class="btn waBtn" id="bigProofBtn">📩 Send Proof WhatsApp</button>
           </div>
-
-          <div class="bigMsg" id="bigMsg"></div>
         </div>
       </div>
 
-      <!-- Coming countdown -->
       <div class="comingLine" id="comingLine">
         ⏳ Next BIG amount task coming in <b id="nextBigIn">--</b> min
       </div>
@@ -918,8 +889,7 @@ body{
   </div>
 
   <script src="daily-work.js"></script>
-</body>
-</html>
+
 
 
 
@@ -1095,15 +1065,10 @@ window.addEventListener("load", startOfferBarCycle);
 
 
 
-
-
-// ✅ SETTINGS
 const INSTITUTE_NAME = "BlackTerminal Computer Institute";
-const WA_NUMBER = "917008186187"; // change if needed (no +)
+const WA_NUMBER = "917008186187";
+const STORAGE_KEY = "bt_dailywork_final_v2";
 
-const STORAGE_KEY = "bt_dailywork_FINAL_v1";
-
-// ---------- Helpers ----------
 const ₹ = (n) => "₹" + Number(n).toFixed(2);
 
 function todayKey(){
@@ -1112,21 +1077,11 @@ function todayKey(){
 function rand(min,max){
   return Math.floor(Math.random()*(max-min+1))+min;
 }
-function animateValue(el, from, to, dur=650){
-  const start = performance.now();
-  function frame(t){
-    const p = Math.min(1,(t-start)/dur);
-    const val = from + (to-from)*p;
-    el.textContent = ₹(val);
-    if(p<1) requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
-}
 function sendWA(text){
   window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`,"_blank");
 }
 
-// ---------- State ----------
+// ---- State ----
 function loadState(){
   const raw = localStorage.getItem(STORAGE_KEY);
   if(!raw){
@@ -1137,45 +1092,63 @@ function loadState(){
       smallDone: 0,
       activeSmall: [],
       bigUnlocked: false,
-      bigDone: false,
       bigTask: null,
-      bigEndsAt: null
+      bigEndsAt: null,
+      nextBigMin: rand(10,60)
     };
   }
+
   const s = JSON.parse(raw);
 
-  // New day reset small tasks
+  // reset new day
   if(s.today !== todayKey()){
     s.today = todayKey();
     s.todayEarn = 0;
     s.smallDone = 0;
     s.activeSmall = [];
     s.bigUnlocked = false;
-    s.bigDone = false;
     s.bigTask = null;
     s.bigEndsAt = null;
+    s.nextBigMin = rand(10,60);
   }
   return s;
 }
-
 function saveState(){
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
-
 let state = loadState();
 
-// ---------- Task Pools ----------
-const smallTasksPool = [
+// ---- UI ----
+const smallGrid = document.getElementById("smallGrid");
+const todayEarnEl = document.getElementById("todayEarn");
+const lifeEarnEl = document.getElementById("lifeEarn");
+const smallLockOverlay = document.getElementById("smallLockOverlay");
+
+const bigInnerLocked = document.getElementById("bigInnerLocked");
+const bigInnerActive = document.getElementById("bigInnerActive");
+const comingLine = document.getElementById("comingLine");
+const nextBigIn = document.getElementById("nextBigIn");
+
+const bigName = document.getElementById("bigName");
+const bigAmount = document.getElementById("bigAmount");
+const bigDesc = document.getElementById("bigDesc");
+const bigTimer = document.getElementById("bigTimer");
+const bigSteps = document.getElementById("bigSteps");
+const bigDoneBtn = document.getElementById("bigDoneBtn");
+const bigProofBtn = document.getElementById("bigProofBtn");
+
+// ---- Task pools ----
+const smallPool = [
   {title:"WhatsApp Status Poster", desc:"Post today's poster on WhatsApp status.", steps:["Download poster","Post on status","Keep 6 hours","Screenshot of views"]},
-  {title:"Instagram Story Share", desc:"Share institute poster on Instagram story.", steps:["Take poster screenshot","Upload story","Tag institute","Send screenshot proof"]},
-  {title:"Forward to 5 students", desc:"Forward offer message to 5 students.", steps:["Copy message","Send to 5 students","Ask interest","Send screenshot proof"]},
-  {title:"WhatsApp Group Post", desc:"Post in 1 WhatsApp group.", steps:["Select group","Post message","Answer queries","Send screenshot proof"]},
-  {title:"Call 1 Student", desc:"Call one student and explain course.", steps:["Call student","Explain short","Ask interest","Send proof"]},
+  {title:"Instagram Story Share", desc:"Share institute poster on Instagram story.", steps:["Upload story","Write short caption","Tag institute","Send screenshot proof"]},
+  {title:"Forward to 5 students", desc:"Forward message to 5 students.", steps:["Copy message","Send to 5 students","Ask interest","Screenshot proof"]},
+  {title:"WhatsApp Group Post", desc:"Post in 1 WhatsApp group.", steps:["Select group","Post message","Reply if asked","Screenshot proof"]},
+  {title:"Call 1 Student", desc:"Call one student & explain course.", steps:["Call student","Explain course","Get response","Send note proof"]},
 ];
 
-function buildSmallTask(){
-  const t = smallTasksPool[rand(0, smallTasksPool.length-1)];
-  const amount = rand(10,50)/100; // ₹0.10 - ₹0.50
+function buildSmall(){
+  const t = smallPool[rand(0, smallPool.length-1)];
+  const amount = rand(10,50)/100;
   return {
     id:"S"+Date.now()+rand(100,999),
     title:t.title,
@@ -1186,65 +1159,19 @@ function buildSmallTask(){
   };
 }
 
-function buildBigTask(){
+function buildBig(){
   const options = [
-    {title:"Admission Referral Bonus", amount:500, desc:"Bring 1 confirmed admission referral."},
-    {title:"PGDCA Admission Lead", amount:3000, desc:"Bring confirmed PGDCA/Advanced PGDCA lead."},
-    {title:"Advanced Course Campaign", amount:2000, desc:"Promote advanced course + bring 2 leads."}
+    {title:"Admission Referral Bonus", amount:500, desc:"Bring 1 confirmed admission referral today."},
+    {title:"PGDCA Admission Lead", amount:3000, desc:"Bring 1 confirmed PGDCA/Advanced PGDCA lead."},
+    {title:"Special Student Campaign", amount:2000, desc:"Send 5 student leads for advanced course."}
   ];
-  const t = options[rand(0,options.length-1)];
-  return {id:"B"+Date.now()+rand(100,999), ...t};
+  return {id:"B"+Date.now()+rand(100,999), ...options[rand(0,options.length-1)]};
 }
 
-function formatTimer(ms){
-  const s = Math.max(0, Math.floor(ms/1000));
-  const mm = String(Math.floor(s/60)).padStart(2,"0");
-  const ss = String(s%60).padStart(2,"0");
-  return `${mm}:${ss}`;
-}
-
-// ---------- UI ----------
-const smallGrid = document.getElementById("smallGrid");
-const todayEarnEl = document.getElementById("todayEarn");
-const lifeEarnEl = document.getElementById("lifeEarn");
-
-const progressText = document.getElementById("progressText");
-const progressFill = document.getElementById("progressFill");
-const hintMsg = document.getElementById("hintMsg");
-
-const smallLockOverlay = document.getElementById("smallLockOverlay");
-
-const bigInnerLocked = document.getElementById("bigInnerLocked");
-const bigInnerActive = document.getElementById("bigInnerActive");
-
-const nextBigIn = document.getElementById("nextBigIn");
-const comingLine = document.getElementById("comingLine");
-
-const bigName = document.getElementById("bigName");
-const bigAmount = document.getElementById("bigAmount");
-const bigDesc = document.getElementById("bigDesc");
-const bigTimer = document.getElementById("bigTimer");
-const bigSteps = document.getElementById("bigSteps");
-const bigDoneBtn = document.getElementById("bigDoneBtn");
-const bigProofBtn = document.getElementById("bigProofBtn");
-const bigMsg = document.getElementById("bigMsg");
-
-// ---------- Render ----------
-function updateEarningsUI(){
-  animateValue(todayEarnEl, Number(todayEarnEl.dataset.val||0), state.todayEarn);
-  animateValue(lifeEarnEl, Number(lifeEarnEl.dataset.val||0), state.lifeEarn);
-  todayEarnEl.dataset.val = state.todayEarn;
-  lifeEarnEl.dataset.val = state.lifeEarn;
-}
-
-function updateProgressUI(){
-  progressText.textContent = `${state.smallDone} / 2`;
-  progressFill.style.width = Math.min(100, (state.smallDone/2)*100) + "%";
-
-  if(state.bigUnlocked && !state.bigDone){
-    hintMsg.textContent = "BIG TASK unlocked! Small tasks locked until BIG task completed.";
-  }else{
-    hintMsg.textContent = "Complete 2 small tasks to unlock BIG reward task.";
+function ensureSmall(){
+  if(!state.activeSmall || state.activeSmall.length !== 2){
+    state.activeSmall = [buildSmall(), buildSmall()];
+    saveState();
   }
 }
 
@@ -1252,20 +1179,16 @@ function lockSmall(lock){
   smallLockOverlay.style.display = lock ? "flex" : "none";
 }
 
-// ✅ show 2 tasks always
-function ensureTwoSmall(){
-  if(!state.activeSmall || state.activeSmall.length !== 2){
-    state.activeSmall = [buildSmallTask(), buildSmallTask()];
-    saveState();
-  }
+function renderEarnings(){
+  todayEarnEl.textContent = ₹(state.todayEarn);
+  lifeEarnEl.textContent = ₹(state.lifeEarn);
 }
 
 function renderSmall(){
-  ensureTwoSmall();
-  smallGrid.innerHTML = "";
+  ensureSmall();
+  smallGrid.innerHTML="";
 
-  // ✅ lock condition
-  if(state.bigUnlocked && !state.bigDone){
+  if(state.bigUnlocked){
     lockSmall(true);
   }else{
     lockSmall(false);
@@ -1273,8 +1196,8 @@ function renderSmall(){
 
   state.activeSmall.forEach((t,idx)=>{
     const card = document.createElement("div");
-    card.className = "taskCard";
-    card.innerHTML = `
+    card.className="taskCard";
+    card.innerHTML=`
       <div class="taskHead">
         <div>
           <div class="taskTitle">📌 ${t.title}</div>
@@ -1299,34 +1222,29 @@ function renderSmall(){
       </div>
     `;
 
-    // completed
-    card.querySelector(".doneBtn").onclick = ()=>{
-      if(state.bigUnlocked && !state.bigDone){
+    card.querySelector(".doneBtn").onclick=()=>{
+      if(state.bigUnlocked){
         alert("Small tasks locked. Complete BIG task first.");
         return;
       }
-
-      state.smallDone += 1;
+      state.smallDone++;
       state.todayEarn += t.amount;
       state.lifeEarn += t.amount;
 
-      // replace completed task with new task
-      state.activeSmall[idx] = buildSmallTask();
+      // replace task
+      state.activeSmall[idx] = buildSmall();
 
-      // unlock big after 2
       if(state.smallDone >= 2){
-        unlockBigTask();
+        unlockBig();
       }
 
       saveState();
-      updateEarningsUI();
-      updateProgressUI();
+      renderEarnings();
       renderSmall();
       renderBig();
     };
 
-    // proof
-    card.querySelector(".waBtn").onclick = ()=>{
+    card.querySelector(".waBtn").onclick=()=>{
       const msg =
 `✅ SMALL TASK PROOF
 Institute: ${INSTITUTE_NAME}
@@ -1343,10 +1261,9 @@ Please verify fast.`;
   });
 }
 
-function unlockBigTask(){
-  state.bigUnlocked = true;
-  state.bigDone = false;
-  state.bigTask = buildBigTask();
+function unlockBig(){
+  state.bigUnlocked=true;
+  state.bigTask=buildBig();
   state.bigEndsAt = Date.now() + rand(10,60)*60*1000;
   saveState();
 }
@@ -1356,86 +1273,68 @@ function renderBig(){
     bigInnerLocked.style.display="block";
     bigInnerActive.style.display="none";
     comingLine.style.display="block";
-    nextBigIn.textContent = rand(10,60);
+    nextBigIn.textContent = state.nextBigMin;
     return;
   }
 
-  // active
   bigInnerLocked.style.display="none";
   bigInnerActive.style.display="block";
   comingLine.style.display="none";
 
   const t = state.bigTask;
-  bigName.textContent = t.title;
-  bigAmount.textContent = "₹"+t.amount;
-  bigDesc.textContent = t.desc;
+  bigName.textContent=t.title;
+  bigAmount.textContent="₹"+t.amount;
+  bigDesc.textContent=t.desc;
 
-  bigSteps.innerHTML = `
-    <li>Share course poster/message</li>
-    <li>Get interested student response</li>
+  bigSteps.innerHTML=`
+    <li>Share posters/messages</li>
+    <li>Collect interested leads</li>
     <li>Send details to institute</li>
-    <li>Send WhatsApp proof screenshot</li>
+    <li>Send WhatsApp proof</li>
   `;
-
-  // ✅ lock small now
-  if(!state.bigDone) lockSmall(true);
-
-  if(state.bigDone){
-    bigDoneBtn.disabled=true;
-    bigDoneBtn.textContent="✅ BIG TASK Completed";
-    bigMsg.style.display="block";
-    bigMsg.textContent="✅ BIG task done. Small tasks unlocked now!";
-  }else{
-    bigDoneBtn.disabled=false;
-    bigDoneBtn.textContent="✅ Mark BIG Task Completed";
-    bigMsg.style.display="none";
-  }
 }
 
-// countdown tick
+function formatTimer(ms){
+  const s = Math.max(0, Math.floor(ms/1000));
+  const mm = String(Math.floor(s/60)).padStart(2,"0");
+  const ss = String(s%60).padStart(2,"0");
+  return `${mm}:${ss}`;
+}
+
 function tick(){
   if(state.bigUnlocked && state.bigEndsAt){
     const left = state.bigEndsAt - Date.now();
     bigTimer.textContent = formatTimer(left);
-
-    if(left <= 0){
-      // expired reset
+    if(left<=0){
+      // expire big
       state.bigUnlocked=false;
-      state.bigDone=false;
       state.bigTask=null;
       state.bigEndsAt=null;
       state.smallDone=0;
-      state.activeSmall=[];
+      state.nextBigMin = rand(10,60);
       saveState();
       renderSmall();
       renderBig();
-      updateProgressUI();
     }
   }
 }
 
-bigDoneBtn.onclick = ()=>{
+bigDoneBtn.onclick=()=>{
   if(!state.bigTask) return;
 
-  // mark big complete
-  state.bigDone=true;
-
-  // ✅ reset for new day flow
+  // Big completed (unlock small again)
   state.bigUnlocked=false;
   state.bigTask=null;
   state.bigEndsAt=null;
-
-  // reset small progress + unlock
   state.smallDone=0;
-  lockSmall(false);
-
+  state.nextBigMin = rand(10,60);
   saveState();
+
   renderSmall();
   renderBig();
-  updateProgressUI();
 };
 
-bigProofBtn.onclick = ()=>{
+bigProofBtn.onclick=()=>{
   if(!state.bigTask) return;
 
   const t = state.bigTask;
@@ -1451,12 +1350,13 @@ Please verify fast.`;
   sendWA(msg);
 };
 
-// ---------- Init ----------
-updateEarningsUI();
-updateProgressUI();
+// INIT
+renderEarnings();
 renderSmall();
 renderBig();
 setInterval(tick,1000);
+
+
 
 </script>
 
