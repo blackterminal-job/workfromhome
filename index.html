@@ -1213,52 +1213,57 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 
-  const SHEET_ID = "1YW6QuBtryedN8L2t-Q6laTJE46VI8oarUFIVBvui4Mw"; // ✅ your sheet
-  const CODE_SHEET_TAB = "Sheet1"; // change if name different
-  const sheetURL = "https://opensheet.elk.sh/" + SHEET_ID + "/" + CODE_SHEET_TAB;
+  
+const SHEET_ID = "1YW6QuBtryedN8L2t-Q6laTJE46VI8oarUFIVBvui4Mw";
+const CODE_SHEET_TAB = "Sheet1"; 
+const sheetURL = "https://opensheet.elk.sh/" + SHEET_ID + "/" + CODE_SHEET_TAB;
 
-  async function fetchMyCode(){
-    const mob = (document.getElementById("mobInp").value || "").trim();
-    const codeBig = document.getElementById("codeBig");
-    const msg = document.getElementById("codeMsg");
+async function fetchMyCode(){
+  const mob = (document.getElementById("mobInp").value || "").trim();
+  const codeBig = document.getElementById("codeBig");
+  const msg = document.getElementById("codeMsg");
 
-    codeBig.style.display = "none";
-    msg.style.display = "block";
-    msg.innerText = "⏳ Fetching your code...";
+  codeBig.style.display = "none";
+  msg.style.display = "block";
+  msg.innerText = "⏳ Fetching your code...";
 
-    if(mob.length < 10){
-      msg.innerText = "⚠️ Enter valid mobile number.";
+  const im = mob.replace(/\D/g,'');
+  if(im.length < 10){
+    msg.innerText = "⚠️ Enter valid mobile number.";
+    return;
+  }
+
+  try{
+    const res = await fetch(sheetURL + "?t=" + Date.now(), {cache:"no-store"});
+    const data = await res.json();
+
+    if(data.error){
+      msg.innerText = "❌ " + data.error;
       return;
     }
 
-    try{
-      const res = await fetch(sheetURL);
-      const data = await res.json();
+    const row = data.find(r=>{
+      const sm = String(r.Mobile || "").replace(/\D/g,'');
+      return sm.endsWith(im) || im.endsWith(sm);
+    });
 
-      // match row by mobile
-      const row = data.find(r => (r.Mobile || "").replace(/\D/g,'') === mob.replace(/\D/g,''));
-
-      if(!row){
-        msg.innerText = "❌ Code not found. Please apply or contact institute.";
-        return;
-      }
-
-      const code = row.Code || "";
-      const name = row.Name || "Student";
-
-      codeBig.style.display = "block";
-      codeBig.innerText = code;
-
-      msg.innerText = "✅ Hello " + name + "! Your referral code is shown above.";
-
-      // save code to localStorage for whole site
-      localStorage.setItem("bt_refcode", code);
-
-    }catch(e){
-      msg.innerText = "⚠️ Error loading code. Please try again later.";
+    if(!row){
+      msg.innerText = "❌ Mobile not found in sheet.";
+      return;
     }
-  }
 
+    const code = String(row.Code || "").trim();
+    codeBig.style.display = "block";
+    codeBig.innerText = code;
+
+    msg.innerText = "✅ Code found!";
+    localStorage.setItem("bt_refcode", code);
+
+  }catch(err){
+    console.log(err);
+    msg.innerText = "⚠️ Error loading. Check sheet share is public.";
+  }
+}
 
 
 
@@ -1273,6 +1278,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 </body>
 </html>
+
 
 
 
