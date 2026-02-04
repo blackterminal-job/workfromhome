@@ -773,84 +773,114 @@ p{margin:0;color:var(--muted);}
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Daily Work</title>
+  <title>Daily Work | BlackTerminal</title>
   <link rel="stylesheet" href="daily-work.css"/>
 </head>
-<body>
 
+<body>
   <div class="wrap">
 
-    <div class="head">
-      <div class="tag">🔥 DAILY WORK</div>
-      <h1>Task for Today</h1>
-      <p>Complete task ➜ amount will add automatically ✅</p>
-    </div>
+    <header class="top">
+      <h1>Daily Work</h1>
+      <p class="sub">Complete tasks + send WhatsApp proof for verification.</p>
+    </header>
 
     <!-- Earnings -->
-    <div class="earnGrid">
+    <section class="earnBar">
       <div class="earnCard">
-        <div class="lbl">Today Earning</div>
-        <div class="val">₹<span id="todayEarn">0.00</span></div>
-        <div class="mini" id="smallDoneTxt">Small Done: 0/2</div>
+        <div class="label">Today's Earnings</div>
+        <div class="value" id="todayEarn">₹0.00</div>
+        <div class="mini">Auto saved</div>
       </div>
 
-      <div class="earnCard glow">
-        <div class="lbl">Total Earning (Lifetime)</div>
-        <div class="val big">₹<span id="totalEarn">0.00</span></div>
-        <div class="mini">Verified after admin check ✅</div>
+      <div class="earnCard">
+        <div class="label">Lifetime Earnings</div>
+        <div class="value" id="lifeEarn">₹0.00</div>
+        <div class="mini">Saved on device</div>
       </div>
-    </div>
+    </section>
 
-    <!-- Small task -->
-    <div class="card" id="smallCard">
-      <div class="top">
-        <div class="pill">✅ Small Task</div>
-        <div class="amt" id="taskAmt">₹0.00</div>
+    <!-- Progress -->
+    <section class="progressBox">
+      <div class="progressTop">
+        <span>Small Task Progress</span>
+        <b id="progressText">0 / 2</b>
+      </div>
+      <div class="progressBar">
+        <div class="progressFill" id="progressFill"></div>
+      </div>
+      <div class="hint" id="hintMsg">Complete 2 small tasks to unlock BIG reward task.</div>
+    </section>
+
+    <!-- Small tasks -->
+    <section class="taskBlock" id="smallBlock">
+      <div class="blockTitle">
+        <span class="pill">✅ Small Tasks</span>
       </div>
 
-      <div class="title" id="taskTitle">Loading task...</div>
-      <div class="sub">Reward: ₹0.10 – ₹0.50</div>
+      <div class="taskGrid" id="smallGrid"></div>
 
-      <!-- ✅ Steps -->
-      <div class="stepsBox">
-        <div class="stepsTitle">📌 Steps to Complete</div>
-        <div id="taskSteps" class="stepsList"></div>
-      </div>
-
-      <button class="btn primary" id="completeBtn">✅ Completed & Add Amount</button>
-      <button class="btn whatsapp" id="smallProofBtn">📩 Send Small Proof (WhatsApp)</button>
-
-      <div class="mini" id="status"></div>
-
-      <!-- ✅ lock small tasks while big task active -->
+      <!-- ✅ Premium overlay lock -->
       <div class="smallLockOverlay" id="smallLockOverlay">
-        🔒 Small tasks locked<br/>
+        🔒 Small tasks locked
         <small>Complete BIG TASK to unlock</small>
       </div>
-    </div>
+    </section>
 
-    <!-- BIG TASK -->
-    <div class="card bigCard" id="bigCard">
-      <div class="top">
-        <div class="pill bigPill">🎁 Big Reward Task</div>
-        <div class="amt bigAmt" id="bigAmt">₹0</div>
+    <!-- Big task -->
+    <section class="bigTaskBox" id="bigTaskBox">
+
+      <div class="bigTop">
+        <span class="onlyTag">✨ Only for you</span>
+        <span class="bigTitle">BIG Reward Task</span>
       </div>
 
-      <div class="onlyTag" id="onlyTag">ONLY FOR YOU ✨</div>
-      <div class="title" id="bigTitle">🔒 Big task locked</div>
-      <div class="sub" id="bigSub">Complete 2 small tasks to unlock big reward task.</div>
-
-      <div class="timerBox" id="bigTimerBox">
-        ⏳ Next Big Task in: <b id="bigTimer">--:--</b>
+      <!-- Locked -->
+      <div class="bigInner" id="bigInnerLocked">
+        <div class="bigLocked">
+          🔒 BIG TASK locked
+          <div class="bigLockedSub">Complete 2 small tasks first.</div>
+        </div>
       </div>
 
-      <button class="btn gold" id="bigDoneBtn" disabled>🏆 Complete Big Task & Add Amount</button>
-      <button class="btn whatsapp" id="bigProofBtn" disabled>📩 Send Big Proof (WhatsApp)</button>
+      <!-- Active -->
+      <div class="bigInner" id="bigInnerActive" style="display:none;">
+        <div class="bigCard">
 
-      <div class="lockOverlay" id="lockOverlay">
-        🔒 Complete 2 small tasks to unlock
+          <div class="bigRow">
+            <div class="bigName" id="bigName">Special Course Promotion</div>
+            <div class="bigAmount" id="bigAmount">₹500</div>
+          </div>
+
+          <div class="bigDesc" id="bigDesc">
+            Promote special course and send interested student details.
+          </div>
+
+          <div class="countDownRow">
+            <div class="countText">
+              ⏳ Ends in: <b id="bigTimer">--:--</b>
+            </div>
+            <div class="warnTag">Join before end!</div>
+          </div>
+
+          <div class="stepsTitle">✅ Steps</div>
+          <ul class="steps" id="bigSteps"></ul>
+
+          <div class="btnRow">
+            <button class="btn doneBtn" id="bigDoneBtn">✅ Mark BIG Task Completed</button>
+            <button class="btn waBtn" id="bigProofBtn">📩 Send Proof WhatsApp</button>
+          </div>
+
+          <div class="bigMsg" id="bigMsg"></div>
+        </div>
       </div>
-    </div>
+
+      <!-- Coming countdown -->
+      <div class="comingLine" id="comingLine">
+        ⏳ Next BIG amount task coming in <b id="nextBigIn">--</b> min
+      </div>
+
+    </section>
 
   </div>
 
