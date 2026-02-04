@@ -1212,86 +1212,58 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 
+<script>
+  const SHEET_ID = "1YW6QuBtryedN8L2t-Q6laTJE46VI8oarUFIVBvui4Mw"; // ✅ your sheet
+  const CODE_SHEET_TAB = "Sheet1"; // change if name different
+  const sheetURL = "https://opensheet.elk.sh/" + SHEET_ID + "/" + CODE_SHEET_TAB;
+
+  async function fetchMyCode(){
+    const mob = (document.getElementById("mobInp").value || "").trim();
+    const codeBig = document.getElementById("codeBig");
+    const msg = document.getElementById("codeMsg");
+
+    codeBig.style.display = "none";
+    msg.style.display = "block";
+    msg.innerText = "⏳ Fetching your code...";
+
+    if(mob.length < 10){
+      msg.innerText = "⚠️ Enter valid mobile number.";
+      return;
+    }
+
+    try{
+      const res = await fetch(sheetURL);
+      const data = await res.json();
+
+      // match row by mobile
+      const row = data.find(r => (r.Mobile || "").replace(/\D/g,'') === mob.replace(/\D/g,''));
+
+      if(!row){
+        msg.innerText = "❌ Code not found. Please apply or contact institute.";
+        return;
+      }
+
+      const code = row.Code || "";
+      const name = row.Name || "Student";
+
+      codeBig.style.display = "block";
+      codeBig.innerText = code;
+
+      msg.innerText = "✅ Hello " + name + "! Your referral code is shown above.";
+
+      // save code to localStorage for whole site
+      localStorage.setItem("bt_refcode", code);
+
+    }catch(e){
+      msg.innerText = "⚠️ Error loading code. Please try again later.";
+    }
+  }
+</script>
 
 
 
-.codeFetchBox{
-  margin-top:14px;
-  padding:16px;
-  border-radius:18px;
-  background:linear-gradient(135deg,#0b1220,#132a5a);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 20px 45px rgba(0,0,0,.22);
-}
-.codeBadge{
-  display:inline-block;
-  padding:6px 10px;
-  border-radius:999px;
-  background:rgba(255,255,255,.12);
-  font-weight:1000;
-  font-size:12px;
-}
-.codeFetchBox h2{margin:10px 0 6px;font-size:18px}
-.codeFetchBox p{margin:0;opacity:.9;font-weight:850;line-height:1.6}
 
-.codeRow{
-  margin-top:12px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.codeRow input{
-  flex:1;
-  min-width:220px;
-  padding:12px 12px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(0,0,0,.25);
-  color:#fff;
-  font-weight:950;
-  outline:none;
-}
-.codeBtn{
-  border:none;
-  background:#25D366;
-  color:#fff;
-  font-weight:1000;
-  padding:12px 14px;
-  border-radius:14px;
-  cursor:pointer;
-}
-.codeBig{
-  margin-top:14px;
-  font-size:46px;
-  font-weight:1100;
-  letter-spacing:4px;
-  text-align:center;
-  padding:12px 14px;
-  border-radius:18px;
-  background:rgba(255,255,255,.10);
-  border:1px solid rgba(255,255,255,.14);
-  text-shadow:0 12px 30px rgba(0,0,0,.4);
-}
-.codeMsg{
-  margin-top:12px;
-  padding:12px 14px;
-  border-radius:16px;
-  background:rgba(255,255,255,.10);
-  border:1px solid rgba(255,255,255,.12);
-  font-weight:950;
-  line-height:1.6;
-  text-align:center;
-}
-.codeNote{
-  margin-top:12px;
-  padding:12px 14px;
-  border-radius:16px;
-  background:rgba(255,243,214,.12);
-  border:1px solid rgba(255,225,166,.22);
-  font-weight:900;
-  line-height:1.6;
-}
+
 	
  
 </script>
@@ -1301,6 +1273,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 </body>
 </html>
+
 
 
 
