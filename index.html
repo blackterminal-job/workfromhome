@@ -593,8 +593,12 @@
   <p>We will fetch your referral code from our official sheet.</p>
 
   <div class="codeRow">
-    <input id="mobInp" placeholder="Enter your mobile number" />
-    <button class="codeBtn" onclick="fetchMyCode()">Fetch Code</button>
+    <input id="mobInp" placeholder="Enter mobile number" />
+<button id="fetchBtn">Fetch Code</button>
+
+<div id="codeMsg" style="margin-top:10px;"></div>
+<div id="codeBig" style="display:none; margin-top:10px;"></div>
+
   </div>
 
   <div class="codeBig" id="codeBig" style="display:none;">TB000</div>
@@ -1215,24 +1219,27 @@ document.addEventListener("DOMContentLoaded", function(){
 
   
 
-const sheetURL = "https://opensheet.elk.sh/1YW6QuBtryedN8L2t-Q6laTJE46VI8oarUFIVBvui4Mw/Sheet1";
+
+const SHEET_ID = "1YW6QuBtryedN8L2t-Q6laTJE46VI8oarUFIVBvui4Mw";
+const CODE_SHEET_TAB = "Sheet1";
+const sheetURL = "https://opensheet.elk.sh/" + SHEET_ID + "/" + CODE_SHEET_TAB;
+
+document.getElementById("fetchBtn").addEventListener("click", fetchMyCode);
 
 async function fetchMyCode(){
   const mobInp = (document.getElementById("mobInp").value || "").trim();
   const codeBig = document.getElementById("codeBig");
   const msg = document.getElementById("codeMsg");
-  const row = data.find(r => String(r.Mobile).includes(mob));
-
 
   let mob = mobInp.replace(/\D/g, "");
   if(mob.length === 12 && mob.startsWith("91")) mob = mob.slice(2);
 
-  codeBig.style.display = "none";
   msg.style.display = "block";
-  msg.innerText = "⏳ Fetching your code...";
+  msg.innerText = "⏳ Fetching...";
+  codeBig.style.display = "none";
 
   if(mob.length !== 10){
-    msg.innerText = "⚠️ Enter valid mobile number.";
+    msg.innerText = "⚠️ Enter valid 10 digit mobile number";
     return;
   }
 
@@ -1240,18 +1247,16 @@ async function fetchMyCode(){
     const res = await fetch(sheetURL);
     const data = await res.json();
 
-    // ✅ find matching row by mobile
     const row = data.find(r => String(r.Mobile || "").trim() === mob);
 
     if(!row){
-      msg.innerText = "❌ Mobile number not found.";
+      msg.innerText = "❌ Mobile not found";
       return;
     }
 
+    msg.innerText = "";
     codeBig.style.display = "block";
-    msg.style.display = "none";
 
-    // Example output
     codeBig.innerHTML = `
       ✅ Code: <b>${row.Code}</b><br>
       👤 Name: ${row.Name}<br>
@@ -1265,6 +1270,7 @@ async function fetchMyCode(){
   }
 }
 
+
 	
  
 </script>
@@ -1274,6 +1280,7 @@ async function fetchMyCode(){
 
 </body>
 </html>
+
 
 
 
