@@ -446,6 +446,68 @@
 @media(max-width:380px){
   .btClaimMini{display:none}
 }
+
+.btApplyNowBtn{
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:12px 14px;
+  border-radius:18px;
+  font-weight:1200;
+  color:#fff;
+  background:linear-gradient(135deg,#25D366,#0a84ff);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 16px 35px rgba(0,0,0,.22);
+  white-space:nowrap;
+  position:relative;
+  overflow:hidden;
+  animation: applyPulse 1.4s infinite;
+}
+
+.btApplyNowBtn span{
+  font-weight:1300;
+  animation: arrowMove 1s infinite;
+}
+
+@keyframes arrowMove{
+  0%,100%{transform:translateX(0)}
+  50%{transform:translateX(6px)}
+}
+
+@keyframes applyPulse{
+  0%{transform:scale(1); box-shadow:0 0 0 rgba(37,211,102,.0)}
+  50%{transform:scale(1.03); box-shadow:0 0 35px rgba(37,211,102,.24)}
+  100%{transform:scale(1); box-shadow:0 0 0 rgba(37,211,102,.0)}
+}
+
+.btApplyNowBtn:before{
+  content:"";
+  position:absolute;
+  top:-40%;
+  left:-40%;
+  width:60%;
+  height:220%;
+  background:rgba(255,255,255,.20);
+  transform:rotate(25deg);
+  animation: shine 2.2s infinite;
+}
+@keyframes shine{
+  0%{transform:translateX(-120%) rotate(25deg)}
+  100%{transform:translateX(260%) rotate(25deg)}
+}
+
+.btApplyNowBtn:active{
+  transform:scale(.99);
+}
+
+/* Mobile full width */
+@media(max-width:720px){
+  .btApplyNowBtn{
+    width:100%;
+  }
+}
     
 	
   </style>
@@ -511,6 +573,9 @@
     <div class="btClaimMini">
       ✅ Claimed: <b id="btClaimMini">12</b>
     </div>
+    <a class="btApplyNowBtn" href="apply.html">
+  ✅ Apply Now <span>→</span>
+</a>
   </div>
 </div>
   
