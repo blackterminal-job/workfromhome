@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+  <title>Command Center | BlackTerminal Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --admin-red: #ff3b30;
+      --admin-glow: rgba(255, 59, 48, 0.3);
+      --bg: #020617;
+      --surface: #0f172a;
+      --accent: #38bdf8;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: #f1f5f9;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    /* --- GLASS HEADER --- */
+    .admin-nav {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(15px);
+      padding: 25px;
+      border-radius: 28px;
+      border: 1px solid rgba(255, 59, 48, 0.2);
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .badge {
+      background: var(--admin-red);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* --- BENTO CARDS --- */
+    .grid { display: grid; gap: 20px; }
+    
+    .card {
+      background: var(--surface);
+      border-radius: 30px;
+      padding: 25px;
+      border: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: ''; position: absolute; top: 0; right: 0; width: 80px; height: 80px;
+      background: var(--admin-glow); filter: blur(40px);
+    }
+
+    h2 { font-size: 18px; font-weight: 800; margin-top: 0; display: flex; align-items: center; gap: 10px; color: var(--admin-red); }
+
+    /* --- INPUT STYLING --- */
+    label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; }
+    
+    input, textarea {
+      width: 100%;
+      background: #020617;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 15px;
+      color: white;
+      font-family: inherit;
+      margin-bottom: 20px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    input:focus { border-color: var(--admin-red); box-shadow: 0 0 15px var(--admin-glow); outline: none; }
+
+    /* --- POWER BUTTON --- */
+    .push-btn {
+      background: var(--admin-red);
+      color: white;
+      border: none;
+      padding: 18px;
+      border-radius: 20px;
+      width: 100%;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px var(--admin-glow);
+      transition: 0.3s;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .push-btn:active { transform: scale(0.96); }
+
+    .status-bar {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 12px;
+      color: #475569;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .pulse { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e; animation: pulse-blink 1.5s infinite; }
+    @keyframes pulse-blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <div class="admin-nav">
+    <span class="badge">Master Access</span>
+    <h1 style="margin: 10px 0 0; font-size: 26px; font-weight: 800; letter-spacing: -1px;">Command Center</h1>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>📡 Mission Deployment</h2>
+      <label>Task Title</label>
+      <input type="text" id="tName" placeholder="e.g. Share Pro Poster">
+      
+      <label>Reward Multiplier (₹)</label>
+      <input type="number" id="tReward" step="0.10" placeholder="0.50">
+
+      <label>Execution Steps (Enter to separate)</label>
+      <textarea id="tSteps" rows="4" placeholder="Step 1&#10;Step 2&#10;Step 3"></textarea>
+
+      <button class="push-btn" onclick="saveTask()">🚀 PUSH LIVE UPDATE</button>
+    </div>
+
+    <div class="card">
+      <h2>🏆 Hall of Fame</h2>
+      <label>Rank #1 (Format: Name - ₹00)</label>
+      <input type="text" id="l1" placeholder="Rahul - ₹4,200">
+      
+      <label>Rank #2</label>
+      <input type="text" id="l2" placeholder="Sana - ₹3,100">
+
+      <label>Rank #3</label>
+      <input type="text" id="l3" placeholder="Arjun - ₹2,500">
+
+      <button class="push-btn" style="background: #0f172a; border: 1px solid var(--admin-red); box-shadow: none;" onclick="saveLeaderboard()">UPDATE RANKINGS</button>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div class="pulse"></div>
+    CONNECTED TO FIREBASE CLOUD (NICE-JOB-F79DE)
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA3JnXAzxRGcoEgH4pO2ecAREYZrio_nZ8",
+      authDomain: "nice-job-f79de.firebaseapp.com",
+      projectId: "nice-job-f79de",
+      storageBucket: "nice-job-f79de.firebasestorage.app",
+      messagingSenderId: "116477324256",
+      appId: "1:116477324256:web:4e9bee3627eb9f416d5985"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.saveTask = async () => {
+      const name = document.getElementById('tName').value;
+      const reward = document.getElementById('tReward').value;
+      const steps = document.getElementById('tSteps').value.split('\n').filter(s => s.trim() !== "");
+      
+      if(!name || !reward) return alert("Please fill all details");
+
+      try {
+        await setDoc(doc(db, "settings", "dailyTask"), { 
+          name, 
+          reward: parseFloat(reward), 
+          steps,
+          lastUpdated: new Date()
+        });
+        alert("Success! The mission is now live for all users.");
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+    };
+
+    window.saveLeaderboard = async () => {
+      const ranks = [
+        document.getElementById('l1').value || "Empty - ₹0",
+        document.getElementById('l2').value || "Empty - ₹0",
+        document.getElementById('l3').value || "Empty - ₹0"
+      ];
+      
+      try {
+        await setDoc(doc(db, "settings", "leaderboard"), { ranks });
+        alert("Hall of Fame updated!");
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+    };
+  </script>
+</body>
+</html>
