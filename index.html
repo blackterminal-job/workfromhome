@@ -21,10 +21,9 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: var(--dark-bg);
       color: #fff;
-      padding-bottom: 95px; /* Space for bottom nav */
+      padding-bottom: 95px; 
     }
 
-    /* --- TOP HEADER --- */
     .header {
       padding: 20px 16px;
       display: flex;
@@ -36,7 +35,6 @@
     .profile-info { display: flex; align-items: center; gap: 10px; }
     .avatar { width: 40px; height: 40px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid rgba(255,255,255,0.1); }
 
-    /* --- WALLET SECTION --- */
     .wallet-card {
       margin: 0 16px 15px;
       background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
@@ -64,11 +62,9 @@
       padding: 12px; border-radius: 16px; text-align: center; color: #94a3b8; text-decoration: none; font-size: 13px; font-weight: 700;
     }
 
-    /* --- SECTION TITLES --- */
     .section-title { padding: 0 20px; font-size: 18px; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
     .section-title span { width: 4px; height: 18px; background: var(--accent); border-radius: 10px; }
 
-    /* --- LEADERBOARD --- */
     .leader-scroll { display: flex; gap: 12px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; margin-bottom: 25px; }
     .leader-scroll::-webkit-scrollbar { display: none; }
     .leader-card {
@@ -76,7 +72,6 @@
       text-align: center; border: 1px solid rgba(255,255,255,0.05);
     }
 
-    /* --- RESOURCE BOX --- */
     .promo-box {
       margin: 0 16px 25px;
       background: linear-gradient(to right, #007aff, #00c6ff);
@@ -96,7 +91,6 @@
       display: inline-block;
     }
 
-    /* --- TASK CARDS --- */
     .task-card {
       margin: 0 16px 16px;
       background: var(--card-bg);
@@ -120,13 +114,11 @@
     .btn-primary { background: var(--accent); color: white; box-shadow: 0 10px 20px rgba(0, 122, 255, 0.2); }
     .btn-wa { background: #25D366; color: white; margin-top: 10px; }
 
-    /* --- LOCK OVERLAY --- */
     .lock-overlay {
       position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
       border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5;
     }
 
-    /* --- BOTTOM NAV --- */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: rgba(17, 24, 39, 0.95);
       backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.05);
@@ -179,23 +171,8 @@
   <a href="profile.html" class="view-id-btn">View My ID Card & Referral Code →</a>
 
   <div class="section-title"><span></span> Top Performers</div>
-  <div class="leader-scroll">
-    <div class="leader-card" style="border-color: var(--gold);">
-      <div style="font-size: 24px;">🥇</div>
-      <div style="font-weight: 800; font-size: 14px; margin: 5px 0;">Rahul S.</div>
-      <div style="color: var(--gold); font-size: 12px; font-weight: 700;">₹4,250</div>
+  <div class="leader-scroll" id="leaderBoardContainer">
     </div>
-    <div class="leader-card">
-      <div style="font-size: 24px;">🥈</div>
-      <div style="font-weight: 800; font-size: 14px; margin: 5px 0;">Priya M.</div>
-      <div style="color: #94a3b8; font-size: 12px; font-weight: 700;">₹2,800</div>
-    </div>
-    <div class="leader-card">
-      <div style="font-size: 24px;">🥉</div>
-      <div style="font-weight: 800; font-size: 14px; margin: 5px 0;">Ankit K.</div>
-      <div style="color: #cd7f32; font-size: 12px; font-weight: 700;">₹1,500</div>
-    </div>
-  </div>
 
   <div class="section-title"><span></span> Resources</div>
   <div class="promo-box">
@@ -211,7 +188,7 @@
   <div class="task-card">
     <div class="task-header">
       <div class="reward-tag">Small Task</div>
-      <div style="font-weight: 800; color: var(--success);" id="taskReward">₹0.50</div>
+      <div style="font-weight: 800; color: var(--success);" id="taskReward">₹0.00</div>
     </div>
     <div class="task-name" id="taskName">Loading Task...</div>
     
@@ -244,73 +221,91 @@
     <a href="contact.html" class="nav-item"><span class="nav-icon">📞</span>Help</a>
   </nav>
 
-  <script>
-    const TASKS = [
-      { name: "Share Course Poster on WhatsApp Status", reward: 0.50, steps: ["Download today's poster", "Upload on status", "Wait for 10 views"] },
-      { name: "Send Brochure to 5 Friends", reward: 0.80, steps: ["Copy brochure text", "Send to 5 people", "Get 2 replies"] },
-      { name: "Post in Computer Education Groups", reward: 1.20, steps: ["Find 2 Student groups", "Post admission link", "Take screenshot"] }
-    ];
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA3JnXAzxRGcoEgH4pO2ecAREYZrio_nZ8",
+      authDomain: "nice-job-f79de.firebaseapp.com",
+      projectId: "nice-job-f79de",
+      storageBucket: "nice-job-f79de.firebasestorage.app",
+      messagingSenderId: "116477324256",
+      appId: "1:116477324256:web:4e9bee3627eb9f416d5985"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
     let earnings = parseFloat(localStorage.getItem('earnings')) || 0;
     let taskCount = parseInt(localStorage.getItem('taskCount')) || 0;
 
-    function save() {
+    // 1. Fetch Task from Firebase
+    onSnapshot(doc(db, "settings", "dailyTask"), (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById('taskName').innerText = data.name;
+        document.getElementById('taskReward').innerText = "₹" + data.reward.toFixed(2);
+        const list = document.getElementById('stepList');
+        list.innerHTML = data.steps.map((s, i) => `
+          <div class="step-item">
+            <span class="step-num">${i+1}.</span>
+            <span>${s}</span>
+          </div>
+        `).join('');
+      }
+    });
+
+    // 2. Fetch Leaderboard from Firebase
+    onSnapshot(doc(db, "settings", "leaderboard"), (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const container = document.getElementById('leaderBoardContainer');
+        container.innerHTML = data.ranks.map((r, i) => {
+          const [name, earn] = r.split('-');
+          const colors = ['#ffcc00', '#94a3b8', '#cd7f32'];
+          const emojis = ['🥇', '🥈', '🥉'];
+          return `
+            <div class="leader-card" style="border-color: ${colors[i] || '#111827'}">
+              <div style="font-size: 24px;">${emojis[i] || '👤'}</div>
+              <div style="font-weight: 800; font-size: 14px; margin: 5px 0;">${name}</div>
+              <div style="color: ${colors[i] || '#fff'}; font-size: 12px; font-weight: 700;">${earn}</div>
+            </div>
+          `;
+        }).join('');
+      }
+    });
+
+    // 3. Complete Task Logic
+    window.completeTask = () => {
+      const rewardVal = parseFloat(document.getElementById('taskReward').innerText.replace('₹', ''));
+      earnings += rewardVal;
+      taskCount++;
+      
       localStorage.setItem('earnings', earnings);
       localStorage.setItem('taskCount', taskCount);
-      updateUI();
-    }
-
-    function updateUI() {
-      document.getElementById('totalEarn').innerText = earnings.toFixed(2);
-      
-      let progress = (taskCount % 3) * 33.3;
-      if(taskCount > 0 && taskCount % 3 === 0) progress = 100;
-      document.getElementById('progressFill').style.width = progress + "%";
-      document.getElementById('progressPercent').innerText = Math.round(progress) + "%";
-
-      if(taskCount >= 2) {
-        document.getElementById('bigLock').style.display = 'none';
-      } else {
-        document.getElementById('bigLock').style.display = 'flex';
-      }
-    }
-
-    function loadNewTask() {
-      const task = TASKS[Math.floor(Math.random() * TASKS.length)];
-      document.getElementById('taskName').innerText = task.name;
-      document.getElementById('taskReward').innerText = "₹" + task.reward.toFixed(2);
-      
-      const list = document.getElementById('stepList');
-      list.innerHTML = task.steps.map((s, i) => `
-        <div class="step-item">
-          <span class="step-num">${i+1}.</span>
-          <span>${s}</span>
-        </div>
-      `).join('');
-    }
-
-    function completeTask() {
-      const currentReward = parseFloat(document.getElementById('taskReward').innerText.replace('₹', ''));
-      earnings += currentReward;
-      taskCount++;
       
       const toast = document.getElementById('toast');
       toast.style.display = 'block';
       setTimeout(() => toast.style.display = 'none', 2000);
+      updateUI();
+    };
 
-      save();
-      loadNewTask();
-    }
+    window.updateUI = () => {
+      document.getElementById('totalEarn').innerText = earnings.toFixed(2);
+      let progress = (taskCount % 3) * 33.3;
+      if(taskCount > 0 && taskCount % 3 === 0) progress = 100;
+      document.getElementById('progressFill').style.width = progress + "%";
+      document.getElementById('progressPercent').innerText = Math.round(progress) + "%";
+      document.getElementById('bigLock').style.display = (taskCount >= 2) ? 'none' : 'flex';
+    };
 
-    function sendProof() {
+    window.sendProof = () => {
       const task = document.getElementById('taskName').innerText;
       window.open(`https://wa.me/917008186187?text=Task Done: ${encodeURIComponent(task)}`, '_blank');
-    }
-
-    window.onload = () => {
-      updateUI();
-      loadNewTask();
     };
+
+    updateUI();
   </script>
 </body>
 </html>
