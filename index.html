@@ -25,7 +25,7 @@
       padding-bottom: 95px; 
     }
 
-    /* --- 1. ADMIN MARQUEE (NOTICE) --- */
+    /* --- ADMIN MARQUEE --- */
     .notice-bar {
       margin: 15px; background: rgba(0, 122, 255, 0.05);
       border: 1px solid rgba(0, 122, 255, 0.15); border-radius: 16px;
@@ -37,11 +37,7 @@
     }
     marquee { font-size: 13px; font-weight: 600; color: var(--accent); }
 
-    /* --- HEADER --- */
-    .header {
-      padding: 10px 16px;
-      display: flex; justify-content: space-between; align-items: center;
-    }
+    .header { padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
     .profile-info { display: flex; align-items: center; gap: 10px; }
     .avatar { width: 40px; height: 40px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
 
@@ -53,7 +49,6 @@
     }
     .wallet-label { font-size: 13px; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
     .wallet-balance { font-size: 38px; font-weight: 800; margin: 8px 0; display: flex; align-items: center; gap: 5px; }
-
     .progress-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 10px; }
     .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 1s ease; }
 
@@ -70,16 +65,21 @@
     .leader-card { background: var(--card-bg); padding: 16px; border-radius: 22px; min-width: 135px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
 
     /* --- TASK CARDS --- */
-    .task-card { margin: 0 16px 16px; background: var(--card-bg); border-radius: 24px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); position: relative; }
+    .task-card { margin: 0 16px 16px; background: var(--card-bg); border-radius: 24px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden; }
     .reward-tag { background: rgba(52, 199, 89, 0.1); color: var(--success); padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 700; }
     .btn { width: 100%; padding: 16px; border-radius: 18px; border: none; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .btn-primary { background: var(--accent); color: white; }
     .btn-wa { background: #25D366; color: white; margin-top: 10px; text-decoration: none; }
 
-    /* --- LOCK OVERLAY --- */
-    .lock-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5; }
+    /* --- LOCK OVERLAY (FIXED) --- */
+    .lock-overlay { 
+      position: absolute; inset: 0; background: rgba(5, 10, 18, 0.85); 
+      backdrop-filter: blur(6px); border-radius: 24px; 
+      display: flex; flex-direction: column; align-items: center; justify-content: center; 
+      z-index: 10; text-align: center; padding: 20px;
+    }
 
-    /* --- 5. ADMIN PAYOUT POPUP --- */
+    /* --- POPUP --- */
     #payoutPopup {
       position: fixed; bottom: 90px; left: 15px; background: white; color: black;
       padding: 12px 20px; border-radius: 50px; display: flex; align-items: center; gap: 10px;
@@ -87,7 +87,6 @@
       transform: translateX(-170%); transition: 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     }
 
-    /* --- NAV --- */
     .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: rgba(17, 24, 39, 0.95); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
     .nav-item { text-align: center; color: #6b7280; text-decoration: none; font-size: 11px; font-weight: 700; }
     .nav-item.active { color: var(--accent); }
@@ -101,7 +100,7 @@
 
   <div class="notice-bar">
     <span class="tag">NEWS</span>
-    <marquee id="liveNotice" scrollamount="5">Connecting to system...</marquee>
+    <marquee id="liveNotice" scrollamount="5">Connecting...</marquee>
   </div>
 
   <div class="header">
@@ -112,7 +111,6 @@
         <div style="font-size: 11px; color: var(--success);">Online</div>
       </div>
     </div>
-    <div style="font-size: 20px;">🔔</div>
   </div>
 
   <div class="wallet-card">
@@ -126,12 +124,7 @@
     </div>
   </div>
 
-  <a href="profile.html" class="view-id-btn">View My ID Card →</a>
-
-  <div class="section-title"><span></span> Top Performers</div>
-  <div class="leader-scroll" id="leaderBoardContainer"></div>
-
-  <div class="section-title"><span></span> Today's Tasks</div>
+  <div class="section-title"><span></span> Today's Task</div>
   <div class="task-card">
     <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
       <div class="reward-tag">Small Task</div>
@@ -140,21 +133,22 @@
     <div class="task-name" id="taskName" style="font-size:17px; font-weight:700; margin-bottom:12px;">Loading...</div>
     <div id="stepList" style="margin-bottom:20px;"></div>
     <button class="btn btn-primary" onclick="completeTask()">Claim Reward</button>
-    <a href="#" class="btn btn-wa" onclick="sendProof()">Send Proof (WhatsApp)</a>
   </div>
 
-  <div class="section-title"><span></span> Bonus Reward</div>
+  <div class="section-title"><span></span> Bonus Mission</div>
   <div class="task-card">
     <div id="bigLock" class="lock-overlay">
-      <div style="font-size:30px;">🔒</div>
-      <div id="lockText" style="font-weight:700; margin-top:10px;">Complete tasks first</div>
+      <div style="font-size:35px; margin-bottom:10px;">🔒</div>
+      <div id="lockText" style="font-weight:800; font-size:15px; color:var(--gold);">Mission Locked</div>
+      <div style="font-size:11px; color:#94a3b8; margin-top:5px;">Follow Daily Tasks to Unlock</div>
     </div>
+
     <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
       <div class="reward-tag" style="color:var(--gold); background:rgba(255,204,0,0.1)">Special</div>
       <div style="font-weight:800; color:var(--gold)" id="bonusAmount">₹0.00</div>
     </div>
-    <div id="bonusName" style="font-size:17px; font-weight:700;">Bring Admission</div>
-    <button class="btn" style="background:var(--gold); margin-top:20px;" onclick="sendBonusProof()">Claim Bonus</button>
+    <div id="bonusName" style="font-size:17px; font-weight:700;">Loading Bonus...</div>
+    <button class="btn" style="background:var(--gold); margin-top:20px; color:#000;" onclick="sendBonusProof()">Claim Bonus</button>
   </div>
 
   <div id="payoutPopup">
@@ -185,10 +179,10 @@
 
     let earnings = parseFloat(localStorage.getItem('earnings')) || 0;
     let taskCount = parseInt(localStorage.getItem('taskCount')) || 0;
-    let requiredTasks = 5;
+    let requiredTasks = 5; 
     let popupStatus = "on", adminMsg = "";
 
-    // 1. ADMIN SETTINGS (Marquee & Popup)
+    // 1. ADMIN GENERAL SETTINGS
     onSnapshot(doc(db, "settings", "general"), (d) => {
       if(d.exists()){
         const data = d.data();
@@ -199,7 +193,7 @@
       }
     });
 
-    // 2. DAILY TASK
+    // 2. DAILY TASK SYNC
     onSnapshot(doc(db, "settings", "dailyTask"), (d) => {
       if(d.exists()){
         const data = d.data();
@@ -209,33 +203,24 @@
       }
     });
 
-    // 3. BONUS & LEADERBOARD
+    // 3. BONUS & LOCK SYNC
     onSnapshot(doc(db, "settings", "bonusReward"), (d) => {
       if(d.exists()){
         const data = d.data();
         document.getElementById('bonusName').innerText = data.name;
         document.getElementById('bonusAmount').innerText = "₹" + data.amount.toFixed(2);
-        requiredTasks = data.lockCount;
+        requiredTasks = data.lockCount; // Admin se aane wala lock count
         updateUI();
       }
     });
 
-    onSnapshot(doc(db, "settings", "leaderboard"), (d) => {
-      if(d.exists()){
-        const container = document.getElementById('leaderBoardContainer');
-        container.innerHTML = d.data().ranks.map((r,i) => {
-          const [n, e] = r.split('-');
-          return `<div class="leader-card"><div>${['🥇','🥈','🥉'][i] || '👤'}</div><div style="font-weight:800; font-size:13px; margin:5px 0;">${n}</div><div style="color:var(--gold); font-size:12px;">${e}</div></div>`;
-        }).join('');
-      }
-    });
-
-    // FUNCTIONS
     window.completeTask = () => {
       const rewardVal = parseFloat(document.getElementById('taskReward').innerText.replace('₹', ''));
-      earnings += rewardVal; taskCount++;
+      earnings += rewardVal; 
+      taskCount++;
       localStorage.setItem('earnings', earnings);
       localStorage.setItem('taskCount', taskCount);
+      
       document.getElementById('toast').style.display = 'block';
       setTimeout(() => document.getElementById('toast').style.display = 'none', 2000);
       updateUI();
@@ -243,26 +228,33 @@
 
     window.updateUI = () => {
       document.getElementById('totalEarn').innerText = earnings.toFixed(2);
-      let progress = (taskCount % requiredTasks) * (100 / requiredTasks);
-      if(taskCount >= requiredTasks) progress = 100;
+      
+      // Progress Bar Calculation
+      let progress = (taskCount / requiredTasks) * 100;
+      if(progress > 100) progress = 100;
       document.getElementById('progressFill').style.width = progress + "%";
       document.getElementById('progressPercent').innerText = Math.round(progress) + "%";
-      document.getElementById('bigLock').style.display = taskCount >= requiredTasks ? 'none' : 'flex';
-      if(taskCount < requiredTasks) document.getElementById('lockText').innerText = `Complete ${requiredTasks - taskCount} more tasks`;
+
+      // --- THE LOCK LOGIC ---
+      const lockOverlay = document.getElementById('bigLock');
+      if(taskCount >= requiredTasks) {
+        lockOverlay.style.display = 'none'; // Unlock ho gaya
+      } else {
+        lockOverlay.style.display = 'flex'; // Locked rahega
+        document.getElementById('lockText').innerText = `Complete ${requiredTasks - taskCount} more tasks`;
+      }
     };
 
-    // POPUP TRIGGER
-    function showPopup() {
+    // Payout Popup
+    setInterval(() => {
       if(popupStatus === "off" || !adminMsg) return;
       document.getElementById('popupText').innerText = adminMsg;
       const p = document.getElementById('payoutPopup');
       p.style.transform = "translateX(0)";
       setTimeout(() => p.style.transform = "translateX(-170%)", 4000);
-    }
-    setInterval(showPopup, 12000);
+    }, 15000);
 
-    window.sendProof = () => window.open(`https://wa.me/917008186187?text=Proof for: ${document.getElementById('taskName').innerText}`, '_blank');
-    window.sendBonusProof = () => window.open(`https://wa.me/917008186187?text=Bonus Proof for: ${document.getElementById('bonusName').innerText}`, '_blank');
+    window.sendBonusProof = () => window.open(`https://wa.me/917008186187?text=Bonus Claim: ${document.getElementById('bonusName').innerText}`, '_blank');
     
     updateUI();
   </script>
