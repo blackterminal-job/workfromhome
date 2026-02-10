@@ -12,114 +12,58 @@
       --success: #34c759;
       --dark-bg: #050a12;
       --card-bg: #111827;
-      --glass: rgba(255, 255, 255, 0.03);
     }
 
     * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-    
-    body {
-      margin: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: var(--dark-bg);
-      color: #fff;
-      padding-bottom: 95px; 
-    }
+    body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--dark-bg); color: #fff; padding-bottom: 95px; }
 
-    /* --- ADMIN MARQUEE --- */
-    .notice-bar {
-      margin: 15px; background: rgba(0, 122, 255, 0.05);
-      border: 1px solid rgba(0, 122, 255, 0.15); border-radius: 16px;
-      padding: 10px; display: flex; align-items: center; overflow: hidden;
-    }
-    .tag {
-      background: var(--accent); color: #fff; padding: 3px 8px;
-      border-radius: 6px; font-size: 10px; font-weight: 800; margin-right: 10px;
-    }
+    /* NOTICE BAR */
+    .notice-bar { margin: 15px; background: rgba(0, 122, 255, 0.05); border: 1px solid rgba(0, 122, 255, 0.15); border-radius: 16px; padding: 10px; display: flex; align-items: center; overflow: hidden; }
+    .tag { background: var(--accent); color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; margin-right: 10px; }
     marquee { font-size: 13px; font-weight: 600; color: var(--accent); }
 
-    .header { padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
-    .avatar { width: 40px; height: 40px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-
-    /* --- WALLET --- */
-    .wallet-card {
-      margin: 0 16px 15px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-      padding: 22px; border-radius: 28px; border: 1px solid rgba(255,255,255,0.05);
-      position: relative; overflow: hidden;
-    }
+    /* WALLET */
+    .wallet-card { margin: 0 16px 15px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 22px; border-radius: 28px; border: 1px solid rgba(255,255,255,0.05); position: relative; }
     .wallet-balance { font-size: 38px; font-weight: 800; margin: 8px 0; display: flex; align-items: center; gap: 5px; }
     .progress-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 10px; }
     .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 1s ease; }
 
-    .section-title { padding: 0 20px; font-size: 18px; font-weight: 700; margin: 20px 0 15px; display: flex; align-items: center; gap: 8px; }
-    .section-title span { width: 4px; height: 18px; background: var(--accent); border-radius: 10px; }
-
-    /* --- ⭐ HALL OF FAME (LEADERBOARD) --- */
-    .leader-scroll { 
-      display: flex; gap: 12px; padding: 0 16px; 
-      overflow-x: auto; scrollbar-width: none; 
-      margin-bottom: 5px;
-    }
+    /* HALL OF FAME */
+    .leader-scroll { display: flex; gap: 12px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; margin-bottom: 5px; }
     .leader-scroll::-webkit-scrollbar { display: none; }
-    .leader-card { 
-      background: var(--card-bg); padding: 16px; border-radius: 22px; 
-      min-width: 140px; text-align: center; border: 1px solid rgba(255,255,255,0.05);
-      position: relative;
-    }
-    .leader-rank { font-size: 24px; margin-bottom: 5px; }
-    .leader-name { font-weight: 800; font-size: 13px; margin-bottom: 4px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .leader-earn { color: var(--gold); font-size: 12px; font-weight: 700; }
+    .leader-card { background: var(--card-bg); padding: 16px; border-radius: 22px; min-width: 140px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
 
-    /* --- TASK CARDS --- */
+    /* TASK CARDS */
     .task-card { margin: 0 16px 16px; background: var(--card-bg); border-radius: 24px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden; }
     .reward-tag { background: rgba(52, 199, 89, 0.1); color: var(--success); padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 700; }
-    .btn { width: 100%; padding: 16px; border-radius: 18px; border: none; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    
+    /* BUTTONS */
+    .btn { width: 100%; padding: 16px; border-radius: 18px; border: none; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; }
     .btn-primary { background: var(--accent); color: white; }
+    .btn-disabled { background: #374151 !important; color: #9ca3af !important; cursor: not-allowed; }
 
-    /* --- LOCK OVERLAY --- */
-    .lock-overlay { 
-      position: absolute; inset: 0; background: rgba(5, 10, 18, 0.85); 
-      backdrop-filter: blur(6px); border-radius: 24px; 
-      display: flex; flex-direction: column; align-items: center; justify-content: center; 
-      z-index: 10; text-align: center; padding: 20px;
-    }
+    /* LOCK OVERLAY */
+    .lock-overlay { position: absolute; inset: 0; background: rgba(5, 10, 18, 0.85); backdrop-filter: blur(6px); border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; text-align: center; padding: 20px; }
 
-    #payoutPopup { position: fixed; bottom: 90px; left: 15px; background: white; color: black; padding: 12px 20px; border-radius: 50px; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 9999; transform: translateX(-170%); transition: 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: rgba(17, 24, 39, 0.95); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
-    .nav-item { text-align: center; color: #6b7280; text-decoration: none; font-size: 11px; font-weight: 700; }
-    .nav-item.active { color: var(--accent); }
-    #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--success); color: white; padding: 12px 24px; border-radius: 50px; display: none; z-index: 1000; }
+    .section-title { padding: 0 20px; font-size: 18px; font-weight: 700; margin: 20px 0 15px; display: flex; align-items: center; gap: 8px; }
+    .section-title span { width: 4px; height: 18px; background: var(--accent); border-radius: 10px; }
   </style>
 </head>
 <body>
-
-  <div id="toast">Reward added! 🎉</div>
 
   <div class="notice-bar">
     <span class="tag">NEWS</span>
     <marquee id="liveNotice" scrollamount="5">Connecting...</marquee>
   </div>
 
-  <div class="header">
-    <div class="profile-info" style="display:flex; align-items:center; gap:10px;">
-      <div class="avatar">U</div>
-      <div style="font-size: 14px; font-weight: 800;">Partner Panel</div>
-    </div>
-  </div>
-
   <div class="wallet-card">
     <div style="font-size: 13px; color: #94a3b8; font-weight: 600;">EARNINGS</div>
     <div class="wallet-balance"><span style="font-size:22px; color:#94a3b8">₹</span><span id="totalEarn">0.00</span></div>
-    <div class="progress-box">
-      <div style="display:flex; justify-content:space-between; font-size:12px; color:#94a3b8">
-        <span>Daily Goal</span><span id="progressPercent">0%</span>
-      </div>
-      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
   </div>
 
   <div class="section-title"><span></span> Hall of Fame</div>
-  <div class="leader-scroll" id="leaderBoardContainer">
-    </div>
+  <div class="leader-scroll" id="leaderBoardContainer"></div>
 
   <div class="section-title"><span></span> Today's Task</div>
   <div class="task-card">
@@ -129,133 +73,117 @@
     </div>
     <div id="taskName" style="font-size:17px; font-weight:700; margin-bottom:12px;">Loading...</div>
     <div id="stepList" style="margin-bottom:20px;"></div>
-    <button class="btn btn-primary" onclick="completeTask()">Claim Reward</button>
+    
+    <button id="claimBtn" class="btn btn-primary" onclick="completeTask()">Claim Reward</button>
   </div>
 
   <div class="section-title"><span></span> Bonus Mission</div>
   <div class="task-card">
     <div id="bigLock" class="lock-overlay">
-      <div style="font-size:35px; margin-bottom:10px;">🔒</div>
+      <div style="font-size:35px;">🔒</div>
       <div id="lockText" style="font-weight:800; font-size:15px; color:var(--gold);">Mission Locked</div>
-    </div>
-    <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-      <div class="reward-tag" style="color:var(--gold); background:rgba(255,204,0,0.1)">Special</div>
-      <div style="font-weight:800; color:var(--gold)" id="bonusAmount">₹0.00</div>
     </div>
     <div id="bonusName" style="font-size:17px; font-weight:700;">Loading Bonus...</div>
     <button class="btn" style="background:var(--gold); margin-top:20px; color:#000;" onclick="sendBonusProof()">Claim Bonus</button>
   </div>
 
-  <div id="payoutPopup">
-    <div style="background: var(--success); width: 8px; height: 8px; border-radius: 50%;"></div>
-    <div id="popupText" style="font-size: 12px; font-weight: 800;">Processing...</div>
-  </div>
-
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-item active"><span style="display:block; font-size:20px;">🏠</span>Home</a>
-    <a href="profile.html" class="nav-item"><span style="display:block; font-size:20px;">👤</span>Profile</a>
-    <a href="apply.html" class="nav-item"><span style="display:block; font-size:20px;">📝</span>Apply</a>
-    <a href="contact.html" class="nav-item"><span style="display:block; font-size:20px;">📞</span>Help</a>
-  </nav>
-
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyA3JnXAzxRGcoEgH4pO2ecAREYZrio_nZ8",
-      authDomain: "nice-job-f79de.firebaseapp.com",
-      projectId: "nice-job-f79de",
-      appId: "1:116477324256:web:4e9bee3627eb9f416d5985"
-    };
-
+    const firebaseConfig = { apiKey: "AIzaSyA3JnXAzxRGcoEgH4pO2ecAREYZrio_nZ8", projectId: "nice-job-f79de" };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
     let earnings = parseFloat(localStorage.getItem('earnings')) || 0;
     let taskCount = parseInt(localStorage.getItem('taskCount')) || 0;
-    let requiredTasks = 5; 
-    let popupStatus = "on", adminMsg = "";
+    let requiredTasks = 5;
 
-    // 1. Marquee & Popup
-    onSnapshot(doc(db, "settings", "general"), (d) => {
-      if(d.exists()){
-        const data = d.data();
-        document.getElementById('liveNotice').innerText = data.notice;
-        document.getElementById('liveNotice').scrollAmount = data.speed || 5;
-        popupStatus = data.popupStatus; adminMsg = data.popupMessage;
+    // --- TIMER LOGIC ---
+    function startTimer() {
+      const claimBtn = document.getElementById('claimBtn');
+      const nextAvailable = localStorage.getItem('nextClaimTime');
+      
+      if (nextAvailable) {
+        const diff = parseInt(nextAvailable) - Date.now();
+        if (diff > 0) {
+          claimBtn.disabled = true;
+          claimBtn.classList.add('btn-disabled');
+          
+          const timerInterval = setInterval(() => {
+            const timeLeft = parseInt(localStorage.getItem('nextClaimTime')) - Date.now();
+            if (timeLeft <= 0) {
+              clearInterval(timerInterval);
+              claimBtn.disabled = false;
+              claimBtn.classList.remove('btn-disabled');
+              claimBtn.innerText = "Claim Reward";
+            } else {
+              const minutes = Math.floor((timeLeft / 1000 / 60) % 60);
+              const seconds = Math.floor((timeLeft / 1000) % 60);
+              claimBtn.innerText = `Next Task in ${minutes}m ${seconds}s`;
+            }
+          }, 1000);
+        }
       }
-    });
+    }
 
-    // 2. Daily Task
+    window.completeTask = () => {
+      const rewardVal = parseFloat(document.getElementById('taskReward').innerText.replace('₹', ''));
+      earnings += rewardVal;
+      taskCount++;
+      
+      // Save data
+      localStorage.setItem('earnings', earnings);
+      localStorage.setItem('taskCount', taskCount);
+      
+      // Set 1 Hour Timer (3600000 ms)
+      const nextTime = Date.now() + 3600000;
+      localStorage.setItem('nextClaimTime', nextTime);
+      
+      updateUI();
+      startTimer();
+      alert("Reward Claimed! Next task will unlock in 1 hour.");
+    };
+
+    // --- FIREBASE SYNC ---
     onSnapshot(doc(db, "settings", "dailyTask"), (d) => {
       if(d.exists()){
         const data = d.data();
         document.getElementById('taskName').innerText = data.name;
         document.getElementById('taskReward').innerText = "₹" + data.reward.toFixed(2);
-        document.getElementById('stepList').innerHTML = data.steps.map((s,i) => `<div style="color:#9ca3af; font-size:12px; margin-bottom:5px;"><b style="color:var(--accent)">${i+1}.</b> ${s}</div>`).join('');
+        document.getElementById('stepList').innerHTML = data.steps.map((s,i) => `<div style="font-size:12px; color:#9ca3af; margin-bottom:5px;"><b>${i+1}.</b> ${s}</div>`).join('');
       }
     });
 
-    // 3. Bonus Reward & Lock
     onSnapshot(doc(db, "settings", "bonusReward"), (d) => {
       if(d.exists()){
-        const data = d.data();
-        document.getElementById('bonusName').innerText = data.name;
-        document.getElementById('bonusAmount').innerText = "₹" + data.amount.toFixed(2);
-        requiredTasks = data.lockCount;
+        requiredTasks = d.data().lockCount;
+        document.getElementById('bonusName').innerText = d.data().name;
         updateUI();
       }
     });
 
-    // 4. Hall of Fame (Leaderboard Sync)
     onSnapshot(doc(db, "settings", "leaderboard"), (d) => {
       if(d.exists()){
         const container = document.getElementById('leaderBoardContainer');
-        const colors = ['#ffcc00', '#94a3b8', '#cd7f32'];
         container.innerHTML = d.data().ranks.map((r,i) => {
           const [n, e] = r.split('-');
-          return `
-            <div class="leader-card" style="border-color: ${colors[i] || 'rgba(255,255,255,0.05)'}">
-              <div class="leader-rank">${['🥇','🥈','🥉'][i] || '👤'}</div>
-              <span class="leader-name">${n}</span>
-              <span class="leader-earn">${e}</span>
-            </div>`;
+          return `<div class="leader-card"><div>${['🥇','🥈','🥉'][i] || '👤'}</div><div style="font-weight:800; font-size:13px;">${n}</div><div style="color:var(--gold); font-size:12px;">${e}</div></div>`;
         }).join('');
       }
     });
 
-    window.completeTask = () => {
-      const rewardVal = parseFloat(document.getElementById('taskReward').innerText.replace('₹', ''));
-      earnings += rewardVal; taskCount++;
-      localStorage.setItem('earnings', earnings);
-      localStorage.setItem('taskCount', taskCount);
-      document.getElementById('toast').style.display = 'block';
-      setTimeout(() => document.getElementById('toast').style.display = 'none', 2000);
-      updateUI();
-    };
-
     window.updateUI = () => {
       document.getElementById('totalEarn').innerText = earnings.toFixed(2);
       let progress = (taskCount / requiredTasks) * 100;
-      if(progress > 100) progress = 100;
-      document.getElementById('progressFill').style.width = progress + "%";
-      document.getElementById('progressPercent').innerText = Math.round(progress) + "%";
+      document.getElementById('progressFill').style.width = (progress > 100 ? 100 : progress) + "%";
       document.getElementById('bigLock').style.display = taskCount >= requiredTasks ? 'none' : 'flex';
       if(taskCount < requiredTasks) document.getElementById('lockText').innerText = `Complete ${requiredTasks - taskCount} more tasks`;
     };
 
-    setInterval(() => {
-      if(popupStatus === "off" || !adminMsg) return;
-      document.getElementById('popupText').innerText = adminMsg;
-      const p = document.getElementById('payoutPopup');
-      p.style.transform = "translateX(0)";
-      setTimeout(() => p.style.transform = "translateX(-170%)", 4000);
-    }, 15000);
-
-    window.sendBonusProof = () => window.open(`https://wa.me/917008186187?text=Bonus Claim: ${document.getElementById('bonusName').innerText}`, '_blank');
-    
+    // Initialize
     updateUI();
+    startTimer();
   </script>
 </body>
 </html>
