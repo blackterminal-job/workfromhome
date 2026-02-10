@@ -38,7 +38,6 @@
     marquee { font-size: 13px; font-weight: 600; color: var(--accent); }
 
     .header { padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
-    .profile-info { display: flex; align-items: center; gap: 10px; }
     .avatar { width: 40px; height: 40px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
 
     /* --- WALLET --- */
@@ -47,31 +46,36 @@
       padding: 22px; border-radius: 28px; border: 1px solid rgba(255,255,255,0.05);
       position: relative; overflow: hidden;
     }
-    .wallet-label { font-size: 13px; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
     .wallet-balance { font-size: 38px; font-weight: 800; margin: 8px 0; display: flex; align-items: center; gap: 5px; }
     .progress-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 10px; }
     .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 1s ease; }
 
-    .view-id-btn {
-      display: block; margin: 0 16px 25px; background: var(--glass); border: 1px solid rgba(255,255,255,0.1); 
-      padding: 12px; border-radius: 16px; text-align: center; color: #94a3b8; text-decoration: none; font-size: 13px; font-weight: 700;
-    }
-
-    .section-title { padding: 0 20px; font-size: 18px; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+    .section-title { padding: 0 20px; font-size: 18px; font-weight: 700; margin: 20px 0 15px; display: flex; align-items: center; gap: 8px; }
     .section-title span { width: 4px; height: 18px; background: var(--accent); border-radius: 10px; }
 
-    /* --- LEADERBOARD --- */
-    .leader-scroll { display: flex; gap: 12px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; margin-bottom: 25px; }
-    .leader-card { background: var(--card-bg); padding: 16px; border-radius: 22px; min-width: 135px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+    /* --- ⭐ HALL OF FAME (LEADERBOARD) --- */
+    .leader-scroll { 
+      display: flex; gap: 12px; padding: 0 16px; 
+      overflow-x: auto; scrollbar-width: none; 
+      margin-bottom: 5px;
+    }
+    .leader-scroll::-webkit-scrollbar { display: none; }
+    .leader-card { 
+      background: var(--card-bg); padding: 16px; border-radius: 22px; 
+      min-width: 140px; text-align: center; border: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+    }
+    .leader-rank { font-size: 24px; margin-bottom: 5px; }
+    .leader-name { font-weight: 800; font-size: 13px; margin-bottom: 4px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .leader-earn { color: var(--gold); font-size: 12px; font-weight: 700; }
 
     /* --- TASK CARDS --- */
     .task-card { margin: 0 16px 16px; background: var(--card-bg); border-radius: 24px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden; }
     .reward-tag { background: rgba(52, 199, 89, 0.1); color: var(--success); padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 700; }
     .btn { width: 100%; padding: 16px; border-radius: 18px; border: none; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .btn-primary { background: var(--accent); color: white; }
-    .btn-wa { background: #25D366; color: white; margin-top: 10px; text-decoration: none; }
 
-    /* --- LOCK OVERLAY (FIXED) --- */
+    /* --- LOCK OVERLAY --- */
     .lock-overlay { 
       position: absolute; inset: 0; background: rgba(5, 10, 18, 0.85); 
       backdrop-filter: blur(6px); border-radius: 24px; 
@@ -79,18 +83,10 @@
       z-index: 10; text-align: center; padding: 20px;
     }
 
-    /* --- POPUP --- */
-    #payoutPopup {
-      position: fixed; bottom: 90px; left: 15px; background: white; color: black;
-      padding: 12px 20px; border-radius: 50px; display: flex; align-items: center; gap: 10px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 9999;
-      transform: translateX(-170%); transition: 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    }
-
+    #payoutPopup { position: fixed; bottom: 90px; left: 15px; background: white; color: black; padding: 12px 20px; border-radius: 50px; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 9999; transform: translateX(-170%); transition: 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
     .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: rgba(17, 24, 39, 0.95); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
     .nav-item { text-align: center; color: #6b7280; text-decoration: none; font-size: 11px; font-weight: 700; }
     .nav-item.active { color: var(--accent); }
-
     #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--success); color: white; padding: 12px 24px; border-radius: 50px; display: none; z-index: 1000; }
   </style>
 </head>
@@ -104,17 +100,14 @@
   </div>
 
   <div class="header">
-    <div class="profile-info">
+    <div class="profile-info" style="display:flex; align-items:center; gap:10px;">
       <div class="avatar">U</div>
-      <div>
-        <div style="font-size: 14px; font-weight: 800;">Partner Panel</div>
-        <div style="font-size: 11px; color: var(--success);">Online</div>
-      </div>
+      <div style="font-size: 14px; font-weight: 800;">Partner Panel</div>
     </div>
   </div>
 
   <div class="wallet-card">
-    <div class="wallet-label">Total Earnings</div>
+    <div style="font-size: 13px; color: #94a3b8; font-weight: 600;">EARNINGS</div>
     <div class="wallet-balance"><span style="font-size:22px; color:#94a3b8">₹</span><span id="totalEarn">0.00</span></div>
     <div class="progress-box">
       <div style="display:flex; justify-content:space-between; font-size:12px; color:#94a3b8">
@@ -124,13 +117,17 @@
     </div>
   </div>
 
+  <div class="section-title"><span></span> Hall of Fame</div>
+  <div class="leader-scroll" id="leaderBoardContainer">
+    </div>
+
   <div class="section-title"><span></span> Today's Task</div>
   <div class="task-card">
     <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
       <div class="reward-tag">Small Task</div>
       <div style="font-weight:800; color:var(--success)" id="taskReward">₹0.00</div>
     </div>
-    <div class="task-name" id="taskName" style="font-size:17px; font-weight:700; margin-bottom:12px;">Loading...</div>
+    <div id="taskName" style="font-size:17px; font-weight:700; margin-bottom:12px;">Loading...</div>
     <div id="stepList" style="margin-bottom:20px;"></div>
     <button class="btn btn-primary" onclick="completeTask()">Claim Reward</button>
   </div>
@@ -140,9 +137,7 @@
     <div id="bigLock" class="lock-overlay">
       <div style="font-size:35px; margin-bottom:10px;">🔒</div>
       <div id="lockText" style="font-weight:800; font-size:15px; color:var(--gold);">Mission Locked</div>
-      <div style="font-size:11px; color:#94a3b8; margin-top:5px;">Follow Daily Tasks to Unlock</div>
     </div>
-
     <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
       <div class="reward-tag" style="color:var(--gold); background:rgba(255,204,0,0.1)">Special</div>
       <div style="font-weight:800; color:var(--gold)" id="bonusAmount">₹0.00</div>
@@ -182,45 +177,59 @@
     let requiredTasks = 5; 
     let popupStatus = "on", adminMsg = "";
 
-    // 1. ADMIN GENERAL SETTINGS
+    // 1. Marquee & Popup
     onSnapshot(doc(db, "settings", "general"), (d) => {
       if(d.exists()){
         const data = d.data();
         document.getElementById('liveNotice').innerText = data.notice;
         document.getElementById('liveNotice').scrollAmount = data.speed || 5;
-        popupStatus = data.popupStatus;
-        adminMsg = data.popupMessage;
+        popupStatus = data.popupStatus; adminMsg = data.popupMessage;
       }
     });
 
-    // 2. DAILY TASK SYNC
+    // 2. Daily Task
     onSnapshot(doc(db, "settings", "dailyTask"), (d) => {
       if(d.exists()){
         const data = d.data();
         document.getElementById('taskName').innerText = data.name;
         document.getElementById('taskReward').innerText = "₹" + data.reward.toFixed(2);
-        document.getElementById('stepList').innerHTML = data.steps.map((s,i) => `<div style="color:#9ca3af; font-size:13px; margin-bottom:5px;"><b style="color:var(--accent)">${i+1}.</b> ${s}</div>`).join('');
+        document.getElementById('stepList').innerHTML = data.steps.map((s,i) => `<div style="color:#9ca3af; font-size:12px; margin-bottom:5px;"><b style="color:var(--accent)">${i+1}.</b> ${s}</div>`).join('');
       }
     });
 
-    // 3. BONUS & LOCK SYNC
+    // 3. Bonus Reward & Lock
     onSnapshot(doc(db, "settings", "bonusReward"), (d) => {
       if(d.exists()){
         const data = d.data();
         document.getElementById('bonusName').innerText = data.name;
         document.getElementById('bonusAmount').innerText = "₹" + data.amount.toFixed(2);
-        requiredTasks = data.lockCount; // Admin se aane wala lock count
+        requiredTasks = data.lockCount;
         updateUI();
+      }
+    });
+
+    // 4. Hall of Fame (Leaderboard Sync)
+    onSnapshot(doc(db, "settings", "leaderboard"), (d) => {
+      if(d.exists()){
+        const container = document.getElementById('leaderBoardContainer');
+        const colors = ['#ffcc00', '#94a3b8', '#cd7f32'];
+        container.innerHTML = d.data().ranks.map((r,i) => {
+          const [n, e] = r.split('-');
+          return `
+            <div class="leader-card" style="border-color: ${colors[i] || 'rgba(255,255,255,0.05)'}">
+              <div class="leader-rank">${['🥇','🥈','🥉'][i] || '👤'}</div>
+              <span class="leader-name">${n}</span>
+              <span class="leader-earn">${e}</span>
+            </div>`;
+        }).join('');
       }
     });
 
     window.completeTask = () => {
       const rewardVal = parseFloat(document.getElementById('taskReward').innerText.replace('₹', ''));
-      earnings += rewardVal; 
-      taskCount++;
+      earnings += rewardVal; taskCount++;
       localStorage.setItem('earnings', earnings);
       localStorage.setItem('taskCount', taskCount);
-      
       document.getElementById('toast').style.display = 'block';
       setTimeout(() => document.getElementById('toast').style.display = 'none', 2000);
       updateUI();
@@ -228,24 +237,14 @@
 
     window.updateUI = () => {
       document.getElementById('totalEarn').innerText = earnings.toFixed(2);
-      
-      // Progress Bar Calculation
       let progress = (taskCount / requiredTasks) * 100;
       if(progress > 100) progress = 100;
       document.getElementById('progressFill').style.width = progress + "%";
       document.getElementById('progressPercent').innerText = Math.round(progress) + "%";
-
-      // --- THE LOCK LOGIC ---
-      const lockOverlay = document.getElementById('bigLock');
-      if(taskCount >= requiredTasks) {
-        lockOverlay.style.display = 'none'; // Unlock ho gaya
-      } else {
-        lockOverlay.style.display = 'flex'; // Locked rahega
-        document.getElementById('lockText').innerText = `Complete ${requiredTasks - taskCount} more tasks`;
-      }
+      document.getElementById('bigLock').style.display = taskCount >= requiredTasks ? 'none' : 'flex';
+      if(taskCount < requiredTasks) document.getElementById('lockText').innerText = `Complete ${requiredTasks - taskCount} more tasks`;
     };
 
-    // Payout Popup
     setInterval(() => {
       if(popupStatus === "off" || !adminMsg) return;
       document.getElementById('popupText').innerText = adminMsg;
@@ -260,4 +259,3 @@
   </script>
 </body>
 </html>
-
