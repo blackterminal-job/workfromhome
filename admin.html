@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
-  <title>Admin Panel | Mobile Optimized</title>
+  <title>Admin Panel | BlackTerminal</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -14,6 +14,7 @@
       --gold: #ffcc00;
       --success: #34c759;
       --bonus: #ff9500;
+      --warning: #ffcc00;
       --text-muted: #94a3b8;
     }
 
@@ -21,87 +22,79 @@
 
     body {
       margin: 0; font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: var(--bg); color: #f1f5f9; padding: 15px;
-      padding-bottom: 40px; line-height: 1.5;
+      background-color: var(--bg); color: #f1f5f9; padding: 12px;
+      padding-bottom: 50px; line-height: 1.4;
     }
 
-    /* --- MOBILE HEADER --- */
     .admin-nav {
       background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.9));
-      backdrop-filter: blur(15px); padding: 20px; border-radius: 24px;
-      border: 1px solid rgba(255, 59, 48, 0.2); margin-bottom: 20px; text-align: center;
-    }
-    .badge {
-      background: var(--admin-red); color: white; padding: 4px 10px;
-      border-radius: 6px; font-size: 9px; font-weight: 800; text-transform: uppercase;
+      backdrop-filter: blur(15px); padding: 18px; border-radius: 24px;
+      border: 1px solid rgba(255, 59, 48, 0.2); margin-bottom: 15px; text-align: center;
     }
 
-    /* --- RESPONSIVE GRID --- */
-    .grid { display: grid; gap: 15px; grid-template-columns: 1fr; }
+    .grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
     @media (min-width: 768px) { .grid { grid-template-columns: 1fr 1fr; } }
 
     .card {
-      background: var(--surface); border-radius: 24px; padding: 20px;
+      background: var(--surface); border-radius: 22px; padding: 18px;
       border: 1px solid rgba(255,255,255,0.05);
     }
 
-    h2 { font-size: 16px; font-weight: 800; margin: 0 0 15px; display: flex; align-items: center; gap: 8px; }
+    h2 { font-size: 15px; font-weight: 800; margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
 
-    /* --- MOBILE OPTIMIZED TABLES --- */
+    /* --- MOBILE TABLES --- */
     .table-wrapper { 
       overflow-x: auto; margin: 0 -5px; 
       -webkit-overflow-scrolling: touch; 
     }
     table { width: 100%; border-collapse: collapse; min-width: 450px; }
-    th { text-align: left; font-size: 10px; color: var(--text-muted); padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    td { padding: 12px 10px; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+    th { text-align: left; font-size: 10px; color: var(--text-muted); padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    td { padding: 10px 8px; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.02); }
 
-    /* --- TOUCH FRIENDLY FORMS --- */
-    label { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; display: block; margin: 12px 0 6px; }
-    input, textarea {
+    /* --- INPUTS & SELECTS --- */
+    label { font-size: 9px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; display: block; margin: 10px 0 5px; }
+    input, textarea, select {
       width: 100%; background: #020617; border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px; padding: 14px; color: white; font-family: inherit; font-size: 14px;
+      border-radius: 12px; padding: 12px; color: white; font-family: inherit; font-size: 13px; outline: none;
     }
-    input:focus { border-color: var(--accent); outline: none; }
+    
+    .status-dropdown {
+      padding: 6px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 10px; width: auto;
+    }
 
     .push-btn {
-      background: var(--admin-red); color: white; border: none; padding: 16px;
-      border-radius: 14px; width: 100%; font-weight: 800; font-size: 14px;
-      cursor: pointer; margin-top: 15px; transition: 0.2s;
-    }
-    .push-btn:active { transform: scale(0.97); }
-
-    .pay-btn {
-      background: var(--success); color: white; border: none; padding: 8px 12px;
-      border-radius: 10px; font-weight: 800; font-size: 11px;
+      color: white; border: none; padding: 14px;
+      border-radius: 12px; width: 100%; font-weight: 800; font-size: 13px;
+      cursor: pointer; margin-top: 12px; transition: 0.2s;
     }
 
-    .upi-tag { background: rgba(56,189,248,0.1); color: var(--accent); padding: 3px 6px; border-radius: 5px; font-family: monospace; font-size: 11px; }
+    .upi-tag { background: rgba(56,189,248,0.1); color: var(--accent); padding: 4px 6px; border-radius: 6px; font-family: monospace; font-size: 11px; }
+    .wa-btn { text-decoration: none; font-size: 18px; display: inline-flex; align-items: center; justify-content: center; }
   </style>
 </head>
 <body>
 
   <div class="admin-nav">
-    <span class="badge">Master Control</span>
-    <h1 style="margin: 8px 0 0; font-size: 20px;">BlackTerminal Admin</h1>
+    <span style="background:var(--admin-red); color:white; padding:4px 10px; border-radius:6px; font-size:9px; font-weight:800;">COMMANDER</span>
+    <h1 style="margin: 5px 0 0; font-size: 18px;">BlackTerminal Admin</h1>
   </div>
 
   <div class="grid">
     
     <div class="card" style="grid-column: 1 / -1;">
-      <h2 style="color: var(--success);">💸 Withdrawal Requests</h2>
+      <h2 style="color: var(--success);">💸 Withdrawal Management</h2>
       <div class="table-wrapper">
         <table>
           <thead>
             <tr>
               <th>User</th>
-              <th>UPI ID</th>
-              <th>Amt</th>
-              <th>Action</th>
+              <th>UPI & Chat</th>
+              <th>Amount</th>
+              <th>Status Action</th>
             </tr>
           </thead>
           <tbody id="withdrawTable">
-            <tr><td colspan="4" style="text-align:center">Fetching data...</td></tr>
+            <tr><td colspan="4" style="text-align:center">Loading Payouts...</td></tr>
           </tbody>
         </table>
       </div>
@@ -109,49 +102,32 @@
 
     <div class="card">
       <h2 style="color: var(--accent);">📡 Daily Mission</h2>
-      <label>Task Name</label>
-      <input type="text" id="tName" placeholder="Task Name">
+      <label>Task Title</label>
+      <input type="text" id="tName" placeholder="Post Status">
       <label>Reward (₹)</label>
-      <input type="number" id="tReward" placeholder="0.50">
-      <label>Steps (New line for each)</label>
-      <textarea id="tSteps" rows="3" placeholder="Step 1..."></textarea>
-      <button class="push-btn" style="background: var(--accent);" onclick="saveTask()">PUSH TASK</button>
+      <input type="number" id="tReward" step="0.01" placeholder="1.50">
+      <label>Steps (New Line for each)</label>
+      <textarea id="tSteps" rows="3"></textarea>
+      <button class="push-btn" style="background: var(--accent);" onclick="saveTask()">UPDATE TASK</button>
     </div>
 
     <div class="card">
       <h2 style="color: var(--bonus);">🎁 Bonus Mission</h2>
-      <label>Bonus Title</label>
-      <input type="text" id="bName" placeholder="Special Bonus">
-      <label>Amount (₹)</label>
+      <label>Mission Name</label>
+      <input type="text" id="bName" placeholder="Referral Bonus">
+      <label>Bonus (₹)</label>
       <input type="number" id="bAmount" placeholder="500">
       <label>Unlock After (Tasks)</label>
       <input type="number" id="bLockCount" placeholder="5">
-      <button class="push-btn" style="background: var(--bonus);" onclick="saveBonus()">PUSH BONUS</button>
+      <button class="push-btn" style="background: var(--bonus);" onclick="saveBonus()">UPDATE BONUS</button>
     </div>
 
     <div class="card">
-      <h2 style="color: var(--gold);">🏆 Hall of Fame</h2>
-      <input type="text" id="l1" style="margin-bottom:10px" placeholder="Rank 1: Name - ₹0">
-      <input type="text" id="l2" style="margin-bottom:10px" placeholder="Rank 2: Name - ₹0">
-      <input type="text" id="l3" placeholder="Rank 3: Name - ₹0">
-      <button class="push-btn" style="background: var(--gold); color:#000" onclick="saveLeaderboard()">UPDATE RANKS</button>
-    </div>
-
-    <div class="card" style="grid-column: 1 / -1;">
-      <h2 style="color: var(--text-muted);">👥 All Partners</h2>
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Partner</th>
-              <th>Ref</th>
-              <th>Tasks</th>
-              <th>Wallet</th>
-            </tr>
-          </thead>
-          <tbody id="userTable"></tbody>
-        </table>
-      </div>
+      <h2 style="color: var(--gold);">🏆 Rank Control</h2>
+      <input type="text" id="l1" style="margin-bottom:8px" placeholder="Rank 1: Rahul - ₹500">
+      <input type="text" id="l2" style="margin-bottom:8px" placeholder="Rank 2: Sana - ₹400">
+      <input type="text" id="l3" placeholder="Rank 3: Arjun - ₹300">
+      <button class="push-btn" style="background: var(--gold); color: #000;" onclick="saveLeaderboard()">UPDATE HALL OF FAME</button>
     </div>
 
   </div>
@@ -172,51 +148,67 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Live Withdrawals
+    // --- 1. LIVE WITHDRAWAL MANAGEMENT ---
     onSnapshot(query(collection(db, "withdrawals"), orderBy("date", "desc")), (snap) => {
-      const tb = document.getElementById('withdrawTable'); tb.innerHTML = "";
+      const tbody = document.getElementById('withdrawTable');
+      tbody.innerHTML = "";
       snap.forEach(d => {
         const w = d.data();
-        tb.innerHTML += `<tr>
-          <td><b>${w.name}</b></td>
-          <td><span class="upi-tag">${w.upi}</span></td>
-          <td><b>₹${w.amount}</b></td>
-          <td>${w.status === 'pending' ? `<button class="pay-btn" onclick="markPaid('${d.id}')">PAY</button>` : '✅'}</td>
-        </tr>`;
+        const id = d.id;
+
+        // Dynamic Color for Status Dropdown
+        let statusColor = "#ffcc00"; // Default yellow for pending
+        if(w.status === 'paid') statusColor = "#34c759";
+        if(w.status === 'not paid') statusColor = "#ff3b30";
+
+        tbody.innerHTML += `
+          <tr>
+            <td><b>${w.name}</b><br><small style="color:var(--text-muted)">${w.ref}</small></td>
+            <td>
+              <span class="upi-tag">${w.upi}</span>
+              <a href="https://wa.me/?text=Hello ${w.name}, from BlackTerminal Admin. Please confirm your UPI ID: ${w.upi} for the ₹${w.amount} withdrawal." 
+                 target="_blank" class="wa-btn"> 🟢</a>
+            </td>
+            <td style="font-weight:800">₹${w.amount}</td>
+            <td>
+              <select class="status-dropdown" style="color:${statusColor}" onchange="updateStatus('${id}', this.value)">
+                <option value="pending" ${w.status === 'pending' ? 'selected' : ''}>PENDING</option>
+                <option value="paid" ${w.status === 'paid' ? 'selected' : ''}>PAID</option>
+                <option value="not paid" ${w.status === 'not paid' ? 'selected' : ''}>NOT PAID</option>
+              </select>
+            </td>
+          </tr>`;
       });
     });
 
-    // Live Users
-    onSnapshot(collection(db, "users"), (snap) => {
-      const tb = document.getElementById('userTable'); tb.innerHTML = "";
-      snap.forEach(d => {
-        const u = d.data();
-        tb.innerHTML += `<tr><td>${u.name}</td><td>${u.referralCode}</td><td>${u.totalTasks || 0}</td><td style="color:var(--success)">₹${u.totalEarnings || 0}</td></tr>`;
-      });
-    });
+    // Update Status to Firebase
+    window.updateStatus = async (id, newStatus) => {
+      try {
+        await updateDoc(doc(db, "withdrawals", id), { status: newStatus });
+      } catch (e) { alert("Error: " + e.message); }
+    };
 
-    window.markPaid = async (id) => { if(confirm("Payment Done?")) await updateDoc(doc(db, "withdrawals", id), {status:"paid"}); };
-
+    // --- 2. SAVE FUNCTIONS ---
     window.saveTask = async () => {
       const name = document.getElementById('tName').value;
       const reward = document.getElementById('tReward').value;
       const steps = document.getElementById('tSteps').value.split('\n');
-      await setDoc(doc(db, "settings", "dailyTask"), {name, reward: parseFloat(reward), steps, updatedAt: new Date()});
-      alert("Daily Task Pushed!");
+      await setDoc(doc(db, "settings", "dailyTask"), { name, reward: parseFloat(reward), steps, updatedAt: new Date() });
+      alert("Daily Task Updated!");
     };
 
     window.saveBonus = async () => {
       const name = document.getElementById('bName').value;
       const amount = document.getElementById('bAmount').value;
       const lockCount = document.getElementById('bLockCount').value;
-      await setDoc(doc(db, "settings", "bonusReward"), {name, amount: parseFloat(amount), lockCount: parseInt(lockCount), updatedAt: new Date()});
-      alert("Bonus Mission Pushed!");
+      await setDoc(doc(db, "settings", "bonusReward"), { name, amount: parseFloat(amount), lockCount: parseInt(lockCount), updatedAt: new Date() });
+      alert("Bonus Updated!");
     };
 
     window.saveLeaderboard = async () => {
       const ranks = [document.getElementById('l1').value, document.getElementById('l2').value, document.getElementById('l3').value];
-      await setDoc(doc(db, "settings", "leaderboard"), {ranks});
-      alert("Leaderboard Updated!");
+      await setDoc(doc(db, "settings", "leaderboard"), { ranks });
+      alert("Ranks Updated!");
     };
   </script>
 </body>
