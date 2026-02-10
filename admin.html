@@ -16,6 +16,7 @@
       --bonus: #ff9500;
       --warning: #ffcc00;
       --text-muted: #94a3b8;
+      --purple: #a855f7;
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -42,34 +43,24 @@
 
     h2 { font-size: 15px; font-weight: 800; margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
 
-    /* --- MOBILE TABLES --- */
-    .table-wrapper { 
-      overflow-x: auto; margin: 0 -5px; 
-      -webkit-overflow-scrolling: touch; 
-    }
+    .table-wrapper { overflow-x: auto; margin: 0 -5px; -webkit-overflow-scrolling: touch; }
     table { width: 100%; border-collapse: collapse; min-width: 450px; }
     th { text-align: left; font-size: 10px; color: var(--text-muted); padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
     td { padding: 10px 8px; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.02); }
 
-    /* --- INPUTS & SELECTS --- */
     label { font-size: 9px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; display: block; margin: 10px 0 5px; }
     input, textarea, select {
       width: 100%; background: #020617; border: 1px solid rgba(255,255,255,0.1);
       border-radius: 12px; padding: 12px; color: white; font-family: inherit; font-size: 13px; outline: none;
     }
     
-    .status-dropdown {
-      padding: 6px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 10px; width: auto;
-    }
+    .status-dropdown { padding: 6px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 10px; width: auto; }
 
-    .push-btn {
-      color: white; border: none; padding: 14px;
-      border-radius: 12px; width: 100%; font-weight: 800; font-size: 13px;
-      cursor: pointer; margin-top: 12px; transition: 0.2s;
-    }
+    .push-btn { color: white; border: none; padding: 14px; border-radius: 12px; width: 100%; font-weight: 800; font-size: 13px; cursor: pointer; margin-top: 12px; transition: 0.2s; }
+    .push-btn:active { transform: scale(0.97); }
 
     .upi-tag { background: rgba(56,189,248,0.1); color: var(--accent); padding: 4px 6px; border-radius: 6px; font-family: monospace; font-size: 11px; }
-    .wa-btn { text-decoration: none; font-size: 18px; display: inline-flex; align-items: center; justify-content: center; }
+    .wa-btn { text-decoration: none; font-size: 18px; }
   </style>
 </head>
 <body>
@@ -81,8 +72,27 @@
 
   <div class="grid">
     
-    <div class="card" style="grid-column: 1 / -1;">
-      <h2 style="color: var(--success);">💸 Withdrawal Management</h2>
+    <div class="card" style="border-color: var(--purple);">
+      <h2 style="color: var(--purple);">⚙️ App Live Controls</h2>
+      <label>Marquee Notice Text</label>
+      <input type="text" id="mText" placeholder="Welcome to BlackTerminal!">
+      
+      <label>Marquee Speed (1=Very Slow, 10=Fast)</label>
+      <input type="number" id="mSpeed" placeholder="Recommended: 5">
+
+      <label>Custom Payout Message (For Popup)</label>
+      <input type="text" id="pMsg" placeholder="Rahul just withdrew ₹150">
+
+      <label>Popup Status</label>
+      <select id="pStatus">
+        <option value="on">Show Popups (ON)</option>
+        <option value="off">Hide Popups (OFF)</option>
+      </select>
+      <button class="push-btn" style="background: var(--purple);" onclick="saveGeneral()">UPDATE LIVE APP</button>
+    </div>
+
+    <div class="card">
+      <h2 style="color: var(--success);">💸 Withdrawals</h2>
       <div class="table-wrapper">
         <table>
           <thead>
@@ -90,7 +100,7 @@
               <th>User</th>
               <th>UPI & Chat</th>
               <th>Amount</th>
-              <th>Status Action</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody id="withdrawTable">
@@ -106,7 +116,7 @@
       <input type="text" id="tName" placeholder="Post Status">
       <label>Reward (₹)</label>
       <input type="number" id="tReward" step="0.01" placeholder="1.50">
-      <label>Steps (New Line for each)</label>
+      <label>Steps</label>
       <textarea id="tSteps" rows="3"></textarea>
       <button class="push-btn" style="background: var(--accent);" onclick="saveTask()">UPDATE TASK</button>
     </div>
@@ -124,9 +134,9 @@
 
     <div class="card">
       <h2 style="color: var(--gold);">🏆 Rank Control</h2>
-      <input type="text" id="l1" style="margin-bottom:8px" placeholder="Rank 1: Rahul - ₹500">
-      <input type="text" id="l2" style="margin-bottom:8px" placeholder="Rank 2: Sana - ₹400">
-      <input type="text" id="l3" placeholder="Rank 3: Arjun - ₹300">
+      <input type="text" id="l1" style="margin-bottom:8px" placeholder="Rank 1">
+      <input type="text" id="l2" style="margin-bottom:8px" placeholder="Rank 2">
+      <input type="text" id="l3" placeholder="Rank 3">
       <button class="push-btn" style="background: var(--gold); color: #000;" onclick="saveLeaderboard()">UPDATE HALL OF FAME</button>
     </div>
 
@@ -148,67 +158,74 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // --- 1. LIVE WITHDRAWAL MANAGEMENT ---
+    // --- SAVE GENERAL SETTINGS (MARQUEE & POPUP) ---
+    window.saveGeneral = async () => {
+      const notice = document.getElementById('mText').value;
+      const speed = document.getElementById('mSpeed').value || 5;
+      const popupMessage = document.getElementById('pMsg').value;
+      const popupStatus = document.getElementById('pStatus').value;
+
+      await setDoc(doc(db, "settings", "general"), {
+        notice,
+        speed: parseInt(speed),
+        popupMessage,
+        popupStatus,
+        updatedAt: new Date()
+      });
+      alert("Live App Controls Updated!");
+    };
+
+    // --- WITHDRAWAL LOGIC ---
     onSnapshot(query(collection(db, "withdrawals"), orderBy("date", "desc")), (snap) => {
       const tbody = document.getElementById('withdrawTable');
       tbody.innerHTML = "";
       snap.forEach(d => {
         const w = d.data();
         const id = d.id;
-
-        // Dynamic Color for Status Dropdown
-        let statusColor = "#ffcc00"; // Default yellow for pending
-        if(w.status === 'paid') statusColor = "#34c759";
-        if(w.status === 'not paid') statusColor = "#ff3b30";
+        let statusColor = w.status === 'paid' ? "#34c759" : (w.status === 'not paid' ? "#ff3b30" : "#ffcc00");
 
         tbody.innerHTML += `
           <tr>
-            <td><b>${w.name}</b><br><small style="color:var(--text-muted)">${w.ref}</small></td>
-            <td>
-              <span class="upi-tag">${w.upi}</span>
-              <a href="https://wa.me/?text=Hello ${w.name}, from BlackTerminal Admin. Please confirm your UPI ID: ${w.upi} for the ₹${w.amount} withdrawal." 
-                 target="_blank" class="wa-btn"> 🟢</a>
-            </td>
-            <td style="font-weight:800">₹${w.amount}</td>
+            <td><b>${w.name}</b></td>
+            <td><span class="upi-tag">${w.upi}</span> <a href="https://wa.me/?text=Confirm UPI: ${w.upi}" target="_blank" class="wa-btn">🟢</a></td>
+            <td>₹${w.amount}</td>
             <td>
               <select class="status-dropdown" style="color:${statusColor}" onchange="updateStatus('${id}', this.value)">
                 <option value="pending" ${w.status === 'pending' ? 'selected' : ''}>PENDING</option>
                 <option value="paid" ${w.status === 'paid' ? 'selected' : ''}>PAID</option>
-                <option value="not paid" ${w.status === 'not paid' ? 'selected' : ''}>NOT PAID</option>
+                <option value="not paid" ${w.status === 'not paid' ? 'selected' : ''}>REJECT</option>
               </select>
             </td>
           </tr>`;
       });
     });
 
-    // Update Status to Firebase
-    window.updateStatus = async (id, newStatus) => {
-      try {
-        await updateDoc(doc(db, "withdrawals", id), { status: newStatus });
-      } catch (e) { alert("Error: " + e.message); }
-    };
+    window.updateStatus = async (id, s) => { await updateDoc(doc(db, "withdrawals", id), { status: s }); };
 
-    // --- 2. SAVE FUNCTIONS ---
+    // --- MISSION & RANK SAVE FUNCTIONS ---
     window.saveTask = async () => {
-      const name = document.getElementById('tName').value;
-      const reward = document.getElementById('tReward').value;
       const steps = document.getElementById('tSteps').value.split('\n');
-      await setDoc(doc(db, "settings", "dailyTask"), { name, reward: parseFloat(reward), steps, updatedAt: new Date() });
+      await setDoc(doc(db, "settings", "dailyTask"), { 
+        name: document.getElementById('tName').value, 
+        reward: parseFloat(document.getElementById('tReward').value), 
+        steps 
+      });
       alert("Daily Task Updated!");
     };
 
     window.saveBonus = async () => {
-      const name = document.getElementById('bName').value;
-      const amount = document.getElementById('bAmount').value;
-      const lockCount = document.getElementById('bLockCount').value;
-      await setDoc(doc(db, "settings", "bonusReward"), { name, amount: parseFloat(amount), lockCount: parseInt(lockCount), updatedAt: new Date() });
-      alert("Bonus Updated!");
+      await setDoc(doc(db, "settings", "bonusReward"), { 
+        name: document.getElementById('bName').value, 
+        amount: parseFloat(document.getElementById('bAmount').value), 
+        lockCount: parseInt(document.getElementById('bLockCount').value) 
+      });
+      alert("Bonus Mission Updated!");
     };
 
     window.saveLeaderboard = async () => {
       const ranks = [document.getElementById('l1').value, document.getElementById('l2').value, document.getElementById('l3').value];
       await setDoc(doc(db, "settings", "leaderboard"), { ranks });
-      alert("Ranks Updated!");
+      alert("Leaderboard Updated!");
     };
   </script>
 </body>
