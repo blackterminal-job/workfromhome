@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
-  <title>Command Center | BlackTerminal Admin</title>
+  <title>Admin Command Center | BlackTerminal</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -12,6 +12,7 @@
       --bg: #020617;
       --surface: #0f172a;
       --accent: #38bdf8;
+      --gold: #ffcc00;
     }
 
     body {
@@ -20,10 +21,10 @@
       background-color: var(--bg);
       color: #f1f5f9;
       padding: 20px;
-      line-height: 1.6;
+      padding-bottom: 50px;
     }
 
-    /* --- GLASS HEADER --- */
+    /* --- HEADER --- */
     .admin-nav {
       background: rgba(15, 23, 42, 0.8);
       backdrop-filter: blur(15px);
@@ -31,7 +32,7 @@
       border-radius: 28px;
       border: 1px solid rgba(255, 59, 48, 0.2);
       margin-bottom: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      text-align: center;
     }
     .badge {
       background: var(--admin-red);
@@ -44,9 +45,10 @@
       letter-spacing: 1px;
     }
 
-    /* --- BENTO CARDS --- */
-    .grid { display: grid; gap: 20px; }
-    
+    /* --- BENTO GRID --- */
+    .grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+    @media (min-width: 768px) { .grid { grid-template-columns: 1fr 1fr; } }
+
     .card {
       background: var(--surface);
       border-radius: 30px;
@@ -55,15 +57,14 @@
       position: relative;
       overflow: hidden;
     }
-    .card::before {
-      content: ''; position: absolute; top: 0; right: 0; width: 80px; height: 80px;
-      background: var(--admin-glow); filter: blur(40px);
-    }
 
-    h2 { font-size: 18px; font-weight: 800; margin-top: 0; display: flex; align-items: center; gap: 10px; color: var(--admin-red); }
+    h2 { font-size: 18px; font-weight: 800; margin-top: 0; display: flex; align-items: center; gap: 10px; color: #fff; }
+    .card.task-card h2 { color: var(--accent); }
+    .card.leader-card h2 { color: var(--gold); }
+    .card.bonus-card h2 { color: #ff9500; }
 
-    /* --- INPUT STYLING --- */
-    label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; }
+    /* --- FORM ELEMENTS --- */
+    label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px; display: block; margin-top: 15px; }
     
     input, textarea {
       width: 100%;
@@ -73,13 +74,11 @@
       padding: 15px;
       color: white;
       font-family: inherit;
-      margin-bottom: 20px;
       font-weight: 600;
-      transition: 0.3s;
+      box-sizing: border-box;
     }
-    input:focus { border-color: var(--admin-red); box-shadow: 0 0 15px var(--admin-glow); outline: none; }
+    input:focus { border-color: var(--admin-red); outline: none; }
 
-    /* --- POWER BUTTON --- */
     .push-btn {
       background: var(--admin-red);
       color: white;
@@ -88,50 +87,66 @@
       border-radius: 20px;
       width: 100%;
       font-weight: 800;
-      font-size: 15px;
+      font-size: 14px;
       cursor: pointer;
-      box-shadow: 0 10px 25px var(--admin-glow);
+      margin-top: 20px;
       transition: 0.3s;
-      display: flex; align-items: center; justify-content: center; gap: 10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     }
     .push-btn:active { transform: scale(0.96); }
 
-    .status-bar {
+    .status-footer {
       margin-top: 40px;
       text-align: center;
-      font-size: 12px;
+      font-size: 11px;
       color: #475569;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
+      letter-spacing: 1px;
     }
-    .pulse { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e; animation: pulse-blink 1.5s infinite; }
-    @keyframes pulse-blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
   </style>
 </head>
 <body>
 
   <div class="admin-nav">
-    <span class="badge">Master Access</span>
-    <h1 style="margin: 10px 0 0; font-size: 26px; font-weight: 800; letter-spacing: -1px;">Command Center</h1>
+    <span class="badge">System Admin</span>
+    <h1 style="margin: 10px 0 0; font-size: 24px; font-weight: 800;">Command Center</h1>
   </div>
 
   <div class="grid">
-    <div class="card">
-      <h2>📡 Mission Deployment</h2>
-      <label>Task Title</label>
-      <input type="text" id="tName" placeholder="e.g. Share Pro Poster">
+    
+    <div class="card task-card">
+      <h2>📡 Daily Mission</h2>
       
-      <label>Reward Multiplier (₹)</label>
-      <input type="number" id="tReward" step="0.10" placeholder="0.50">
+      <label>Task Title</label>
+      <input type="text" id="tName" placeholder="e.g. Share Poster on Status">
+      
+      <label>Reward Amount (₹)</label>
+      <input type="number" id="tReward" step="0.01" placeholder="0.50">
 
-      <label>Execution Steps (Enter to separate)</label>
+      <label>Steps (One per line)</label>
       <textarea id="tSteps" rows="4" placeholder="Step 1&#10;Step 2&#10;Step 3"></textarea>
 
-      <button class="push-btn" onclick="saveTask()">🚀 PUSH LIVE UPDATE</button>
+      <button class="push-btn" style="background: var(--accent);" onclick="saveTask()">UPDATE DAILY TASK</button>
     </div>
 
-    <div class="card">
+    <div class="card bonus-card">
+      <h2>🎁 Bonus Reward</h2>
+      
+      <label>Bonus Task Name</label>
+      <input type="text" id="bName" placeholder="e.g. Bring 1 Admission">
+      
+      <label>Bonus Amount (₹)</label>
+      <input type="number" id="bAmount" placeholder="500">
+
+      <label>Tasks Needed to Unlock</label>
+      <input type="number" id="bLockCount" placeholder="2">
+
+      <button class="push-btn" style="background: #ff9500;" onclick="saveBonus()">UPDATE BONUS MISSION</button>
+    </div>
+
+    <div class="card leader-card">
       <h2>🏆 Hall of Fame</h2>
-      <label>Rank #1 (Format: Name - ₹00)</label>
+      
+      <label>Rank #1 (Format: Name - ₹Amount)</label>
       <input type="text" id="l1" placeholder="Rahul - ₹4,200">
       
       <label>Rank #2</label>
@@ -140,13 +155,13 @@
       <label>Rank #3</label>
       <input type="text" id="l3" placeholder="Arjun - ₹2,500">
 
-      <button class="push-btn" style="background: #0f172a; border: 1px solid var(--admin-red); box-shadow: none;" onclick="saveLeaderboard()">UPDATE RANKINGS</button>
+      <button class="push-btn" style="background: var(--gold); color: #000;" onclick="saveLeaderboard()">UPDATE RANKINGS</button>
     </div>
+
   </div>
 
-  <div class="status-bar">
-    <div class="pulse"></div>
-    CONNECTED TO FIREBASE CLOUD (NICE-JOB-F79DE)
+  <div class="status-footer">
+    SECURE FIREBASE CONNECTION ACTIVE ● NICE-JOB-F79DE
   </div>
 
   <script type="module">
@@ -165,39 +180,56 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    // Save Daily Task
     window.saveTask = async () => {
       const name = document.getElementById('tName').value;
       const reward = document.getElementById('tReward').value;
       const steps = document.getElementById('tSteps').value.split('\n').filter(s => s.trim() !== "");
-      
-      if(!name || !reward) return alert("Please fill all details");
+
+      if(!name || !reward) return alert("Please fill Task details");
 
       try {
-        await setDoc(doc(db, "settings", "dailyTask"), { 
-          name, 
-          reward: parseFloat(reward), 
+        await setDoc(doc(db, "settings", "dailyTask"), {
+          name,
+          reward: parseFloat(reward),
           steps,
-          lastUpdated: new Date()
+          updatedAt: new Date()
         });
-        alert("Success! The mission is now live for all users.");
-      } catch (err) {
-        alert("Error: " + err.message);
-      }
+        alert("Daily Task updated successfully!");
+      } catch (e) { alert("Error: " + e.message); }
     };
 
+    // Save Bonus Reward
+    window.saveBonus = async () => {
+      const name = document.getElementById('bName').value;
+      const amount = document.getElementById('bAmount').value;
+      const lockCount = document.getElementById('bLockCount').value;
+
+      if(!name || !amount) return alert("Please fill Bonus details");
+
+      try {
+        await setDoc(doc(db, "settings", "bonusReward"), {
+          name,
+          amount: parseFloat(amount),
+          lockCount: parseInt(lockCount),
+          updatedAt: new Date()
+        });
+        alert("Bonus Mission updated successfully!");
+      } catch (e) { alert("Error: " + e.message); }
+    };
+
+    // Save Leaderboard
     window.saveLeaderboard = async () => {
       const ranks = [
-        document.getElementById('l1').value || "Empty - ₹0",
-        document.getElementById('l2').value || "Empty - ₹0",
-        document.getElementById('l3').value || "Empty - ₹0"
+        document.getElementById('l1').value || "User - ₹0",
+        document.getElementById('l2').value || "User - ₹0",
+        document.getElementById('l3').value || "User - ₹0"
       ];
-      
+
       try {
         await setDoc(doc(db, "settings", "leaderboard"), { ranks });
-        alert("Hall of Fame updated!");
-      } catch (err) {
-        alert("Error: " + err.message);
-      }
+        alert("Leaderboard updated successfully!");
+      } catch (e) { alert("Error: " + e.message); }
     };
   </script>
 </body>
