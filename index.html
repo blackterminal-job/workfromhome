@@ -21,7 +21,7 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: var(--dark-bg);
       color: #fff;
-      padding-bottom: 80px; /* Space for sticky nav */
+      padding-bottom: 90px;
     }
 
     /* --- TOP HEADER --- */
@@ -58,10 +58,38 @@
     .progress-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
     .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 1s ease; }
 
-    /* --- TASK CARDS --- */
-    .section-title { padding: 0 20px; font-size: 18px; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-    .section-title span { width: 8px; height: 20px; background: var(--accent); border-radius: 10px; }
+    /* --- SECTION TITLES --- */
+    .section-title { padding: 0 20px; font-size: 18px; font-weight: 700; margin: 25px 0 15px; display: flex; align-items: center; gap: 8px; }
+    .section-title span { width: 4px; height: 18px; background: var(--accent); border-radius: 10px; }
 
+    /* --- LEADERBOARD --- */
+    .leader-scroll { display: flex; gap: 12px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; }
+    .leader-scroll::-webkit-scrollbar { display: none; }
+    .leader-card {
+      background: var(--card-bg); padding: 16px; border-radius: 22px; min-width: 140px; 
+      text-align: center; border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* --- MARKETING BOX --- */
+    .promo-box {
+      margin: 0 16px 20px;
+      background: linear-gradient(to right, #007aff, #00c6ff);
+      padding: 20px;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .promo-icon { font-size: 32px; }
+    .promo-content h3 { margin: 0; font-size: 16px; font-weight: 800; }
+    .promo-content p { margin: 4px 0 10px; font-size: 12px; opacity: 0.9; }
+    .promo-btn { 
+      background: #fff; color: var(--accent); padding: 8px 16px; 
+      border-radius: 12px; text-decoration: none; font-size: 12px; font-weight: 800; 
+      display: inline-block;
+    }
+
+    /* --- TASK CARDS --- */
     .task-card {
       margin: 0 16px 16px;
       background: var(--card-bg);
@@ -86,42 +114,39 @@
     .btn-wa { background: #25D366; color: white; margin-top: 10px; }
     .btn:active { transform: scale(0.96); }
 
-    /* --- BIG TASK (LOCKED) --- */
-    .locked-card { background: #1a1a1a; opacity: 0.8; }
+    /* --- LOCKED CARD --- */
     .lock-overlay {
-      position: absolute; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
       border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5;
     }
-    .lock-icon { font-size: 30px; margin-bottom: 10px; }
 
-    /* --- BOTTOM BAR --- */
+    /* --- BOTTOM NAV --- */
     .bottom-nav {
-      position: fixed; bottom: 0; left: 0; right: 0; height: 70px; background: rgba(17, 24, 39, 0.9);
-      backdrop-filter: blur(15px); border-top: 1px solid rgba(255,255,255,0.05);
-      display: flex; justify-content: space-around; align-items: center; z-index: 100;
+      position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex; justify-content: space-around; align-items: center; z-index: 100; padding-bottom: 10px;
     }
-    .nav-item { text-align: center; color: #6b7280; text-decoration: none; font-size: 11px; font-weight: 600; }
+    .nav-item { text-align: center; color: #6b7280; text-decoration: none; font-size: 11px; font-weight: 700; }
     .nav-item.active { color: var(--accent); }
-    .nav-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+    .nav-icon { font-size: 22px; display: block; margin-bottom: 4px; }
 
-    /* --- FLASH MESSAGE --- */
     #toast {
       position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
       background: var(--success); color: white; padding: 12px 24px; border-radius: 50px;
-      font-weight: 600; font-size: 14px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      font-weight: 700; font-size: 14px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
       display: none; z-index: 1000;
     }
   </style>
 </head>
 <body>
 
-  <div id="toast">Reward added! 🎉</div>
+  <div id="toast">Reward claimed! 🎉</div>
 
   <div class="header">
     <div class="profile-info">
       <div class="avatar">U</div>
       <div>
-        <div style="font-size: 14px; font-weight: 700;">Partner Panel</div>
+        <div style="font-size: 14px; font-weight: 800;">Partner Panel</div>
         <div style="font-size: 11px; color: var(--success);">Online & Active</div>
       </div>
     </div>
@@ -129,7 +154,7 @@
   </div>
 
   <div class="wallet-card">
-    <div class="wallet-label">Total Earnings</div>
+    <div class="wallet-label">My Wallet</div>
     <div class="wallet-balance"><span>₹</span><span id="totalEarn">0.00</span></div>
     
     <div class="progress-box">
@@ -143,50 +168,78 @@
     </div>
   </div>
 
-  <div class="section-title"><span></span> Today's Tasks</div>
+  <div class="section-title"><span></span> Top Performers</div>
+  <div class="leader-scroll">
+    <div class="leader-card" style="border-color: var(--gold);">
+      <div style="font-size: 24px;">🥇</div>
+      <div style="font-weight: 800; font-size: 14px; margin: 5px 0;">Rahul S.</div>
+      <div style="color: var(--gold); font-size: 12px; font-weight: 700;">₹4,250</div>
+    </div>
+    <div class="leader-card">
+      <div style="font-size: 24px;">🥈</div>
+      <div style="font-weight: 800; font-size: 14px; margin: 5px 0;">Priya M.</div>
+      <div style="color: #94a3b8; font-size: 12px; font-weight: 700;">₹2,800</div>
+    </div>
+    <div class="leader-card">
+      <div style="font-size: 24px;">🥉</div>
+      <div style="font-weight: 800; font-size: 14px; margin: 5px 0;">Amit K.</div>
+      <div style="color: #cd7f32; font-size: 12px; font-weight: 700;">₹1,500</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span></span> Resources</div>
+  <div class="promo-box">
+    <div class="promo-icon">📁</div>
+    <div class="promo-content">
+      <h3>Ad Materials</h3>
+      <p>Get posters & WhatsApp captions to share.</p>
+      <a href="assets.html" class="promo-btn">Open Library →</a>
+    </div>
+  </div>
+
+  <div class="section-title"><span></span> Available Tasks</div>
 
   <div class="task-card">
     <div class="task-header">
-      <div class="reward-tag">Small Task</div>
+      <div class="reward-tag">Daily Task</div>
       <div style="font-weight: 800; color: var(--success);" id="taskReward">₹0.50</div>
     </div>
-    <div class="task-name" id="taskName">Loading Task...</div>
+    <div class="task-name" id="taskName">Loading...</div>
     
-    <div class="step-list" id="stepList">
-      </div>
+    <div class="step-list" id="stepList"></div>
 
     <button class="btn btn-primary" onclick="completeTask()">Claim Reward</button>
-    <button class="btn btn-wa" onclick="sendProof()">Send Proof to Admin</button>
+    <button class="btn btn-wa" onclick="sendProof()">Send Proof (WhatsApp)</button>
   </div>
 
-  <div class="section-title"><span></span> Bonus Reward</div>
-  <div class="task-card" id="bigCard">
+  <div class="section-title"><span></span> High Earning</div>
+  <div class="task-card">
     <div id="bigLock" class="lock-overlay">
-      <div class="lock-icon">🔒</div>
-      <div style="font-weight: 700; font-size: 14px;">Finish 2 more tasks</div>
+      <div style="font-size: 30px; margin-bottom: 10px;">🔒</div>
+      <div style="font-weight: 700; font-size: 14px;">Complete 2 more tasks</div>
     </div>
     
     <div class="task-header">
-      <div class="reward-tag" style="background: rgba(255,204,0,0.1); color: var(--gold);">Special Bonus</div>
+      <div class="reward-tag" style="background: rgba(255,204,0,0.1); color: var(--gold);">Big Bonus</div>
       <div style="font-weight: 800; color: var(--gold);">₹500.00</div>
     </div>
-    <div class="task-name">Bring 1 Confirmed Admission</div>
-    <p style="font-size: 12px; color: #6b7280; margin-bottom: 15px;">Huge bonus for every admission through your referral link.</p>
-    <button class="btn" style="background: var(--gold); color: black;">Unlock Now</button>
+    <div class="task-name">New Confirmed Admission</div>
+    <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">Earn flat ₹500 for every successful admission via your code.</p>
+    <button class="btn" style="background: var(--gold); color: #000;">Copy Referral Link</button>
   </div>
 
   <nav class="bottom-nav">
-    <a href="#" class="nav-item active"><span class="nav-icon">🏠</span>Home</a>
-    <a href="#" class="nav-item"><span class="nav-icon">📊</span>Stats</a>
-    <a href="https://wa.me/917008186187" class="nav-item"><span class="nav-icon">💬</span>Support</a>
-    <a href="#" class="nav-item"><span class="nav-icon">⚙️</span>Menu</a>
+    <a href="index.html" class="nav-item active"><span class="nav-icon">🏠</span>Home</a>
+    <a href="profile.html" class="nav-item"><span class="nav-icon">👤</span>Profile</a>
+    <a href="apply.html" class="nav-item"><span class="nav-icon">📝</span>Apply</a>
+    <a href="contact.html" class="nav-item"><span class="nav-icon">📞</span>Help</a>
   </nav>
 
   <script>
     const TASKS = [
       { name: "Share Course Poster on WhatsApp Status", reward: 0.50, steps: ["Download today's poster", "Upload on status", "Wait for 10 views"] },
       { name: "Send Brochure to 5 Friends", reward: 0.80, steps: ["Copy brochure text", "Send to 5 people", "Get 2 replies"] },
-      { name: "Post in Computer Education FB Groups", reward: 1.20, steps: ["Find 2 Student groups", "Post admission link", "Take screenshot"] }
+      { name: "Post in FB Student Groups", reward: 1.20, steps: ["Find 2 Student groups", "Post admission link", "Take screenshot"] }
     ];
 
     let earnings = parseFloat(localStorage.getItem('earnings')) || 0;
@@ -199,16 +252,13 @@
     }
 
     function updateUI() {
-      // Counter animation
       document.getElementById('totalEarn').innerText = earnings.toFixed(2);
       
-      // Progress calculation
       let progress = (taskCount % 3) * 33.3;
       if(taskCount > 0 && taskCount % 3 === 0) progress = 100;
       document.getElementById('progressFill').style.width = progress + "%";
       document.getElementById('progressPercent').innerText = Math.round(progress) + "%";
 
-      // Big Task Unlock
       if(taskCount >= 2) {
         document.getElementById('bigLock').style.display = 'none';
       } else {
@@ -235,7 +285,6 @@
       earnings += currentReward;
       taskCount++;
       
-      // Show toast
       const toast = document.getElementById('toast');
       toast.style.display = 'block';
       setTimeout(() => toast.style.display = 'none', 2000);
@@ -246,11 +295,9 @@
 
     function sendProof() {
       const task = document.getElementById('taskName').innerText;
-      const url = `https://wa.me/917008186187?text=Task Done: ${encodeURIComponent(task)} - Please verify.`;
-      window.open(url, '_blank');
+      window.open(`https://wa.me/917008186187?text=Task Done: ${encodeURIComponent(task)}`, '_blank');
     }
 
-    // Init
     window.onload = () => {
       updateUI();
       loadNewTask();
