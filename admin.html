@@ -8,165 +8,155 @@
   <style>
     :root {
       --admin-red: #ff3b30;
-      --admin-glow: rgba(255, 59, 48, 0.3);
       --bg: #020617;
       --surface: #0f172a;
       --accent: #38bdf8;
       --gold: #ffcc00;
+      --success: #34c759;
+      --bonus: #ff9500;
+      --text-muted: #64748b;
     }
 
     body {
-      margin: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: var(--bg);
-      color: #f1f5f9;
-      padding: 20px;
-      padding-bottom: 50px;
+      margin: 0; font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg); color: #f1f5f9; padding: 20px; padding-bottom: 50px;
     }
 
     /* --- HEADER --- */
     .admin-nav {
-      background: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(15px);
-      padding: 25px;
-      border-radius: 28px;
-      border: 1px solid rgba(255, 59, 48, 0.2);
-      margin-bottom: 30px;
-      text-align: center;
+      background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px);
+      padding: 25px; border-radius: 28px; border: 1px solid rgba(255, 59, 48, 0.2);
+      margin-bottom: 30px; text-align: center;
     }
     .badge {
-      background: var(--admin-red);
-      color: white;
-      padding: 4px 12px;
-      border-radius: 8px;
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      background: var(--admin-red); color: white; padding: 4px 12px;
+      border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase;
     }
 
-    /* --- BENTO GRID --- */
+    /* --- GRID --- */
     .grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
-    @media (min-width: 768px) { .grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
 
     .card {
-      background: var(--surface);
-      border-radius: 30px;
-      padding: 25px;
-      border: 1px solid rgba(255,255,255,0.05);
-      position: relative;
-      overflow: hidden;
+      background: var(--surface); border-radius: 30px; padding: 25px;
+      border: 1px solid rgba(255,255,255,0.05); position: relative;
     }
 
     h2 { font-size: 18px; font-weight: 800; margin-top: 0; display: flex; align-items: center; gap: 10px; color: #fff; }
-    .card.task-card h2 { color: var(--accent); }
-    .card.leader-card h2 { color: var(--gold); }
-    .card.bonus-card h2 { color: #ff9500; }
 
-    /* --- FORM ELEMENTS --- */
-    label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px; display: block; margin-top: 15px; }
-    
+    /* --- TABLE STYLES --- */
+    .table-container { overflow-x: auto; margin-top: 15px; }
+    table { width: 100%; border-collapse: collapse; min-width: 500px; }
+    th { text-align: left; font-size: 11px; color: var(--text-muted); padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-transform: uppercase; }
+    td { padding: 12px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+
+    .upi-tag { background: rgba(56, 189, 248, 0.1); color: var(--accent); padding: 4px 8px; border-radius: 6px; font-family: monospace; }
+    .status-paid { color: var(--success); font-weight: 800; font-size: 11px; }
+
+    /* --- FORM --- */
+    label { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-top: 15px; display: block; margin-bottom: 5px; }
     input, textarea {
-      width: 100%;
-      background: #020617;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 15px;
-      color: white;
-      font-family: inherit;
-      font-weight: 600;
-      box-sizing: border-box;
+      width: 100%; background: #020617; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px; padding: 12px; color: white; font-family: inherit; margin-bottom: 10px;
     }
-    input:focus { border-color: var(--admin-red); outline: none; }
 
     .push-btn {
-      background: var(--admin-red);
-      color: white;
-      border: none;
-      padding: 18px;
-      border-radius: 20px;
-      width: 100%;
-      font-weight: 800;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: 0.3s;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      background: var(--admin-red); color: white; border: none; padding: 15px;
+      border-radius: 16px; width: 100%; font-weight: 800; cursor: pointer; transition: 0.3s;
     }
-    .push-btn:active { transform: scale(0.96); }
+    .push-btn:hover { opacity: 0.9; transform: translateY(-2px); }
 
-    .status-footer {
-      margin-top: 40px;
-      text-align: center;
-      font-size: 11px;
-      color: #475569;
-      letter-spacing: 1px;
+    .pay-btn {
+      background: var(--success); color: white; border: none; padding: 6px 12px;
+      border-radius: 8px; font-weight: 800; font-size: 11px; cursor: pointer;
     }
   </style>
 </head>
 <body>
 
   <div class="admin-nav">
-    <span class="badge">System Admin</span>
-    <h1 style="margin: 10px 0 0; font-size: 24px; font-weight: 800;">Command Center</h1>
+    <span class="badge">Live Command Center</span>
+    <h1 style="margin: 10px 0 0; font-size: 24px;">Admin Control Panel</h1>
   </div>
 
   <div class="grid">
     
-    <div class="card task-card">
-      <h2>📡 Daily Mission</h2>
-      
+    <div class="card" style="grid-column: 1 / -1;">
+      <h2 style="color: var(--success);">💸 Pending Withdrawals</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Partner</th>
+              <th>UPI ID</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="withdrawTable">
+            <tr><td colspan="5" style="text-align:center; color:var(--text-muted)">Loading requests...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="color: var(--accent);">📡 Daily Mission</h2>
       <label>Task Title</label>
-      <input type="text" id="tName" placeholder="e.g. Share Poster on Status">
-      
-      <label>Reward Amount (₹)</label>
-      <input type="number" id="tReward" step="0.01" placeholder="0.50">
-
-      <label>Steps (One per line)</label>
-      <textarea id="tSteps" rows="4" placeholder="Step 1&#10;Step 2&#10;Step 3"></textarea>
-
+      <input type="text" id="tName" placeholder="Share Poster on Status">
+      <label>Reward (₹)</label>
+      <input type="number" id="tReward" placeholder="0.50">
+      <label>Steps</label>
+      <textarea id="tSteps" rows="3" placeholder="Step 1&#10;Step 2"></textarea>
       <button class="push-btn" style="background: var(--accent);" onclick="saveTask()">UPDATE DAILY TASK</button>
     </div>
 
-    <div class="card bonus-card">
-      <h2>🎁 Bonus Reward</h2>
-      
+    <div class="card">
+      <h2 style="color: var(--bonus);">🎁 Bonus Mission</h2>
       <label>Bonus Task Name</label>
-      <input type="text" id="bName" placeholder="e.g. Bring 1 Admission">
-      
+      <input type="text" id="bName" placeholder="Mega Admission Bonus">
       <label>Bonus Amount (₹)</label>
       <input type="number" id="bAmount" placeholder="500">
-
-      <label>Tasks Needed to Unlock</label>
-      <input type="number" id="bLockCount" placeholder="2">
-
-      <button class="push-btn" style="background: #ff9500;" onclick="saveBonus()">UPDATE BONUS MISSION</button>
+      <label>Unlock Condition (Tasks Needed)</label>
+      <input type="number" id="bLockCount" placeholder="5">
+      <button class="push-btn" style="background: var(--bonus);" onclick="saveBonus()">UPDATE BONUS MISSION</button>
     </div>
 
-    <div class="card leader-card">
-      <h2>🏆 Hall of Fame</h2>
-      
-      <label>Rank #1 (Format: Name - ₹Amount)</label>
-      <input type="text" id="l1" placeholder="Rahul - ₹4,200">
-      
+    <div class="card">
+      <h2 style="color: var(--gold);">🏆 Hall of Fame</h2>
+      <label>Rank #1</label>
+      <input type="text" id="l1" placeholder="Name - ₹0">
       <label>Rank #2</label>
-      <input type="text" id="l2" placeholder="Sana - ₹3,100">
-
+      <input type="text" id="l2" placeholder="Name - ₹0">
       <label>Rank #3</label>
-      <input type="text" id="l3" placeholder="Arjun - ₹2,500">
-
-      <button class="push-btn" style="background: var(--gold); color: #000;" onclick="saveLeaderboard()">UPDATE RANKINGS</button>
+      <input type="text" id="l3" placeholder="Name - ₹0">
+      <button class="push-btn" style="background: var(--gold); color: #000;" onclick="saveLeaderboard()">UPDATE RANKS</button>
     </div>
 
-  </div>
+    <div class="card" style="grid-column: 1 / -1;">
+      <h2 style="color: var(--text-muted);">👥 Registered Partners</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Ref Code</th>
+              <th>Tasks Done</th>
+              <th>Wallet</th>
+            </tr>
+          </thead>
+          <tbody id="userTable">
+            </tbody>
+        </table>
+      </div>
+    </div>
 
-  <div class="status-footer">
-    SECURE FIREBASE CONNECTION ACTIVE ● NICE-JOB-F79DE
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, collection, onSnapshot, query, orderBy, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyA3JnXAzxRGcoEgH4pO2ecAREYZrio_nZ8",
@@ -180,57 +170,68 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Save Daily Task
+    // --- WITHDRAWALS LOGIC ---
+    onSnapshot(query(collection(db, "withdrawals"), orderBy("date", "desc")), (snapshot) => {
+      const tbody = document.getElementById('withdrawTable');
+      tbody.innerHTML = "";
+      snapshot.forEach((d) => {
+        const w = d.data();
+        tbody.innerHTML += `
+          <tr>
+            <td><b>${w.name}</b><br><small>${w.ref}</small></td>
+            <td><span class="upi-tag">${w.upi}</span></td>
+            <td>₹${w.amount}</td>
+            <td>${w.date?.toDate().toLocaleDateString('en-IN')}</td>
+            <td>
+              ${w.status === 'pending' ? `<button class="pay-btn" onclick="markPaid('${d.id}')">Mark Paid</button>` : `<span class="status-paid">PAID ✅</span>`}
+            </td>
+          </tr>
+        `;
+      });
+    });
+
+    window.markPaid = async (id) => {
+      if(confirm("Confirm Payment?")) await updateDoc(doc(db, "withdrawals", id), { status: "paid" });
+    };
+
+    // --- USERS LIST ---
+    onSnapshot(collection(db, "users"), (snapshot) => {
+      const tbody = document.getElementById('userTable');
+      tbody.innerHTML = "";
+      snapshot.forEach(d => {
+        const u = d.data();
+        tbody.innerHTML += `<tr><td>${u.name}</td><td>${u.referralCode}</td><td>${u.totalTasks || 0}</td><td style="color:var(--success)">₹${u.totalEarnings || 0}</td></tr>`;
+      });
+    });
+
+    // --- SAVE FUNCTIONS ---
     window.saveTask = async () => {
       const name = document.getElementById('tName').value;
       const reward = document.getElementById('tReward').value;
-      const steps = document.getElementById('tSteps').value.split('\n').filter(s => s.trim() !== "");
-
-      if(!name || !reward) return alert("Please fill Task details");
-
-      try {
-        await setDoc(doc(db, "settings", "dailyTask"), {
-          name,
-          reward: parseFloat(reward),
-          steps,
-          updatedAt: new Date()
-        });
-        alert("Daily Task updated successfully!");
-      } catch (e) { alert("Error: " + e.message); }
+      const steps = document.getElementById('tSteps').value.split('\n');
+      await setDoc(doc(db, "settings", "dailyTask"), { name, reward: parseFloat(reward), steps, updatedAt: new Date() });
+      alert("Daily Task Updated!");
     };
 
-    // Save Bonus Reward
     window.saveBonus = async () => {
       const name = document.getElementById('bName').value;
       const amount = document.getElementById('bAmount').value;
       const lockCount = document.getElementById('bLockCount').value;
-
-      if(!name || !amount) return alert("Please fill Bonus details");
-
-      try {
-        await setDoc(doc(db, "settings", "bonusReward"), {
-          name,
-          amount: parseFloat(amount),
-          lockCount: parseInt(lockCount),
-          updatedAt: new Date()
-        });
-        alert("Bonus Mission updated successfully!");
-      } catch (e) { alert("Error: " + e.message); }
+      await setDoc(doc(db, "settings", "bonusReward"), { 
+        name, 
+        amount: parseFloat(amount), 
+        lockCount: parseInt(lockCount), 
+        updatedAt: new Date() 
+      });
+      alert("Bonus Mission Updated!");
     };
 
-    // Save Leaderboard
     window.saveLeaderboard = async () => {
-      const ranks = [
-        document.getElementById('l1').value || "User - ₹0",
-        document.getElementById('l2').value || "User - ₹0",
-        document.getElementById('l3').value || "User - ₹0"
-      ];
-
-      try {
-        await setDoc(doc(db, "settings", "leaderboard"), { ranks });
-        alert("Leaderboard updated successfully!");
-      } catch (e) { alert("Error: " + e.message); }
+      const ranks = [document.getElementById('l1').value, document.getElementById('l2').value, document.getElementById('l3').value];
+      await setDoc(doc(db, "settings", "leaderboard"), { ranks });
+      alert("Leaderboard Updated!");
     };
+
   </script>
 </body>
 </html>
