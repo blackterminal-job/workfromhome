@@ -24,6 +24,7 @@
       padding-bottom: 95px; 
     }
 
+    /* --- TOP HEADER --- */
     .header {
       padding: 20px 16px;
       display: flex;
@@ -35,6 +36,7 @@
     .profile-info { display: flex; align-items: center; gap: 10px; }
     .avatar { width: 40px; height: 40px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid rgba(255,255,255,0.1); }
 
+    /* --- WALLET SECTION --- */
     .wallet-card {
       margin: 0 16px 15px;
       background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
@@ -62,9 +64,11 @@
       padding: 12px; border-radius: 16px; text-align: center; color: #94a3b8; text-decoration: none; font-size: 13px; font-weight: 700;
     }
 
+    /* --- SECTION TITLES --- */
     .section-title { padding: 0 20px; font-size: 18px; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
     .section-title span { width: 4px; height: 18px; background: var(--accent); border-radius: 10px; }
 
+    /* --- LEADERBOARD --- */
     .leader-scroll { display: flex; gap: 12px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; margin-bottom: 25px; }
     .leader-scroll::-webkit-scrollbar { display: none; }
     .leader-card {
@@ -72,6 +76,7 @@
       text-align: center; border: 1px solid rgba(255,255,255,0.05);
     }
 
+    /* --- RESOURCE BOX --- */
     .promo-box {
       margin: 0 16px 25px;
       background: linear-gradient(to right, #007aff, #00c6ff);
@@ -91,6 +96,7 @@
       display: inline-block;
     }
 
+    /* --- TASK CARDS --- */
     .task-card {
       margin: 0 16px 16px;
       background: var(--card-bg);
@@ -114,11 +120,13 @@
     .btn-primary { background: var(--accent); color: white; box-shadow: 0 10px 20px rgba(0, 122, 255, 0.2); }
     .btn-wa { background: #25D366; color: white; margin-top: 10px; }
 
+    /* --- LOCK OVERLAY --- */
     .lock-overlay {
       position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
       border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5;
     }
 
+    /* --- BOTTOM NAV --- */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: rgba(17, 24, 39, 0.95);
       backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.05);
@@ -202,16 +210,16 @@
   <div class="task-card">
     <div id="bigLock" class="lock-overlay">
       <div style="font-size: 30px; margin-bottom: 10px;">🔒</div>
-      <div style="font-weight: 700; font-size: 14px;">Complete 2 more tasks</div>
+      <div id="lockText" style="font-weight: 700; font-size: 14px;">Complete more tasks</div>
     </div>
     
     <div class="task-header">
       <div class="reward-tag" style="background: rgba(255,204,0,0.1); color: var(--gold);">Special</div>
-      <div style="font-weight: 800; color: var(--gold);">₹500.00</div>
+      <div style="font-weight: 800; color: var(--gold);" id="bonusAmount">₹0.00</div>
     </div>
-    <div class="task-name">Bring 1 Admission</div>
+    <div class="task-name" id="bonusName">Bring 1 Admission</div>
     <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">Earn a huge bonus for every confirmed admission.</p>
-    <button class="btn" style="background: var(--gold); color: #000;">Unlock Now</button>
+    <button class="btn" style="background: var(--gold); color: #000;" onclick="sendBonusProof()">Unlock Now</button>
   </div>
 
   <nav class="bottom-nav">
@@ -239,24 +247,21 @@
 
     let earnings = parseFloat(localStorage.getItem('earnings')) || 0;
     let taskCount = parseInt(localStorage.getItem('taskCount')) || 0;
+    let requiredTasks = 2; // Admin se update hoga
 
-    // 1. Fetch Task from Firebase
+    // 1. Daily Task Sync
     onSnapshot(doc(db, "settings", "dailyTask"), (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
         document.getElementById('taskName').innerText = data.name;
         document.getElementById('taskReward').innerText = "₹" + data.reward.toFixed(2);
-        const list = document.getElementById('stepList');
-        list.innerHTML = data.steps.map((s, i) => `
-          <div class="step-item">
-            <span class="step-num">${i+1}.</span>
-            <span>${s}</span>
-          </div>
+        document.getElementById('stepList').innerHTML = data.steps.map((s, i) => `
+          <div class="step-item"><span class="step-num">${i+1}.</span><span>${s}</span></div>
         `).join('');
       }
     });
 
-    // 2. Fetch Leaderboard from Firebase
+    // 2. Leaderboard Sync
     onSnapshot(doc(db, "settings", "leaderboard"), (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
@@ -264,24 +269,31 @@
         container.innerHTML = data.ranks.map((r, i) => {
           const [name, earn] = r.split('-');
           const colors = ['#ffcc00', '#94a3b8', '#cd7f32'];
-          const emojis = ['🥇', '🥈', '🥉'];
           return `
             <div class="leader-card" style="border-color: ${colors[i] || '#111827'}">
-              <div style="font-size: 24px;">${emojis[i] || '👤'}</div>
+              <div style="font-size: 24px;">${['🥇','🥈','🥉'][i] || '👤'}</div>
               <div style="font-weight: 800; font-size: 14px; margin: 5px 0;">${name}</div>
               <div style="color: ${colors[i] || '#fff'}; font-size: 12px; font-weight: 700;">${earn}</div>
-            </div>
-          `;
+            </div>`;
         }).join('');
       }
     });
 
-    // 3. Complete Task Logic
+    // 3. Bonus Reward Sync
+    onSnapshot(doc(db, "settings", "bonusReward"), (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById('bonusName').innerText = data.name;
+        document.getElementById('bonusAmount').innerText = "₹" + data.amount.toFixed(2);
+        requiredTasks = data.lockCount; 
+        updateUI();
+      }
+    });
+
     window.completeTask = () => {
       const rewardVal = parseFloat(document.getElementById('taskReward').innerText.replace('₹', ''));
       earnings += rewardVal;
       taskCount++;
-      
       localStorage.setItem('earnings', earnings);
       localStorage.setItem('taskCount', taskCount);
       
@@ -293,16 +305,31 @@
 
     window.updateUI = () => {
       document.getElementById('totalEarn').innerText = earnings.toFixed(2);
-      let progress = (taskCount % 3) * 33.3;
-      if(taskCount > 0 && taskCount % 3 === 0) progress = 100;
+      
+      // Progress calculation
+      let progress = (taskCount % requiredTasks) * (100 / requiredTasks);
+      if(taskCount >= requiredTasks) progress = 100;
       document.getElementById('progressFill').style.width = progress + "%";
       document.getElementById('progressPercent').innerText = Math.round(progress) + "%";
-      document.getElementById('bigLock').style.display = (taskCount >= 2) ? 'none' : 'flex';
+
+      // Lock Logic
+      const lockOverlay = document.getElementById('bigLock');
+      if (taskCount >= requiredTasks) {
+        lockOverlay.style.display = 'none';
+      } else {
+        lockOverlay.style.display = 'flex';
+        document.getElementById('lockText').innerText = `Complete ${requiredTasks - taskCount} more tasks`;
+      }
     };
 
     window.sendProof = () => {
       const task = document.getElementById('taskName').innerText;
       window.open(`https://wa.me/917008186187?text=Task Done: ${encodeURIComponent(task)}`, '_blank');
+    };
+
+    window.sendBonusProof = () => {
+      const bTask = document.getElementById('bonusName').innerText;
+      window.open(`https://wa.me/917008186187?text=Bonus Task: ${encodeURIComponent(bTask)}`, '_blank');
     };
 
     updateUI();
