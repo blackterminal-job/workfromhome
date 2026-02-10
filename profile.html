@@ -4,318 +4,209 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
   <title>My Profile | BlackTerminal</title>
-
   <style>
     :root {
-      --primary: #0a84ff;
-      --success: #25D366;
-      --bg: #0b1220;
-      --card-bg: #ffffff;
-      --text: #111;
-      --muted: #666;
-      --glass: rgba(255, 255, 255, 0.1);
+      --accent: #007aff;
+      --success: #34c759;
+      --dark-bg: #050a12;
+      --card-bg: #111827;
+      --text-muted: #94a3b8;
     }
 
     body {
       margin: 0;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: #f0f2f5;
-      color: var(--text);
+      font-family: -apple-system, system-ui, sans-serif;
+      background-color: var(--dark-bg);
+      color: #fff;
+      padding-bottom: 90px;
     }
 
-    /* --- NAV --- */
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: #0b1220;
-      color: #fff;
-      padding: 12px 16px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    .nav-in {
-      max-width: 1050px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .brand { font-weight: 900; letter-spacing: -0.5px; }
-    .brand span { color: var(--primary); }
-    .menu { display: flex; gap: 12px; }
-    .menu a { color: #fff; text-decoration: none; font-size: 13px; font-weight: 700; opacity: 0.8; }
-
-    /* --- HERO --- */
-    .hero {
-      background: linear-gradient(135deg, #0b1220 0%, #1e293b 100%);
-      color: #fff;
+    /* --- PROFILE HEADER --- */
+    .profile-header {
+      background: linear-gradient(135deg, #007aff 0%, #00c6ff 100%);
       padding: 40px 20px;
       text-align: center;
-      border-radius: 0 0 30px 30px;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
+      box-shadow: 0 10px 30px rgba(0, 122, 255, 0.3);
     }
-    .avatar-circle {
-      width: 70px;
-      height: 70px;
-      background: var(--primary);
-      margin: 0 auto 15px;
+
+    .big-avatar {
+      width: 90px;
+      height: 90px;
+      background: #fff;
+      color: var(--accent);
       border-radius: 50%;
+      margin: 0 auto 15px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 30px;
+      font-size: 32px;
       font-weight: 900;
-      border: 4px solid var(--glass);
+      border: 4px solid rgba(255,255,255,0.2);
     }
-    .hero h1 { margin: 0; font-size: 24px; font-weight: 800; }
-    .hero p { opacity: 0.7; font-size: 14px; margin-top: 5px; }
 
-    .wrap { max-width: 600px; margin: -40px auto 40px; padding: 0 16px; }
+    .user-name { font-size: 22px; font-weight: 800; margin: 0; }
+    .user-role { font-size: 13px; opacity: 0.9; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+    .wrap { padding: 0 16px; margin-top: -30px; }
 
     /* --- STATS CARD --- */
-    .stats-card {
-      background: #fff;
+    .stats-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 24px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .stat-val { font-size: 20px; font-weight: 800; display: block; }
+    .stat-lab { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+
+    /* --- ID CARD SECTION --- */
+    .id-box {
+      background: var(--card-bg);
       border-radius: 24px;
       padding: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      border: 1px solid rgba(255,255,255,0.05);
       margin-bottom: 20px;
     }
-    .stat-item { text-align: center; }
-    .stat-val { font-size: 18px; font-weight: 900; color: #000; display: block; }
-    .stat-lbl { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
 
-    /* --- BOXES --- */
-    .box {
-      background: #fff;
-      border-radius: 24px;
-      padding: 24px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-      border: 1px solid rgba(0,0,0,0.03);
-    }
-    .box-title { font-size: 18px; font-weight: 800; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
-    .box-title::before { content: ''; width: 4px; height: 18px; background: var(--primary); border-radius: 10px; }
-
-    /* --- INPUTS --- */
-    .input-group { margin-bottom: 15px; }
-    label { display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: var(--muted); padding-left: 4px; }
-    .in {
-      width: 100%;
-      padding: 14px;
-      border-radius: 14px;
-      border: 2px solid #f0f2f5;
-      background: #f8f9fa;
-      font-size: 15px;
-      font-weight: 700;
-      box-sizing: border-box;
-      transition: 0.2s;
-    }
-    .in:focus {
-      border-color: var(--primary);
-      background: #fff;
-      outline: none;
-    }
-
-    /* --- BUTTON --- */
-    .btn-withdraw {
-      width: 100%;
-      padding: 16px;
-      border-radius: 16px;
-      border: none;
-      background: var(--success);
-      color: #fff;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2);
-      transition: 0.2s;
-    }
-    .btn-withdraw:active { transform: scale(0.98); }
-
-    .note {
-      background: #fff9db;
-      color: #856404;
-      padding: 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      border: 1px solid #ffeeba;
-    }
-
-    /* --- HISTORY --- */
-    .history-item {
-      padding: 15px;
-      border-bottom: 1px solid #f0f2f5;
+    .info-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
-    .history-item:last-child { border: none; }
-    .hist-amt { font-weight: 900; font-size: 16px; }
-    .hist-status { font-size: 10px; background: #e8f5e9; color: #2e7d32; padding: 4px 8px; border-radius: 99px; font-weight: 800; }
-    .hist-date { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
+    .info-row:last-child { border: none; }
+    .info-label { color: var(--text-muted); font-size: 13px; font-weight: 600; }
+    .info-value { font-size: 13px; font-weight: 700; color: #f3f4f6; }
 
-    @media(max-width:480px) {
-      .stats-card { padding: 15px 10px; }
-      .stat-val { font-size: 15px; }
+    .ref-code-box {
+      background: rgba(0, 122, 255, 0.1);
+      border: 1px dashed var(--accent);
+      padding: 15px;
+      border-radius: 16px;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .btn-copy {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: 800;
+      width: 100%;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    /* --- BOTTOM NAV --- */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex; justify-content: space-around; align-items: center; z-index: 100; padding-bottom: 10px;
+    }
+    .nav-item { text-align: center; color: #6b7280; text-decoration: none; font-size: 11px; font-weight: 700; }
+    .nav-item.active { color: var(--accent); }
+    .nav-icon { font-size: 22px; display: block; margin-bottom: 4px; }
+
+    #toast {
+      position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+      background: var(--success); color: white; padding: 12px 24px; border-radius: 50px;
+      font-weight: 700; font-size: 14px; display: none; z-index: 1000;
     }
   </style>
 </head>
-
 <body>
 
-  <nav class="nav">
-    <div class="nav-in">
-      <div class="brand">BLACK<span>TERMINAL</span></div>
-      <div class="menu">
-        <a href="index.html">Home</a>
-        <a href="profile.html" style="opacity: 1; border-bottom: 2px solid var(--primary);">Profile</a>
-      </div>
-    </div>
-  </nav>
+  <div id="toast">Code Copied! 📋</div>
 
-  <div class="hero">
-    <div class="avatar-circle">U</div>
-    <h1>Account Overview</h1>
-    <p>Manage your earnings & withdrawals</p>
+  <div class="profile-header">
+    <div class="big-avatar" id="userInitial">U</div>
+    <h1 class="user-name">Student Partner</h1>
+    <div class="user-role">Verified Referral Agent</div>
   </div>
 
   <div class="wrap">
     
-    <div class="stats-card">
-      <div class="stat-item">
-        <span class="stat-lbl">Lifetime</span>
-        <span class="stat-val">₹<span id="pfTotalEarn">0.00</span></span>
+    <div class="stats-container">
+      <div class="stat-card">
+        <span class="stat-val" id="totalEarned">₹0.00</span>
+        <span class="stat-lab">Total Earned</span>
       </div>
-      <div class="stat-item" style="border-left: 1px solid #eee; border-right: 1px solid #eee;">
-        <span class="stat-lbl">Paid Out</span>
-        <span class="stat-val">₹<span id="pfTotalWithdraw">0.00</span></span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-lbl">Balance</span>
-        <span class="stat-val" style="color: var(--primary);">₹<span id="pfBalance">0.00</span></span>
+      <div class="stat-card">
+        <span class="stat-val" id="taskCount">0</span>
+        <span class="stat-lab">Tasks Done</span>
       </div>
     </div>
 
-    <div class="note">
-      ⚠️ <b>Min. Payout: ₹500</b>. Verification usually takes 12-24 hours.
-    </div>
-
-    <div class="box">
-      <div class="box-title">Payout Settings</div>
+    <div class="id-box">
+      <h3 style="margin-top:0; font-size: 16px;">Identity Info</h3>
       
-      <div class="input-group">
-        <label>REFERRAL CODE</label>
-        <input id="pfReferralCode" class="in" placeholder="Enter your ID (e.g. BT-101)">
+      <div class="info-row">
+        <span class="info-label">Partner ID</span>
+        <span class="info-value">#BT2026-001</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Join Date</span>
+        <span class="info-value">Feb 2026</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Account Status</span>
+        <span class="info-value" style="color: var(--success);">● Active</span>
       </div>
 
-      <div class="input-group">
-        <label>UPI ID FOR PAYMENT</label>
-        <input id="pfUPI" class="in" placeholder="username@upi">
+      <div class="ref-code-box">
+        <div class="info-label" style="margin-bottom: 5px;">Your Referral Code</div>
+        <div id="myCode" style="font-size: 24px; font-weight: 900; color: var(--accent); letter-spacing: 2px;">BTP-7008</div>
+        <button class="btn-copy" onclick="copyRef()">Copy & Share Link</button>
       </div>
-
-      <div class="input-group" style="margin-top: 20px; border-top: 1px solid #f0f2f5; padding-top: 20px;">
-        <label>WITHDRAW AMOUNT</label>
-        <input id="pfWithdrawAmt" class="in" type="number" placeholder="Min. ₹500">
-      </div>
-
-      <button class="btn-withdraw" id="pfWithdrawBtn">
-        Request Payout
-      </button>
     </div>
 
-    <div class="box">
-      <div class="box-title">Recent Activity</div>
-      <div id="pfWithdrawHistory">
-        </div>
-    </div>
-
-    <footer style="text-align: center; padding: 20px; font-size: 12px; color: var(--muted); font-weight: 700;">
-      © BlackTerminal Computer Institute
-    </footer>
+    <a href="https://wa.me/917008186187?text=Hi, I want to update my profile details" 
+       style="display: block; text-align: center; color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 600;">
+       Edit Profile Details? Contact Admin
+    </a>
 
   </div>
 
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Home</a>
+    <a href="profile.html" class="nav-item active"><span class="nav-icon">👤</span>Profile</a>
+    <a href="apply.html" class="nav-item"><span class="nav-icon">📝</span>Apply</a>
+    <a href="contact.html" class="nav-item"><span class="nav-icon">📞</span>Help</a>
+  </nav>
+
   <script>
-    const ADMIN_WA = "917008186187";
-    const EARN_KEY = "bt_total_earn_lifetime";
-    const WD_KEY = "bt_withdraw_total";
-    const WD_LIST_KEY = "bt_withdraw_list";
-    const REF_KEY = "bt_referral_code";
-    const UPI_KEY = "bt_upi_id";
-    const MIN_WITHDRAW = 500;
-
-    function num(key){ return parseFloat(localStorage.getItem(key) || "0"); }
-    function setnum(key,val){ localStorage.setItem(key, Number(val).toFixed(2)); }
-
-    function renderWithdrawHistory(){
-      const list = JSON.parse(localStorage.getItem(WD_LIST_KEY) || "[]");
-      const box = document.getElementById("pfWithdrawHistory");
-      if(list.length === 0){
-        box.innerHTML = "<div style='text-align:center; padding:20px; opacity:0.5; font-size:13px; font-weight:700;'>No history available</div>";
-        return;
-      }
-      box.innerHTML = list.slice().reverse().map(x => `
-        <div class="history-item">
-          <div>
-            <span class="hist-amt">₹${Number(x.amount).toFixed(2)}</span>
-            <span class="hist-date">${x.date}</span>
-          </div>
-          <span class="hist-status">PENDING</span>
-        </div>
-      `).join("");
-    }
-
-    function updateUI(){
-      const totalEarn = num(EARN_KEY);
-      const totalWithdraw = num(WD_KEY);
-      const balance = Math.max(0, totalEarn - totalWithdraw);
-
-      document.getElementById("pfTotalEarn").innerText = totalEarn.toFixed(2);
-      document.getElementById("pfTotalWithdraw").innerText = totalWithdraw.toFixed(2);
-      document.getElementById("pfBalance").innerText = balance.toFixed(2);
-
-      document.getElementById("pfReferralCode").value = localStorage.getItem(REF_KEY) || "";
-      document.getElementById("pfUPI").value = localStorage.getItem(UPI_KEY) || "";
-      renderWithdrawHistory();
-    }
-
-    // Auto Save
-    document.getElementById("pfReferralCode").addEventListener("input", e => localStorage.setItem(REF_KEY, e.target.value.trim()));
-    document.getElementById("pfUPI").addEventListener("input", e => localStorage.setItem(UPI_KEY, e.target.value.trim()));
-
-    document.getElementById("pfWithdrawBtn").onclick = () => {
-      const amt = Number(document.getElementById("pfWithdrawAmt").value);
-      const referral = document.getElementById("pfReferralCode").value.trim();
-      const upi = document.getElementById("pfUPI").value.trim();
-      const balance = num(EARN_KEY) - num(WD_KEY);
-
-      if(!referral || !upi || !upi.includes("@")) return alert("Please fill correct Referral and UPI ID!");
-      if(amt < MIN_WITHDRAW) return alert("Minimum withdrawal is ₹500");
-      if(amt > balance) return alert("Insufficient Balance!");
-
-      // Update Data
-      setnum(WD_KEY, num(WD_KEY) + amt);
-      const list = JSON.parse(localStorage.getItem(WD_LIST_KEY) || "[]");
-      list.push({ amount: amt, date: new Date().toLocaleDateString() });
-      localStorage.setItem(WD_LIST_KEY, JSON.stringify(list));
-
-      // WhatsApp Message
-      const msg = `💸 *PAYOUT REQUEST*\n\n*Code:* ${referral}\n*UPI:* ${upi}\n*Amount:* ₹${amt.toFixed(2)}\n\n_BlackTerminal Partner Panel_`;
-      window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(msg)}`, "_blank");
-
-      document.getElementById("pfWithdrawAmt").value = "";
-      updateUI();
+    // LocalStorage se data load karna
+    window.onload = () => {
+      const earnings = parseFloat(localStorage.getItem('earnings')) || 0;
+      const tasks = parseInt(localStorage.getItem('taskCount')) || 0;
+      
+      document.getElementById('totalEarned').innerText = "₹" + earnings.toFixed(2);
+      document.getElementById('taskCount').innerText = tasks;
     };
 
-    updateUI();
+    function copyRef() {
+      const code = document.getElementById('myCode').innerText;
+      const shareText = `Join BlackTerminal Computer Institute using my code ${code} and get special discount!`;
+      
+      navigator.clipboard.writeText(shareText).then(() => {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 2000);
+      });
+    }
   </script>
 </body>
 </html>
