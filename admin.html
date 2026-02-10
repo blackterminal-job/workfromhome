@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
-  <title>Admin Command Center | BlackTerminal</title>
+  <title>Admin Panel | Mobile Optimized</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -14,88 +14,94 @@
       --gold: #ffcc00;
       --success: #34c759;
       --bonus: #ff9500;
-      --text-muted: #64748b;
+      --text-muted: #94a3b8;
     }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     body {
       margin: 0; font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: var(--bg); color: #f1f5f9; padding: 20px; padding-bottom: 50px;
+      background-color: var(--bg); color: #f1f5f9; padding: 15px;
+      padding-bottom: 40px; line-height: 1.5;
     }
 
-    /* --- HEADER --- */
+    /* --- MOBILE HEADER --- */
     .admin-nav {
-      background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px);
-      padding: 25px; border-radius: 28px; border: 1px solid rgba(255, 59, 48, 0.2);
-      margin-bottom: 30px; text-align: center;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.9));
+      backdrop-filter: blur(15px); padding: 20px; border-radius: 24px;
+      border: 1px solid rgba(255, 59, 48, 0.2); margin-bottom: 20px; text-align: center;
     }
     .badge {
-      background: var(--admin-red); color: white; padding: 4px 12px;
-      border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase;
+      background: var(--admin-red); color: white; padding: 4px 10px;
+      border-radius: 6px; font-size: 9px; font-weight: 800; text-transform: uppercase;
     }
 
-    /* --- GRID --- */
-    .grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
-    @media (min-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
+    /* --- RESPONSIVE GRID --- */
+    .grid { display: grid; gap: 15px; grid-template-columns: 1fr; }
+    @media (min-width: 768px) { .grid { grid-template-columns: 1fr 1fr; } }
 
     .card {
-      background: var(--surface); border-radius: 30px; padding: 25px;
-      border: 1px solid rgba(255,255,255,0.05); position: relative;
+      background: var(--surface); border-radius: 24px; padding: 20px;
+      border: 1px solid rgba(255,255,255,0.05);
     }
 
-    h2 { font-size: 18px; font-weight: 800; margin-top: 0; display: flex; align-items: center; gap: 10px; color: #fff; }
+    h2 { font-size: 16px; font-weight: 800; margin: 0 0 15px; display: flex; align-items: center; gap: 8px; }
 
-    /* --- TABLE STYLES --- */
-    .table-container { overflow-x: auto; margin-top: 15px; }
-    table { width: 100%; border-collapse: collapse; min-width: 500px; }
-    th { text-align: left; font-size: 11px; color: var(--text-muted); padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-transform: uppercase; }
-    td { padding: 12px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+    /* --- MOBILE OPTIMIZED TABLES --- */
+    .table-wrapper { 
+      overflow-x: auto; margin: 0 -5px; 
+      -webkit-overflow-scrolling: touch; 
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 450px; }
+    th { text-align: left; font-size: 10px; color: var(--text-muted); padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    td { padding: 12px 10px; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.02); }
 
-    .upi-tag { background: rgba(56, 189, 248, 0.1); color: var(--accent); padding: 4px 8px; border-radius: 6px; font-family: monospace; }
-    .status-paid { color: var(--success); font-weight: 800; font-size: 11px; }
-
-    /* --- FORM --- */
-    label { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-top: 15px; display: block; margin-bottom: 5px; }
+    /* --- TOUCH FRIENDLY FORMS --- */
+    label { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; display: block; margin: 12px 0 6px; }
     input, textarea {
       width: 100%; background: #020617; border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px; padding: 12px; color: white; font-family: inherit; margin-bottom: 10px;
+      border-radius: 12px; padding: 14px; color: white; font-family: inherit; font-size: 14px;
     }
+    input:focus { border-color: var(--accent); outline: none; }
 
     .push-btn {
-      background: var(--admin-red); color: white; border: none; padding: 15px;
-      border-radius: 16px; width: 100%; font-weight: 800; cursor: pointer; transition: 0.3s;
+      background: var(--admin-red); color: white; border: none; padding: 16px;
+      border-radius: 14px; width: 100%; font-weight: 800; font-size: 14px;
+      cursor: pointer; margin-top: 15px; transition: 0.2s;
     }
-    .push-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+    .push-btn:active { transform: scale(0.97); }
 
     .pay-btn {
-      background: var(--success); color: white; border: none; padding: 6px 12px;
-      border-radius: 8px; font-weight: 800; font-size: 11px; cursor: pointer;
+      background: var(--success); color: white; border: none; padding: 8px 12px;
+      border-radius: 10px; font-weight: 800; font-size: 11px;
     }
+
+    .upi-tag { background: rgba(56,189,248,0.1); color: var(--accent); padding: 3px 6px; border-radius: 5px; font-family: monospace; font-size: 11px; }
   </style>
 </head>
 <body>
 
   <div class="admin-nav">
-    <span class="badge">Live Command Center</span>
-    <h1 style="margin: 10px 0 0; font-size: 24px;">Admin Control Panel</h1>
+    <span class="badge">Master Control</span>
+    <h1 style="margin: 8px 0 0; font-size: 20px;">BlackTerminal Admin</h1>
   </div>
 
   <div class="grid">
     
     <div class="card" style="grid-column: 1 / -1;">
-      <h2 style="color: var(--success);">💸 Pending Withdrawals</h2>
-      <div class="table-container">
+      <h2 style="color: var(--success);">💸 Withdrawal Requests</h2>
+      <div class="table-wrapper">
         <table>
           <thead>
             <tr>
-              <th>Partner</th>
+              <th>User</th>
               <th>UPI ID</th>
-              <th>Amount</th>
-              <th>Date</th>
+              <th>Amt</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody id="withdrawTable">
-            <tr><td colspan="5" style="text-align:center; color:var(--text-muted)">Loading requests...</td></tr>
+            <tr><td colspan="4" style="text-align:center">Fetching data...</td></tr>
           </tbody>
         </table>
       </div>
@@ -103,51 +109,47 @@
 
     <div class="card">
       <h2 style="color: var(--accent);">📡 Daily Mission</h2>
-      <label>Task Title</label>
-      <input type="text" id="tName" placeholder="Share Poster on Status">
+      <label>Task Name</label>
+      <input type="text" id="tName" placeholder="Task Name">
       <label>Reward (₹)</label>
       <input type="number" id="tReward" placeholder="0.50">
-      <label>Steps</label>
-      <textarea id="tSteps" rows="3" placeholder="Step 1&#10;Step 2"></textarea>
-      <button class="push-btn" style="background: var(--accent);" onclick="saveTask()">UPDATE DAILY TASK</button>
+      <label>Steps (New line for each)</label>
+      <textarea id="tSteps" rows="3" placeholder="Step 1..."></textarea>
+      <button class="push-btn" style="background: var(--accent);" onclick="saveTask()">PUSH TASK</button>
     </div>
 
     <div class="card">
       <h2 style="color: var(--bonus);">🎁 Bonus Mission</h2>
-      <label>Bonus Task Name</label>
-      <input type="text" id="bName" placeholder="Mega Admission Bonus">
-      <label>Bonus Amount (₹)</label>
+      <label>Bonus Title</label>
+      <input type="text" id="bName" placeholder="Special Bonus">
+      <label>Amount (₹)</label>
       <input type="number" id="bAmount" placeholder="500">
-      <label>Unlock Condition (Tasks Needed)</label>
+      <label>Unlock After (Tasks)</label>
       <input type="number" id="bLockCount" placeholder="5">
-      <button class="push-btn" style="background: var(--bonus);" onclick="saveBonus()">UPDATE BONUS MISSION</button>
+      <button class="push-btn" style="background: var(--bonus);" onclick="saveBonus()">PUSH BONUS</button>
     </div>
 
     <div class="card">
       <h2 style="color: var(--gold);">🏆 Hall of Fame</h2>
-      <label>Rank #1</label>
-      <input type="text" id="l1" placeholder="Name - ₹0">
-      <label>Rank #2</label>
-      <input type="text" id="l2" placeholder="Name - ₹0">
-      <label>Rank #3</label>
-      <input type="text" id="l3" placeholder="Name - ₹0">
-      <button class="push-btn" style="background: var(--gold); color: #000;" onclick="saveLeaderboard()">UPDATE RANKS</button>
+      <input type="text" id="l1" style="margin-bottom:10px" placeholder="Rank 1: Name - ₹0">
+      <input type="text" id="l2" style="margin-bottom:10px" placeholder="Rank 2: Name - ₹0">
+      <input type="text" id="l3" placeholder="Rank 3: Name - ₹0">
+      <button class="push-btn" style="background: var(--gold); color:#000" onclick="saveLeaderboard()">UPDATE RANKS</button>
     </div>
 
     <div class="card" style="grid-column: 1 / -1;">
-      <h2 style="color: var(--text-muted);">👥 Registered Partners</h2>
-      <div class="table-container">
+      <h2 style="color: var(--text-muted);">👥 All Partners</h2>
+      <div class="table-wrapper">
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Ref Code</th>
-              <th>Tasks Done</th>
+              <th>Partner</th>
+              <th>Ref</th>
+              <th>Tasks</th>
               <th>Wallet</th>
             </tr>
           </thead>
-          <tbody id="userTable">
-            </tbody>
+          <tbody id="userTable"></tbody>
         </table>
       </div>
     </div>
@@ -170,68 +172,52 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // --- WITHDRAWALS LOGIC ---
-    onSnapshot(query(collection(db, "withdrawals"), orderBy("date", "desc")), (snapshot) => {
-      const tbody = document.getElementById('withdrawTable');
-      tbody.innerHTML = "";
-      snapshot.forEach((d) => {
+    // Live Withdrawals
+    onSnapshot(query(collection(db, "withdrawals"), orderBy("date", "desc")), (snap) => {
+      const tb = document.getElementById('withdrawTable'); tb.innerHTML = "";
+      snap.forEach(d => {
         const w = d.data();
-        tbody.innerHTML += `
-          <tr>
-            <td><b>${w.name}</b><br><small>${w.ref}</small></td>
-            <td><span class="upi-tag">${w.upi}</span></td>
-            <td>₹${w.amount}</td>
-            <td>${w.date?.toDate().toLocaleDateString('en-IN')}</td>
-            <td>
-              ${w.status === 'pending' ? `<button class="pay-btn" onclick="markPaid('${d.id}')">Mark Paid</button>` : `<span class="status-paid">PAID ✅</span>`}
-            </td>
-          </tr>
-        `;
+        tb.innerHTML += `<tr>
+          <td><b>${w.name}</b></td>
+          <td><span class="upi-tag">${w.upi}</span></td>
+          <td><b>₹${w.amount}</b></td>
+          <td>${w.status === 'pending' ? `<button class="pay-btn" onclick="markPaid('${d.id}')">PAY</button>` : '✅'}</td>
+        </tr>`;
       });
     });
 
-    window.markPaid = async (id) => {
-      if(confirm("Confirm Payment?")) await updateDoc(doc(db, "withdrawals", id), { status: "paid" });
-    };
-
-    // --- USERS LIST ---
-    onSnapshot(collection(db, "users"), (snapshot) => {
-      const tbody = document.getElementById('userTable');
-      tbody.innerHTML = "";
-      snapshot.forEach(d => {
+    // Live Users
+    onSnapshot(collection(db, "users"), (snap) => {
+      const tb = document.getElementById('userTable'); tb.innerHTML = "";
+      snap.forEach(d => {
         const u = d.data();
-        tbody.innerHTML += `<tr><td>${u.name}</td><td>${u.referralCode}</td><td>${u.totalTasks || 0}</td><td style="color:var(--success)">₹${u.totalEarnings || 0}</td></tr>`;
+        tb.innerHTML += `<tr><td>${u.name}</td><td>${u.referralCode}</td><td>${u.totalTasks || 0}</td><td style="color:var(--success)">₹${u.totalEarnings || 0}</td></tr>`;
       });
     });
 
-    // --- SAVE FUNCTIONS ---
+    window.markPaid = async (id) => { if(confirm("Payment Done?")) await updateDoc(doc(db, "withdrawals", id), {status:"paid"}); };
+
     window.saveTask = async () => {
       const name = document.getElementById('tName').value;
       const reward = document.getElementById('tReward').value;
       const steps = document.getElementById('tSteps').value.split('\n');
-      await setDoc(doc(db, "settings", "dailyTask"), { name, reward: parseFloat(reward), steps, updatedAt: new Date() });
-      alert("Daily Task Updated!");
+      await setDoc(doc(db, "settings", "dailyTask"), {name, reward: parseFloat(reward), steps, updatedAt: new Date()});
+      alert("Daily Task Pushed!");
     };
 
     window.saveBonus = async () => {
       const name = document.getElementById('bName').value;
       const amount = document.getElementById('bAmount').value;
       const lockCount = document.getElementById('bLockCount').value;
-      await setDoc(doc(db, "settings", "bonusReward"), { 
-        name, 
-        amount: parseFloat(amount), 
-        lockCount: parseInt(lockCount), 
-        updatedAt: new Date() 
-      });
-      alert("Bonus Mission Updated!");
+      await setDoc(doc(db, "settings", "bonusReward"), {name, amount: parseFloat(amount), lockCount: parseInt(lockCount), updatedAt: new Date()});
+      alert("Bonus Mission Pushed!");
     };
 
     window.saveLeaderboard = async () => {
       const ranks = [document.getElementById('l1').value, document.getElementById('l2').value, document.getElementById('l3').value];
-      await setDoc(doc(db, "settings", "leaderboard"), { ranks });
+      await setDoc(doc(db, "settings", "leaderboard"), {ranks});
       alert("Leaderboard Updated!");
     };
-
   </script>
 </body>
 </html>
